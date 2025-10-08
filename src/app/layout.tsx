@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en" suppressHydrationWarning>
         <body>
-            <ThemeProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                 {children}
             </ThemeProvider>
         </body>

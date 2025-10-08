@@ -1,18 +1,18 @@
 "use client"
 
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
+import { useDarkMode } from "@/components/theme-provider";
 
 export function ThemeToggle() {
-    const { theme, setTheme } = useTheme()
+    const {darkMode, setDarkMode} = useDarkMode();
 
     return (
         <Button
             variant="outline"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={() => setDarkMode(!darkMode)}
         >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
     )
 }

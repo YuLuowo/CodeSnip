@@ -3,5 +3,5 @@ export default function Snip() {
         <main>
             <span>Snip Page</span>
         </main>
-)
+    )
 }

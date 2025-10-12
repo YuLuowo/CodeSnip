@@ -1,10 +1,15 @@
-import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { Hero } from "@/components/sections/hero";
+import { Features } from "@/components/sections/features";
+import { Examples } from "@/components/sections/examples";
 
-export default function Home() {
+export default async function Home() {
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen gap-4">
-            <h1 className="text-3xl font-bold">👋 Test</h1>
-            <ThemeToggle />
+        <main className="flex flex-col items-center min-h-[calc(100svh-4.5rem)] gap-4">
+            <div className="container">
+                <Hero />
+                <Features />
+                <Examples />
+            </div>
         </main>
     )
 }

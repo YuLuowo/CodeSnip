@@ -2,17 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
-import { useDarkMode } from "@/components/theme-provider";
+import { useDarkMode } from "@/components/providers/theme-provider";
 
 export function ThemeToggle() {
     const {darkMode, setDarkMode} = useDarkMode();
 
     return (
         <Button
-            variant="outline"
+            variant="ghost"
+            size="icon"
             onClick={() => setDarkMode(!darkMode)}
+            className="hover:cursor-pointer"
         >
-            {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {darkMode ? <Sun /> : <Moon />}
         </Button>
     )
 }

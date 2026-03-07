@@ -20,6 +20,7 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { signOut, useSession } from "next-auth/react";
 import UserMenu from "@/components/custom/user-menu";
 import {redirect} from "next/navigation";
+import { SearchCommand } from "@/components/custom/search-command";
 
 export function Navbar() {
     const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export function Navbar() {
 
     return (
         <nav className="w-full bg-background sticky top-0 z-50">
-            <div className="container max-w-4xl mx-auto flex items-center justify-between p-4 md:px-8">
+            <div className="container max-w-5xl mx-auto flex items-center justify-between p-4 md:px-8">
                 <Link href="/" className="text-xl font-bold">
                     Code Snippet
                 </Link>
@@ -92,6 +93,7 @@ export function Navbar() {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="flex items-center justify-between gap-4">
+                        <SearchCommand />
                         <ThemeToggle />
                         {session?.user?.image ? (
                             <UserMenu />

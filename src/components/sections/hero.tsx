@@ -1,5 +1,4 @@
 import {Button} from "@/components/ui/button";
-import {SearchBar} from "@/components/custom/search-bar";
 import Link from "next/link";
 
 export function Hero() {
@@ -9,7 +8,6 @@ export function Hero() {
             <span className="text-sm md:text-xl max-w-2xl text-center mb-2">
                         A modern code snippet manager that helps developers save time, stay organized, and collaborate effortlessly.
                     </span>
-            { /*<SearchBar />*/ }
             <div className="flex items-center justify-center gap-2">
                 <Link href="/create">
                     <Button variant="default" size="sm" className="hover:cursor-pointer">

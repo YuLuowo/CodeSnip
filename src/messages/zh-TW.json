@@ -1,0 +1,60 @@
+{
+  "Home": {
+    "title": "分享你的程式碼",
+    "desc": "一個現代化的程式碼片段管理工具，幫助開發者節省時間、保持組織有序，並輕鬆協作。",
+    "get_start": "開始使用",
+    "view": "查看 Snippets"
+  },
+  "Navbar": {
+    "title": "分享你的作品",
+    "home": "首頁",
+    "explore": {
+      "title": "探索",
+      "trending": {
+        "title": "熱門 Snippets",
+        "desc": "查看目前最受歡迎的程式碼片段"
+      },
+      "newest": {
+        "title": "最新 Snippets",
+        "desc": "探索最新分享的程式碼片段"
+      },
+      "categories": {
+        "title": "分類",
+        "desc": "依照分類瀏覽程式碼片段"
+      }
+    },
+    "snippets": "Snippets",
+    "docs": "文件",
+    "theme": "切換主題",
+    "avatar": {
+      "profile": "個人資料",
+      "sign_in": "登入",
+      "sign_out": "登出"
+    }
+  },
+  "Footer": {
+    "title": "Code Snippet",
+    "desc": "分享你的程式碼",
+    "copyright": "版權所有",
+    "product": {
+      "title": "產品",
+      "explore": "探索 Snippets",
+      "create": "建立 Snippet",
+      "my_snippet": "我的 Snippets",
+      "docs": "文件"
+    },
+    "resources": {
+      "title": "資源",
+      "terms": "服務條款",
+      "privacy": "隱私政策"
+    },
+    "social": {
+      "title": "社群",
+      "github": "Github",
+      "discord": "Discord"
+    }
+  },
+  "SearchCommand": {
+    "title": "搜尋文件"
+  }
+}

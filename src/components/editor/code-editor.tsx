@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { useDarkMode } from "@/components/providers/theme-provider";
 import {EditorToolBar} from "@/components/editor/editor-toolbar";
 import {FieldSeparator} from "@/components/ui/field";
+import { useTheme } from "next-themes";
 
 interface CodeEditorProps {
     language: string;
@@ -16,7 +16,13 @@ interface CodeEditorProps {
 export default function CodeEditor({ language, value, onChange }: CodeEditorProps) {
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<typeof monaco | null>(null);
-    const { darkMode } = useDarkMode();
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+
 
     const defineThemes = (monacoInstance: typeof import("monaco-editor")) => {
 
@@ -25,8 +31,8 @@ export default function CodeEditor({ language, value, onChange }: CodeEditorProp
             inherit: true,
             rules: [],
             colors: {
-                "editor.background": "#09090BFF",           // 編輯器背景
-                "editor.lineHighlightBackground": "#09090BFF", // 選中行背景跟編輯器背景相同
+                "editor.background": "#09090BFF",
+                "editor.lineHighlightBackground": "#09090BFF",
             },
         });
     };
@@ -35,14 +41,16 @@ export default function CodeEditor({ language, value, onChange }: CodeEditorProp
         editorRef.current = editor;
         monacoRef.current = monacoInstance;
         defineThemes(monacoInstance);
-        monacoInstance.editor.setTheme(darkMode ? "custom-dark" : "vs-light");
+        monacoInstance.editor.setTheme(resolvedTheme === "dark" ? "custom-dark" : "vs-light");
     };
 
     useEffect(() => {
         if (monacoRef.current) {
-            monacoRef.current.editor.setTheme(darkMode ? "custom-dark" : "vs-light");
+            monacoRef.current.editor.setTheme(resolvedTheme === "dark" ? "custom-dark" : "vs-light");
         }
-    }, [darkMode]);
+    }, [resolvedTheme]);
+
+    if (!mounted) return null;
 
     return (
         <div className="relative border overflow-hidden shadow-sm">

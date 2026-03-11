@@ -12,9 +12,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {signOut, useSession} from "next-auth/react";
 import {LogOut, User} from "lucide-react";
 import {redirect} from "next/navigation";
+import { useTranslations } from "use-intl";
 
 export default function UserMenu() {
     const { data: session } = useSession();
+    const t = useTranslations("Navbar.avatar");
 
     function logout() {
         signOut({callbackUrl: "/"}).then(redirect("/"));
@@ -24,7 +26,7 @@ export default function UserMenu() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <button className="rounded-full focus:outline-none">
-                    <Avatar className="w-9 h-9">
+                    <Avatar className="w-8 h-8">
                         <AvatarImage src={session?.user?.image} alt={session?.user?.name} />
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
@@ -44,11 +46,11 @@ export default function UserMenu() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => console.log()}>
                     <User />
-                    <span>Profile</span>
+                    <span>{t("profile")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>
                     <LogOut />
-                    <span>Sign out</span>
+                    <span>{t("sign_out")}</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

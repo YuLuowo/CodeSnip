@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { CopyIcon, CheckIcon } from "lucide-react";
-import {useDarkMode} from "@/components/providers/theme-provider";
+import { useTheme } from "next-themes";
 
 export default function CodeBlock({ code, language }: { code: string; language: string }) {
     const [copied, setCopied] = useState(false);
-    const { darkMode } = useDarkMode();
+
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(code);
@@ -40,15 +47,16 @@ export default function CodeBlock({ code, language }: { code: string; language: 
 
             <SyntaxHighlighter
                 language={language}
-                style={darkMode ? vscDarkPlus : oneLight}
+                style={resolvedTheme === "dark" ? oneDark : oneLight}
                 showLineNumbers
                 wrapLongLines
                 customStyle={{
+                    fontSize: "14px",
                     margin: 0,
                     padding: "1rem",
                     background: "transparent",
                     maxHeight: "600px",
-                    overflowY: "auto",
+                    overflow: "auto",
                     height: "500px",
                 }}
             >

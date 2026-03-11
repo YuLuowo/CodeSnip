@@ -12,14 +12,16 @@ import {
     CommandList,
 } from "@/components/ui/command"
 import { Search } from "lucide-react";
+import { useTranslations } from "use-intl";
 
 export function SearchCommand() {
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const t = useTranslations("SearchCommand");
 
     return (
         <div className="flex flex-col gap-4">
-            <Button onClick={() => setOpen(true)} variant="outline" className="w-fit">
-                <Search /> 快速搜尋 ...
+            <Button onClick={() => setOpen(true)} variant="outline" className="w-fit h-8">
+                <Search /> {t("title")}
             </Button>
             <CommandDialog open={open} onOpenChange={setOpen}>
                 <Command>

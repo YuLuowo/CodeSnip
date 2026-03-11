@@ -1,21 +1,23 @@
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-export function Hero() {
+export async function Hero() {
+    const t = await getTranslations("Home");
     return (
         <section className="flex flex-col items-center justify-center gap-4 px-6 md:px-20 py-8 md:py-16">
-            <h1 className="text-3xl md:text-5xl font-bold">Share What You Build.</h1>
+            <h1 className="text-3xl md:text-5xl font-bold">{t("title")}</h1>
             <span className="text-sm md:text-xl max-w-2xl text-center mb-2">
-                        A modern code snippet manager that helps developers save time, stay organized, and collaborate effortlessly.
-                    </span>
+                {t("desc")}
+            </span>
             <div className="flex items-center justify-center gap-2">
                 <Link href="/create">
                     <Button variant="default" size="sm" className="hover:cursor-pointer">
-                        Get Started
+                        {t("get_start")}
                     </Button>
                 </Link>
                 <Button variant="ghost" size="sm" className="hover:cursor-pointer">
-                    View Snippets
+                    {t("view")}
                 </Button>
             </div>
 

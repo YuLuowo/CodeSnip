@@ -27,7 +27,7 @@
     "docs": "Docs",
     "theme": "Toggle Mode",
     "avatar": {
-      "profile": "Profile",
+      "my_snippet": "My Snippets",
       "sign_in": "Sign in",
       "sign_out": "Sign out"
     }

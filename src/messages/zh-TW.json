@@ -27,7 +27,7 @@
     "docs": "文件",
     "theme": "切換主題",
     "avatar": {
-      "profile": "個人資料",
+      "my_snippet": "我的 Snippets",
       "sign_in": "登入",
       "sign_out": "登出"
     }

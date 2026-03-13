@@ -2,21 +2,40 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
-import Snippet from "@/models/Snippet";
+import Snippet, { ISnippet } from "@/models/Snippet";
+import { FilterQuery } from "mongoose";
 
-export async function GET() {
+interface Filters {
+    author: string | undefined;
+    isPublic: boolean;
+}
+
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+
+    const scope = searchParams.get("scope");
+    const tag = searchParams.get("tag");
+    const language = searchParams.get("language");
+    const search = searchParams.get("search");
+    const sort = searchParams.get("sort");
+
     try {
         await connectDB();
         const session = await getServerSession(authOptions);
 
         const userId = session?.user?.id;
 
-        const filter = userId
-            ? { $or: [{ isPublic: true }, { author: userId }] }
-            : { isPublic: true };
+        const filter: FilterQuery<ISnippet> = {};
+
+        if (scope === "me") {
+            filter.author = userId;
+        } else {
+            filter.isPublic = true;
+        }
 
         const snippets = await Snippet.find(filter)
-            .populate("author", "name image email")
+            .select("title language tags author createdAt likes")
+            .populate("author", "name image")
             .sort({ createdAt: -1 });
 
         return NextResponse.json(snippets, { status: 200 });

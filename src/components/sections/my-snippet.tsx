@@ -158,6 +158,8 @@ export function MySnippet() {
                             <Link
                                 key={String(snippet._id)}
                                 href={`/snippets/${snippet._id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex justify-between items-center p-4 border rounded-sm bg-background hover:bg-accent/20 cursor-pointer"
                             >
                                 <div className="flex flex-col gap-2 pr-2">

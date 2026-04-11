@@ -156,6 +156,11 @@
     "in": "in",
     "with_tags": "with tags"
   },
+  "SnippetStatus": {
+    "public": "Public",
+    "private": "Private",
+    "favorite": "Favorite"
+  },
   "SnippetFilter": {
     "title": "Filters",
     "find": "Find a snippet...",

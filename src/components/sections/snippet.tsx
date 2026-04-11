@@ -22,6 +22,7 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "use-intl";
+import { Badge } from "@/components/ui/badge";
 
 interface Author {
     _id: string;
@@ -50,6 +51,7 @@ export default function SnippetView({snippet}: SnippetProps) {
     const [loadingDelete, setLoadingDelete] = useState(false);
 
     const t = useTranslations("SnippetView");
+    const tStatus = useTranslations("SnippetStatus");
 
     const jumpToEdit = (id: string) => {
         router.push(`/edit/${id}`);
@@ -72,7 +74,18 @@ export default function SnippetView({snippet}: SnippetProps) {
 
     return (
         <section className="w-full max-w-5xl mt-6 px-4">
-            <h1 className="text-2xl font-bold mb-2">{snippet.title}</h1>
+            <h1 className="text-2xl font-bold mb-2">
+                <div className="flex items-center gap-2">
+                    {snippet.title}
+                    <Badge variant="outline">
+                        {snippet.isPublic ? (
+                            tStatus("public")
+                        ) : (
+                            tStatus("private")
+                        )}
+                    </Badge>
+                </div>
+            </h1>
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0">
                 <div className="flex flex-col justify-center">
                     <span className="text-base text-foreground font-semibold">
@@ -121,6 +134,7 @@ export default function SnippetView({snippet}: SnippetProps) {
                     )}
                     <ShareButton/>
                     <LikeButton
+                        showFavoriteCount={true}
                         snippetId={String(snippet._id)}
                         initialLikes={snippet.likes}
                         userId={session?.user?.id}

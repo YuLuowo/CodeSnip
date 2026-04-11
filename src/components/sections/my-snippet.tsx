@@ -18,10 +18,10 @@ import {
     EmptyTitle,
 } from "@/components/ui/empty"
 import { IUser } from "@/models/User";
-import { useRouter } from "next/navigation";
 import SnippetTags from "@/components/custom/snippet-tags";
 import LikeButton from "@/components/custom/like-button";
 import { useTranslations } from "use-intl";
+import { Badge } from "@/components/ui/badge";
 
 interface ISnippetClient {
     _id: string;
@@ -46,7 +46,6 @@ export function MySnippet() {
         language: "",
         tags: [] as string[],
     });
-    const router = useRouter();
 
     const [fetched, setFetched] = useState(false); // TODO: 記得刪掉
     useEffect(() => {
@@ -80,6 +79,7 @@ export function MySnippet() {
 
     const t = useTranslations("MySnippets");
     const tTags = useTranslations("SnippetTags");
+    const tStatus = useTranslations("SnippetStatus");
 
     const handleSearch = async (newFilters: typeof filters) => {
         setLoading(true);
@@ -155,22 +155,34 @@ export function MySnippet() {
                 ) : (
                     filteredSnippets.map((snippet) => {
                         return (
-                            <div
+                            <Link
                                 key={String(snippet._id)}
-                                className="flex justify-between items-center p-4 border rounded-sm bg-background hover:bg-accent/20 hover:cursor-pointer"
-                                onClick={() => router.push(`/snippets/${snippet._id}`)}
+                                href={`/snippets/${snippet._id}`}
+                                className="flex justify-between items-center p-4 border rounded-sm bg-background hover:bg-accent/20 cursor-pointer"
                             >
                                 <div className="flex flex-col gap-2 pr-2">
-                                    <h3 className="text-lg font-semibold">{snippet.title}</h3>
+                                    <h3 className="text-lg font-semibold">
+                                        <div className="flex items-center gap-2">
+                                            {snippet.title}
+                                            <Badge variant="outline">
+                                                {snippet.isPublic ? (
+                                                    tStatus("public")
+                                                ) : (
+                                                    tStatus("private")
+                                                )}
+                                            </Badge>
+                                        </div>
+                                    </h3>
                                     <SnippetTags language={snippet.language} tags={snippet.tags}/>
                                 </div>
 
                                 <LikeButton
+                                    showFavoriteCount={false}
                                     snippetId={String(snippet._id)}
                                     initialLikes={snippet.likes}
                                     userId={session?.user?.id}
                                 />
-                            </div>
+                            </Link>
                         );
                     })
                 )}

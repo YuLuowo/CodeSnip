@@ -156,6 +156,11 @@
     "in": "在",
     "with_tags": "包含標籤"
   },
+  "SnippetStatus": {
+    "public": "公開",
+    "private": "私人",
+    "favorite": "收藏"
+  },
   "SnippetFilter": {
     "title": "篩選",
     "find": "尋找片段...",

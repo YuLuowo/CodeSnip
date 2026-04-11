@@ -23,3 +23,17 @@ export function utcToLocalDate(utcDate: string) {
 
     return `${y}-${m}-${d} ${h}:${min}:${s}`;
 }
+
+// this is bad, but I'm so lazy qwq
+export const tagMap: Record<string, string> = {
+    "Algorithm": "algorithm",
+    "Data Structure": "data_structure",
+    "UI Component": "ui_component",
+    "Template": "template",
+    "LeetCode": "leetCode",
+    "Project Template": "project_template",
+    "Examples": "examples",
+    "Learning Resources": "learning_resources",
+    "Frontend": "frontend",
+    "Backend": "backend",
+};

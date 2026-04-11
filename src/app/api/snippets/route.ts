@@ -5,11 +5,6 @@ import { connectDB } from "@/lib/mongodb";
 import Snippet, { ISnippet } from "@/models/Snippet";
 import { FilterQuery } from "mongoose";
 
-interface Filters {
-    author: string | undefined;
-    isPublic: boolean;
-}
-
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
@@ -30,7 +25,14 @@ export async function GET(request: Request) {
         if (scope === "me") {
             filter.author = userId;
         } else {
-            filter.isPublic = true;
+            if (userId) {
+                filter.$or = [
+                    { isPublic: true },
+                    { author: userId }
+                ];
+            } else {
+                filter.isPublic = true;
+            }
         }
 
         const snippets = await Snippet.find(filter)

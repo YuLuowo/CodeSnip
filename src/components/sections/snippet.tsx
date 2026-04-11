@@ -3,12 +3,11 @@
 import CodeBlock from "@/components/custom/code-block";
 import SnippetTags from "@/components/custom/snippet-tags";
 import LikeButton from "@/components/custom/like-button";
-import {useSession} from "next-auth/react";
-import {utcToLocalDate} from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { utcToLocalDate } from "@/lib/utils";
 import ShareButton from "@/components/custom/share-button";
-import Link from "next/link";
-import {Button} from "../ui/button";
-import {Pencil, Trash} from "lucide-react";
+import { Button } from "../ui/button";
+import { Pencil, Trash } from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -20,8 +19,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "use-intl";
 
 interface Author {
     _id: string;
@@ -49,6 +49,8 @@ export default function SnippetView({snippet}: SnippetProps) {
     const router = useRouter();
     const [loadingDelete, setLoadingDelete] = useState(false);
 
+    const t = useTranslations("SnippetView");
+
     const jumpToEdit = (id: string) => {
         router.push(`/edit/${id}`);
     }
@@ -59,7 +61,7 @@ export default function SnippetView({snippet}: SnippetProps) {
             const res = await fetch(`/api/snippets/${snippet._id}`, {
                 method: "DELETE",
             });
-            if (!res.ok) throw new Error("Failed to delete snippet");
+            if (!res.ok) throw new Error(t("delete_dialog.error"));
             router.refresh();
         } catch (err) {
             console.error(err);
@@ -74,10 +76,10 @@ export default function SnippetView({snippet}: SnippetProps) {
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0">
                 <div className="flex flex-col justify-center">
                     <span className="text-base text-foreground font-semibold">
-                        Author: {snippet.author.name}
+                        {t("author")}: {snippet.author.name}
                     </span>
                     <span className="text-xs text-foreground/50">
-                        Updated At: {utcToLocalDate(snippet.updatedAt)}
+                        {t("updated_at")}: {utcToLocalDate(snippet.updatedAt)}
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -86,32 +88,31 @@ export default function SnippetView({snippet}: SnippetProps) {
                             <Button variant="outline" className="hover:cursor-pointer"
                                     onClick={() => jumpToEdit(snippet._id)}>
                                 <Pencil className="mr-1"/>
-                                Edit
+                                {t("edit")}
                             </Button>
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
                                     <Button variant="outline" className="hover:cursor-pointer">
                                         <Trash className="mr-1"/>
-                                        Delete
+                                        {t("delete")}
                                     </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Are you sure to delete your snippet?
+                                            {t("delete_dialog.title")}
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            This action cannot be undone. This will permanently delete your
-                                            snippet from our servers.
+                                            {t("delete_dialog.sub_title")}
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogCancel>{t("delete_dialog.cancel")}</AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={handleDelete}
                                             disabled={loadingDelete}
                                         >
-                                            {loadingDelete ? "Deleting..." : "Continue"}
+                                            {loadingDelete ? t("delete_dialog.deleting") : t("delete_dialog.continue")}
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>

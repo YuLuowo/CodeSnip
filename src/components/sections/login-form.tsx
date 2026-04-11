@@ -16,6 +16,7 @@ import {
 import React from "react";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useTranslations } from "use-intl";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
@@ -26,13 +27,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         redirect("/");
     }
 
+    const t = useTranslations("Login");
+
     return (
         <section className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader className="text-center">
-                    <CardTitle className="text-xl">Welcome back</CardTitle>
+                    <CardTitle className="text-xl">{t("title")}</CardTitle>
                     <CardDescription>
-                        Login with your Google or Github account
+                        {t("sub_title")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -45,7 +48,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                         fill="currentColor"
                                     />
                                 </svg>
-                                Login with Google
+                                {t("google")}
                             </Button>
                             <Button variant="outline" type="button" onClick={() => signIn("github", { callbackUrl: "/" })} className="hover:cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -54,7 +57,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                         fill="currentColor"
                                     />
                                 </svg>
-                                Login with Github
+                                {t("github")}
                             </Button>
                         </Field>
                     </FieldGroup>

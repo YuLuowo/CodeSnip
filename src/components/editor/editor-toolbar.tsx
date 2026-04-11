@@ -6,18 +6,21 @@ import {
     ButtonGroupSeparator,
 } from "@/components/ui/button-group"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import {Check, ClipboardPaste, Copy, Trash} from "lucide-react";
-import React, {useState} from "react";
+import { Check, ClipboardPaste, Copy, Trash } from "lucide-react";
+import React, { useState } from "react";
 import * as monaco from "monaco-editor";
+import { useTranslations } from "use-intl";
 
 interface EditorToolbarProps {
     editorRef: React.RefObject<monaco.editor.IStandaloneCodeEditor | null>;
 }
 
-export function EditorToolBar({ editorRef }: EditorToolbarProps){
+export function EditorToolBar({editorRef}: EditorToolbarProps) {
 
     const [copied, setCopied] = useState(false);
     const [pasted, setPasted] = useState(false);
+
+    const t = useTranslations("CodeEditor.feature");
 
     const handleCopy = () => {
         if (editorRef.current) {
@@ -32,7 +35,7 @@ export function EditorToolBar({ editorRef }: EditorToolbarProps){
         if (editorRef.current) {
             const text = await navigator.clipboard.readText();
             editorRef.current.executeEdits('', [
-                { range: editorRef.current.getSelection()!, text }
+                {range: editorRef.current.getSelection()!, text}
             ]);
             setPasted(true);
             setTimeout(() => setPasted(false), 2000);
@@ -48,29 +51,29 @@ export function EditorToolBar({ editorRef }: EditorToolbarProps){
             <ButtonGroup>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button size="sm" variant="outline" onClick={ handleCopy }>
-                            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        <Button size="sm" variant="outline" onClick={handleCopy}>
+                            {copied ? <Check className="w-4 h-4"/> : <Copy className="w-4 h-4"/>}
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{copied ? "Copied" : "Copy"}</TooltipContent>
+                    <TooltipContent>{copied ? t("copied") : t("copy")}</TooltipContent>
                 </Tooltip>
-                <ButtonGroupSeparator />
+                <ButtonGroupSeparator/>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button size="sm" variant="outline" onClick={handlePaste}>
-                            {pasted ? <Check className="w-4 h-4" /> : <ClipboardPaste className="w-4 h-4" />}
+                            {pasted ? <Check className="w-4 h-4"/> : <ClipboardPaste className="w-4 h-4"/>}
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{pasted ? "Pasted" : "Paste"}</TooltipContent>
+                    <TooltipContent>{pasted ? t("pasted") : t("paste")}</TooltipContent>
                 </Tooltip>
-                <ButtonGroupSeparator />
+                <ButtonGroupSeparator/>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button size="sm" variant="outline" onClick={handleClear}>
-                            <Trash className="w-4 h-4" />
+                            <Trash className="w-4 h-4"/>
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>Clear</TooltipContent>
+                    <TooltipContent>{t("clear")}</TooltipContent>
                 </Tooltip>
             </ButtonGroup>
         </div>

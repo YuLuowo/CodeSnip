@@ -7,6 +7,7 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import { useEffect, useState } from "react";
+import { useTranslations } from "use-intl";
 
 interface SearchBarProps {
     value?: string;
@@ -26,11 +27,13 @@ export function SearchBar({ value = "", onChange }: SearchBarProps) {
         }
     }, [title, onChange]);
 
+    const t = useTranslations("SnippetFilter");
+
     return (
         <div className="grid w-full max-w-sm gap-6">
             <InputGroup>
                 <InputGroupInput
-                    placeholder="Find a snippet..."
+                    placeholder={t("find")}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />

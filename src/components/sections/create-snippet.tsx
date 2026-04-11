@@ -18,11 +18,12 @@ import {
 import { toast } from "sonner";
 import CodeEditor from "@/components/editor/code-editor";
 import MultiSelect from "@/components/custom/multi-select";
-import {Button} from "@/components/ui/button";
-import {useEffect, useState} from "react";
-import {redirect, useRouter} from 'next/navigation';
-import {Spinner} from "@/components/ui/spinner";
-import {useSession} from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Spinner } from "@/components/ui/spinner";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "use-intl";
 
 export default function CreateSnippet() {
     const [title, setTitle] = useState("");
@@ -36,7 +37,7 @@ export default function CreateSnippet() {
 
     const router = useRouter();
 
-    const { data: session, status } = useSession();
+    const {data: session, status} = useSession();
     useEffect(() => {
         if (status === "loading") return;
         if (!session) {
@@ -46,20 +47,25 @@ export default function CreateSnippet() {
 
     useEffect(() => {
         if (errors.title && title.trim()) {
-            setErrors((prev) => ({ ...prev, title: undefined }));
+            setErrors((prev) => ({...prev, title: undefined}));
         }
     }, [title, errors.title]);
 
     useEffect(() => {
         if (errors.language && language) {
-            setErrors((prev) => ({ ...prev, language: undefined }));
+            setErrors((prev) => ({...prev, language: undefined}));
         }
     }, [language, errors.language]);
 
+    const t = useTranslations("CreateSnippet");
+    const tElement = useTranslations("CreateSnippet.elements");
+    const tTags = useTranslations("SnippetTags");
+    const tLanguage = useTranslations("SnippetLanguage");
+
     const handleSubmit = async () => {
         const newErrors: typeof errors = {};
-        if (!title.trim()) newErrors.title = "Title is required";
-        if (!language) newErrors.language = "Language is required";
+        if (!title.trim()) newErrors.title = tElement("snippet_title.error");
+        if (!language) newErrors.language = tLanguage("error");
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -72,11 +78,11 @@ export default function CreateSnippet() {
 
         setErrors({});
         setLoading(true);
-        console.log({ title, language, code, tags, isPublic });
+        console.log({title, language, code, tags, isPublic});
         try {
             const res = await fetch('/api/snippets', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     title,
                     language,
@@ -88,15 +94,15 @@ export default function CreateSnippet() {
 
             if (!res.ok) {
                 const data = await res.json();
-                toast.error("Failed to create snippet");
+                toast.error(tElement("toast.create_error"));
                 throw new Error(data.message);
             }
 
-            toast.success("Snippet created successfully!");
+            toast.success(tElement("toast.success"));
             router.push("/");
         } catch (err) {
             console.log(err);
-            toast.error("Something went wrong, please try again.");
+            toast.error(tElement("toast.error"));
         } finally {
             setLoading(false);
         }
@@ -104,27 +110,28 @@ export default function CreateSnippet() {
 
     return (
         <section className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold">Create a new snippet</h3>
-            <span className="text-sm text-muted-foreground">Create your own code snippet here.</span>
+            <h3 className="text-2xl font-semibold">{t("title")}</h3>
+            <span className="text-sm text-muted-foreground">{t("sub_title")}</span>
             <FieldSet className="pt-4">
                 <FieldGroup>
                     <Field className="max-w-sm">
-                        <FieldLabel htmlFor="title">Snippet Title *</FieldLabel>
-                        <Input id="title" type="text" maxLength={30} value={title} onChange={(e) => setTitle(e.target.value)}
-                               className={errors.title ? "border-red-500" : ""} />
+                        <FieldLabel htmlFor="title">{tElement("snippet_title.title")} *</FieldLabel>
+                        <Input id="title" type="text" maxLength={30} value={title}
+                               onChange={(e) => setTitle(e.target.value)}
+                               className={errors.title ? "border-red-500" : ""}/>
                         {errors.title && (
                             <FieldDescription className="text-red-500">{errors.title}</FieldDescription>
                         )}
                     </Field>
                     <Field className="max-w-xs">
-                        <FieldLabel htmlFor="language">Language *</FieldLabel>
+                        <FieldLabel htmlFor="language">{tLanguage("title")} *</FieldLabel>
                         <Select onValueChange={(val) => setLanguage(val)}>
                             <SelectTrigger id="language">
-                                <SelectValue placeholder="Choose Language" />
+                                <SelectValue placeholder={tLanguage("choose_language")}/>
                             </SelectTrigger>
                             <SelectContent className="max-h-100">
                                 <SelectGroup>
-                                    <SelectLabel>Programming Languages</SelectLabel>
+                                    <SelectLabel>{tLanguage("select.program_languages")}</SelectLabel>
                                     <SelectItem value="javascript">JavaScript</SelectItem>
                                     <SelectItem value="typescript">TypeScript</SelectItem>
                                     <SelectItem value="python">Python</SelectItem>
@@ -143,10 +150,10 @@ export default function CreateSnippet() {
                                     <SelectItem value="r">R</SelectItem>
                                 </SelectGroup>
 
-                                <SelectSeparator />
+                                <SelectSeparator/>
 
                                 <SelectGroup>
-                                    <SelectLabel>Web / Markup</SelectLabel>
+                                    <SelectLabel>{tLanguage("select.web_markup")}</SelectLabel>
                                     <SelectItem value="html">HTML</SelectItem>
                                     <SelectItem value="css">CSS</SelectItem>
                                     <SelectItem value="scss">SCSS / SASS</SelectItem>
@@ -154,10 +161,10 @@ export default function CreateSnippet() {
                                     <SelectItem value="markdown">Markdown</SelectItem>
                                 </SelectGroup>
 
-                                <SelectSeparator />
+                                <SelectSeparator/>
 
                                 <SelectGroup>
-                                    <SelectLabel>Other</SelectLabel>
+                                    <SelectLabel>{tLanguage("select.other")}</SelectLabel>
                                     <SelectItem value="bash">Bash / Shell</SelectItem>
                                     <SelectItem value="powershell">PowerShell</SelectItem>
                                     <SelectItem value="sql">SQL</SelectItem>
@@ -173,7 +180,7 @@ export default function CreateSnippet() {
                         )}
                     </Field>
                     <Field>
-                        <FieldLabel>Code</FieldLabel>
+                        <FieldLabel>{tElement("code")}</FieldLabel>
                         <CodeEditor
                             language={language}
                             value={code}
@@ -181,16 +188,17 @@ export default function CreateSnippet() {
                         />
                     </Field>
                     <Field>
-                        <FieldLabel>Tags</FieldLabel>
-                        <FieldDescription>Select the tags you want to display on your snippet.</FieldDescription>
-                        <MultiSelect onChange={(tags) => setTags(tags)} />
+                        <FieldLabel>{tTags("title")}</FieldLabel>
+                        <FieldDescription>{tTags("sub_title")}</FieldDescription>
+                        <MultiSelect onChange={(tags) => setTags(tags)}/>
                     </Field>
 
                     <Field>
-                        <FieldLabel>Choose visibility *</FieldLabel>
-                        <FieldDescription>Select whether this snippet is visible to others or only to yourself.</FieldDescription>
+                        <FieldLabel>{tElement("visibility.title")} *</FieldLabel>
+                        <FieldDescription>{tElement("visibility.sub_title")}</FieldDescription>
                         <div className="flex flex-col gap-2">
-                            <label className="flex flex-row cursor-pointer bg-background px-4 py-2 border rounded gap-4 hover:bg-gray-50 dark:hover:bg-input/10">
+                            <label
+                                className="flex flex-row cursor-pointer bg-background px-4 py-2 border rounded gap-4 hover:bg-gray-50 dark:hover:bg-input/10">
                                 <input
                                     type="radio"
                                     name="visibility"
@@ -199,12 +207,13 @@ export default function CreateSnippet() {
                                     onChange={() => setIsPublic(true)}
                                 />
                                 <div className="flex flex-col">
-                                    <span className="font-medium">Public</span>
-                                    <span className="text-sm text-gray-600">Visible to everyone, anyone can see this snippet.</span>
+                                    <span className="font-medium">{tElement("visibility.public.title")}</span>
+                                    <span className="text-sm text-gray-600">{tElement("visibility.public.sub_title")}</span>
                                 </div>
                             </label>
 
-                            <label className="flex flex-row cursor-pointer bg-background px-4 py-2 border rounded gap-4 hover:bg-gray-50 dark:hover:bg-input/10">
+                            <label
+                                className="flex flex-row cursor-pointer bg-background px-4 py-2 border rounded gap-4 hover:bg-gray-50 dark:hover:bg-input/10">
                                 <input
                                     type="radio"
                                     name="visibility"
@@ -212,8 +221,8 @@ export default function CreateSnippet() {
                                     onChange={() => setIsPublic(false)}
                                 />
                                 <div className="flex flex-col">
-                                    <span className="font-medium">Private</span>
-                                    <span className="text-sm text-gray-600">Only you can see this snippet.</span>
+                                    <span className="font-medium">{tElement("visibility.private.title")}</span>
+                                    <span className="text-sm text-gray-600">{tElement("visibility.private.sub_title")}</span>
                                 </div>
                             </label>
                         </div>
@@ -221,12 +230,13 @@ export default function CreateSnippet() {
 
                     <div className="flex justify-start gap-2 mt-4 mb-12">
                         <Button variant="outline" className="cursor-pointer" disabled={loading} onClick={handleSubmit}>
-                            { loading && <Spinner /> }
-                            <span>{ loading ? "Loading ..." : "Create" }</span>
+                            {loading && <Spinner/>}
+                            <span>{loading ? tElement("loading") : tElement("create")}</span>
                         </Button>
 
-                        <Button variant="ghost" className="cursor-pointer" disabled={loading} onClick={() => router.push("/snippets")}>
-                            Back
+                        <Button variant="ghost" className="cursor-pointer" disabled={loading}
+                                onClick={() => router.push("/snippets")}>
+                            {tElement("back")}
                         </Button>
                     </div>
                 </FieldGroup>

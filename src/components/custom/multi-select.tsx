@@ -2,19 +2,7 @@
 
 import {useEffect, useState} from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-
-const items = [
-    { id: "Algorithm", label: "Algorithm" },
-    { id: "Data Structure", label: "Data Structure" },
-    { id: "UI Component", label: "UI Component" },
-    { id: "Template", label: "Template" },
-    { id: "LeetCode", label: "LeetCode" },
-    { id: "Project Template", label: "Project Template" },
-    { id: "Examples", label: "Examples" },
-    { id: "Learning Resources", label: "Learning Resources" },
-    { id: "Frontend", label: "Frontend" },
-    { id: "Backend", label: "Backend" },
-] as const;
+import { useTranslations } from "use-intl";
 
 interface MultiSelectProps {
     value?: string[];
@@ -23,6 +11,21 @@ interface MultiSelectProps {
 }
 
 export default function MultiSelect({ value, onChange, defaultSelected = [] }: MultiSelectProps) {
+    const t = useTranslations("SnippetTags.tags");
+
+    const items = [
+        { id: "Algorithm", label: t("algorithm") },
+        { id: "Data Structure", label: t("data_structure") },
+        { id: "UI Component", label: t("ui_component") },
+        { id: "Template", label: t("template") },
+        { id: "LeetCode", label: t("leetCode") },
+        { id: "Project Template", label: t("project_template") },
+        { id: "Examples", label: t("examples") },
+        { id: "Learning Resources", label: t("learning_resources") },
+        { id: "Frontend", label: t("frontend") },
+        { id: "Backend", label: t("backend") },
+    ] as const;
+
     const [selectedItems, setSelectedItems] = useState<string[]>(value ?? defaultSelected);
 
     const handleToggle = (id: string) => {

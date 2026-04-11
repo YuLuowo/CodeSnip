@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import SnippetFilter from "@/components/custom/snippet-filter";
 import { useSession } from "next-auth/react";
-import {Spinner} from "@/components/ui/spinner";
-import {Badge} from "@/components/ui/badge";
-import {capitalizeFirstLetter} from "@/lib/utils";
-import {FolderCode, Heart, HeartPlus, Plus} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {Separator} from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
+import { capitalizeFirstLetter, tagMap } from "@/lib/utils";
+import { FolderCode, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import {
     Empty,
@@ -18,10 +17,11 @@ import {
     EmptyMedia,
     EmptyTitle,
 } from "@/components/ui/empty"
-import {IUser} from "@/models/User";
-import {redirect, useRouter} from "next/navigation";
+import { IUser } from "@/models/User";
+import { useRouter } from "next/navigation";
 import SnippetTags from "@/components/custom/snippet-tags";
 import LikeButton from "@/components/custom/like-button";
+import { useTranslations } from "use-intl";
 
 interface ISnippetClient {
     _id: string;
@@ -78,6 +78,9 @@ export function MySnippet() {
         fetchSnippets();
     }, [session, fetched]);
 
+    const t = useTranslations("MySnippets");
+    const tTags = useTranslations("SnippetTags");
+
     const handleSearch = async (newFilters: typeof filters) => {
         setLoading(true);
         setFilters(newFilters);
@@ -103,44 +106,50 @@ export function MySnippet() {
         <section>
             <SnippetFilter onSearch={handleSearch}/>
             <div className="flex justify-between mt-6 mb-3">
-                <h3 className="text-2xl font-semibold">My Snippets</h3>
+                <h3 className="text-2xl font-semibold">{t("title")}</h3>
                 <Link href="/create">
                     <Button variant="outline" className="cursor-pointer">
-                        <Plus />
-                        Create new snippet
+                        <Plus/>
+                        {t("create")}
                     </Button>
                 </Link>
             </div>
-            <Separator />
+            <Separator/>
             <div className="w-full max-w-5xl grid items-center my-4 gap-4">
                 {loading ? (
                     <div className="flex items-center justify-center mt-4">
-                        <Spinner className="size-10" />
+                        <Spinner className="size-10"/>
                     </div>
                 ) : snippets.length === 0 ? (
                     <Empty>
                         <EmptyHeader>
                             <EmptyMedia variant="icon">
-                                <FolderCode />
+                                <FolderCode/>
                             </EmptyMedia>
-                            <EmptyTitle>No Snippets</EmptyTitle>
+                            <EmptyTitle>{t("empty_snip.title")}</EmptyTitle>
                             <EmptyDescription>
-                                You haven&apos;t created any code snippets yet. Get started by creating
-                                your first snippet.
+                                {t("empty_snip.desc")}
                             </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
                             <Link href="/create">
-                                <Button className="hover:cursor-pointer">Create Snippet</Button>
+                                <Button className="hover:cursor-pointer">{t("empty_snip.create")}</Button>
                             </Link>
                         </EmptyContent>
                     </Empty>
                 ) : filteredSnippets.length === 0 ? (
                     <p className="text-muted-foreground">
-                        No snippets found
-                        {filters.title && ` for "${filters.title}"`}
-                        {filters.language && ` in ${capitalizeFirstLetter(filters.language)}`}
-                        {filters.tags.length > 0 && ` with tags ${filters.tags.join(", ")}`}
+                        {t("no_snip")}
+                        {filters.title && ` ${t("for")} "${filters.title}"`}
+                        {filters.language && ` ${t("in")} ${capitalizeFirstLetter(filters.language)}`}
+                        {filters.tags.length > 0 &&
+                            ` ${t("with_tags")} ${filters.tags
+                                .map((tag) => {
+                                    const key = tagMap[tag] || tag;
+                                    return tTags(`tags.${key}`);
+                                })
+                                .join(", ")}`
+                        }
                         .
                     </p>
                 ) : (
@@ -153,7 +162,7 @@ export function MySnippet() {
                             >
                                 <div className="flex flex-col gap-2 pr-2">
                                     <h3 className="text-lg font-semibold">{snippet.title}</h3>
-                                    <SnippetTags language={snippet.language} tags={snippet.tags} />
+                                    <SnippetTags language={snippet.language} tags={snippet.tags}/>
                                 </div>
 
                                 <LikeButton

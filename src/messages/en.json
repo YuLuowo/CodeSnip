@@ -54,7 +54,147 @@
       "discord": "Discord"
     }
   },
+  "Login": {
+    "title": "Welcome back",
+    "sub_title": "Login with your Google or Github account",
+    "google": "Login with Google",
+    "github": "Login with Github"
+  },
   "SearchCommand": {
     "title": "Search documentation"
+  },
+  "CreateSnippet": {
+    "title": "Create a new snippet",
+    "sub_title": "Create your own code snippet here.",
+    "elements": {
+      "snippet_title": {
+        "title": "Snippet Title",
+        "error": "Title is required"
+      },
+      "code": "Code",
+      "visibility": {
+        "title": "Choose Visibility",
+        "sub_title": "Select whether this snippet is visible to others or only to yourself.",
+        "public": {
+          "title": "Public",
+          "sub_title": "Visible to everyone, anyone can see this snippet."
+        },
+        "private": {
+          "title": "Private",
+          "sub_title": "Only you can see this snippet."
+        }
+      },
+      "create": "Create",
+      "loading": "Loading ...",
+      "back": "Back",
+      "toast": {
+        "create_error": "Failed to create snippet",
+        "success": "Snippet created successfully!",
+        "error": "Something went wrong, please try again."
+      }
+    }
+  },
+  "EditSnippet": {
+    "title": "Edit snippet",
+    "sub_title": "Update your snippet below.",
+    "elements": {
+      "snippet_title": {
+        "title": "Snippet Title",
+        "error": "Title is required"
+      },
+      "code": "Code",
+      "visibility": {
+        "title": "Choose Visibility",
+        "sub_title": "Select whether this snippet is visible to others or only to yourself.",
+        "public": {
+          "title": "Public",
+          "sub_title": "Visible to everyone, anyone can see this snippet."
+        },
+        "private": {
+          "title": "Private",
+          "sub_title": "Only you can see this snippet."
+        }
+      },
+      "update": "Update",
+      "loading": "Loading ...",
+      "back": "Back",
+      "toast": {
+        "create_error": "Failed to update snippet",
+        "success": "Snippet updated successfully!",
+        "error": "Something went wrong, please try again."
+      }
+    }
+  },
+  "SnippetView": {
+    "author": "Author",
+    "updated_at": "Updated At",
+    "edit": "Edit",
+    "delete": "Delete",
+    "delete_dialog": {
+      "title": "Are you sure to delete your snippet?",
+      "sub_title": "This action cannot be undone. This will permanently delete your snippet from our servers.",
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "deleting": "Deleting ...",
+      "error": "Failed to delete snippet"
+    },
+    "url_copied": "URL copied to clipboard!",
+    "url_copied_failed": "Failed to copy URL",
+    "copy": "Copy",
+    "copied": "Copied!"
+  },
+  "MySnippets": {
+    "title": "My Snippets",
+    "create": "Create new snippet",
+    "empty_snip": {
+      "title": "No Snippets",
+      "desc": "You haven&apos;t created any code snippets yet. Get started by creating your first snippet.",
+      "create": "Create Snippet"
+    },
+    "no_snip": "No snippets found",
+    "for": "for",
+    "in": "in",
+    "with_tags": "with tags"
+  },
+  "SnippetFilter": {
+    "title": "Filters",
+    "find": "Find a snippet...",
+    "search": "Search",
+    "clear": "Clear"
+  },
+  "SnippetTags": {
+    "title": "Tags",
+    "sub_title": "Select the tags you want to display on your snippet.",
+    "tags": {
+      "algorithm": "Algorithm",
+      "data_structure": "Data Structure",
+      "ui_component": "UI Component",
+      "template": "Template",
+      "leetCode": "LeetCode",
+      "project_template": "Project Template",
+      "examples": "Examples",
+      "learning_resources": "Learning Resources",
+      "frontend": "Frontend",
+      "backend": "Backend"
+    }
+  },
+  "SnippetLanguage": {
+    "title": "Language",
+    "choose_language": "Choose Language",
+    "error": "Language is required",
+    "select": {
+      "program_languages": "Programming Languages",
+      "web_markup": "Web / Markup",
+      "other": "Other"
+    }
+  },
+  "CodeEditor": {
+    "feature": {
+      "copy": "Copy",
+      "paste": "Paste",
+      "clear": "Clear",
+      "copied": "Copied",
+      "pasted": "Pasted"
+    }
   }
 }

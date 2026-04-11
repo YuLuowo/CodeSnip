@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useCallback, useState } from "react";
+import { useTranslations } from "use-intl";
 
 interface SnippetFilterProps {
     onSearch?: (filters: {
@@ -32,6 +33,10 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
     const [language, setLanguage] = useState<string>("");
     const [tags, setTags] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+    const t = useTranslations("SnippetFilter");
+    const tTags = useTranslations("SnippetTags");
+    const tLanguage = useTranslations("SnippetLanguage");
 
     const handleSearch = useCallback(async () => {
         setLoading(true);
@@ -60,7 +65,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
 
     return (
         <div className="flex flex-col gap-4 border rounded-lg border-accent p-4">
-            <h2 className="text-2xl font-semibold">Filters</h2>
+            <h2 className="text-2xl font-semibold">{t("title")}</h2>
             <div className="flex flex-col md:flex-row items-center gap-4">
                 <Field className="md:max-w-xs">
                     <SearchBar value={title} onChange={handleTitleChange} />
@@ -69,11 +74,11 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
                 <Field className="md:max-w-xs">
                     <Select value={language} onValueChange={handleLanguageChange}>
                         <SelectTrigger id="language">
-                            <SelectValue placeholder="Choose Language" />
+                            <SelectValue placeholder={tLanguage("choose_language")} />
                         </SelectTrigger>
                         <SelectContent className="max-h-100">
                             <SelectGroup>
-                                <SelectLabel>Programming Languages</SelectLabel>
+                                <SelectLabel>{tLanguage("select.program_languages")}</SelectLabel>
                                 <SelectItem value="javascript">JavaScript</SelectItem>
                                 <SelectItem value="typescript">TypeScript</SelectItem>
                                 <SelectItem value="python">Python</SelectItem>
@@ -95,7 +100,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
                             <SelectSeparator />
 
                             <SelectGroup>
-                                <SelectLabel>Web / Markup</SelectLabel>
+                                <SelectLabel>{tLanguage("select.web_markup")}</SelectLabel>
                                 <SelectItem value="html">HTML</SelectItem>
                                 <SelectItem value="css">CSS</SelectItem>
                                 <SelectItem value="scss">SCSS / SASS</SelectItem>
@@ -106,7 +111,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
                             <SelectSeparator />
 
                             <SelectGroup>
-                                <SelectLabel>Other</SelectLabel>
+                                <SelectLabel>{tLanguage("select.other")}</SelectLabel>
                                 <SelectItem value="bash">Bash / Shell</SelectItem>
                                 <SelectItem value="powershell">PowerShell</SelectItem>
                                 <SelectItem value="sql">SQL</SelectItem>
@@ -121,7 +126,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
             </div>
 
             <Field>
-                <FieldLabel>Tags</FieldLabel>
+                <FieldLabel>{tTags("title")}</FieldLabel>
                 <MultiSelect value={tags} onChange={handleTagsChange} />
             </Field>
 
@@ -133,7 +138,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
                     onClick={handleSearch}
                     disabled={loading}
                 >
-                    Search
+                    {t("search")}
                 </Button>
                 <Button
                     variant="destructive"
@@ -142,7 +147,7 @@ export default function SnippetFilter({ onSearch }: SnippetFilterProps) {
                     onClick={handleClear}
                     disabled={loading}
                 >
-                    Clear
+                    {t("clear")}
                 </Button>
             </div>
         </div>

@@ -3,8 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import {EditorToolBar} from "@/components/editor/editor-toolbar";
-import {FieldSeparator} from "@/components/ui/field";
+import { EditorToolBar } from "@/components/editor/editor-toolbar";
+import { FieldSeparator } from "@/components/ui/field";
 import { useTheme } from "next-themes";
 
 interface CodeEditorProps {
@@ -13,15 +13,14 @@ interface CodeEditorProps {
     onChange: (value: string | undefined) => void;
 }
 
-export default function CodeEditor({ language, value, onChange }: CodeEditorProps) {
+export default function CodeEditor({language, value, onChange}: CodeEditorProps) {
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<typeof monaco | null>(null);
-    const { resolvedTheme } = useTheme();
+    const {resolvedTheme} = useTheme();
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);
     }, []);
-
 
 
     const defineThemes = (monacoInstance: typeof import("monaco-editor")) => {
@@ -54,8 +53,8 @@ export default function CodeEditor({ language, value, onChange }: CodeEditorProp
 
     return (
         <div className="relative border overflow-hidden shadow-sm">
-            <EditorToolBar editorRef={ editorRef } />
-            <FieldSeparator />
+            <EditorToolBar editorRef={editorRef}/>
+            <FieldSeparator/>
             <Editor
                 height="400px"
                 language={language}
@@ -71,10 +70,10 @@ export default function CodeEditor({ language, value, onChange }: CodeEditorProp
                     guides: {
                         indentation: false,
                     },
-                    minimap: { enabled: false },
+                    minimap: {enabled: false},
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
-                    padding: { top: 12 },
+                    padding: {top: 12},
                     lineDecorationsWidth: 10,
                     scrollbar: {
                         vertical: "auto",

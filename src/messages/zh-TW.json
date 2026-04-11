@@ -54,7 +54,147 @@
       "discord": "Discord"
     }
   },
+  "Login": {
+    "title": "歡迎回來",
+    "sub_title": "使用你的 Google 或 Github 帳號進行登入",
+    "google": "使用 Google 登入",
+    "github": "使用 Github 登入"
+  },
   "SearchCommand": {
     "title": "搜尋文件"
+  },
+  "CreateSnippet": {
+    "title": "建立新片段",
+    "sub_title": "在這裡建立你的程式碼片段。",
+    "elements": {
+      "snippet_title": {
+        "title": "片段標題",
+        "error": "標題為必填"
+      },
+      "code": "程式碼",
+      "visibility": {
+        "title": "選擇可見性",
+        "sub_title": "選擇此片段是否公開或僅自己可見。",
+        "public": {
+          "title": "公開",
+          "sub_title": "所有人都能看到此片段。"
+        },
+        "private": {
+          "title": "私人",
+          "sub_title": "只有你能看到此片段。"
+        }
+      },
+      "create": "建立",
+      "loading": "載入中 ...",
+      "back": "返回",
+      "toast": {
+        "create_error": "建立片段失敗",
+        "success": "片段建立成功！",
+        "error": "發生錯誤，請再試一次。"
+      }
+    }
+  },
+  "EditSnippet": {
+    "title": "編輯片段",
+    "sub_title": "在下方更新你的片段。",
+    "elements": {
+      "snippet_title": {
+        "title": "片段標題",
+        "error": "標題為必填"
+      },
+      "code": "程式碼",
+      "visibility": {
+        "title": "選擇可見性",
+        "sub_title": "選擇此片段是否公開或僅自己可見。",
+        "public": {
+          "title": "公開",
+          "sub_title": "所有人都能看到此片段。"
+        },
+        "private": {
+          "title": "私人",
+          "sub_title": "只有你能看到此片段。"
+        }
+      },
+      "update": "更新",
+      "loading": "載入中 ...",
+      "back": "返回",
+      "toast": {
+        "create_error": "更新片段失敗",
+        "success": "片段更新成功！",
+        "error": "發生錯誤，請再試一次。"
+      }
+    }
+  },
+  "SnippetView": {
+    "author": "作者",
+    "updated_at": "更新時間",
+    "edit": "編輯",
+    "delete": "刪除",
+    "delete_dialog": {
+      "title": "確定要刪除片段嗎？",
+      "sub_title": "此操作無法復原，將永久刪除此片段。",
+      "cancel": "取消",
+      "continue": "繼續",
+      "deleting": "刪除中 ...",
+      "error": "刪除片段失敗"
+    },
+    "url_copied": "URL 已複製到剪貼簿！",
+    "url_copied_failed": "複製 URL 失敗",
+    "copy": "複製",
+    "copied": "已複製！"
+  },
+  "MySnippets": {
+    "title": "我的片段",
+    "create": "建立新片段",
+    "empty_snip": {
+      "title": "尚無片段",
+      "desc": "你尚未建立任何程式碼片段。立即建立第一個片段吧！",
+      "create": "建立片段"
+    },
+    "no_snip": "找不到片段",
+    "for": "針對",
+    "in": "在",
+    "with_tags": "包含標籤"
+  },
+  "SnippetFilter": {
+    "title": "篩選",
+    "find": "尋找片段...",
+    "search": "搜尋",
+    "clear": "清除"
+  },
+  "SnippetTags": {
+    "title": "標籤",
+    "sub_title": "選擇你要顯示在片段上的標籤。",
+    "tags": {
+      "algorithm": "演算法",
+      "data_structure": "資料結構",
+      "ui_component": "UI 元件",
+      "template": "範本",
+      "leetCode": "LeetCode",
+      "project_template": "專案範本",
+      "examples": "範例",
+      "learning_resources": "學習資源",
+      "frontend": "前端",
+      "backend": "後端"
+    }
+  },
+  "SnippetLanguage": {
+    "title": "語言",
+    "choose_language": "選擇語言",
+    "error": "語言為必填",
+    "select": {
+      "program_languages": "程式語言",
+      "web_markup": "網頁 / 標記語言",
+      "other": "其他"
+    }
+  },
+  "CodeEditor": {
+    "feature": {
+      "copy": "複製",
+      "paste": "貼上",
+      "clear": "清除",
+      "copied": "已複製",
+      "pasted": "已貼上"
+    }
   }
 }

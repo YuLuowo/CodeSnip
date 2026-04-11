@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { CopyIcon, CheckIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "use-intl";
 
 export default function CodeBlock({ code, language }: { code: string; language: string }) {
     const [copied, setCopied] = useState(false);
 
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const t = useTranslations("SnippetView");
+
     useEffect(() => {
         setMounted(true);
     }, []);
@@ -40,7 +43,7 @@ export default function CodeBlock({ code, language }: { code: string; language: 
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent side="top">
-                        {copied ? "Copied!" : "Copy"}
+                        {copied ? t("copied") : t("copy")}
                     </TooltipContent>
                 </Tooltip>
             </div>

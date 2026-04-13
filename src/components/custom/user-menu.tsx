@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {signOut, useSession} from "next-auth/react";
-import { Code, LogOut } from "lucide-react";
+import { Code, Heart, LogOut } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { useTranslations } from "use-intl";
 import * as React from "react";
@@ -49,6 +49,10 @@ export default function UserMenu() {
                 <DropdownMenuItem onClick={() => router.push("/snippets")}>
                     <Code/>
                     <span>{t("my_snippet")}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/")}>
+                    <Heart/>
+                    <span>{t("my_favorite")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>
                     <LogOut />

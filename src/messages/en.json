@@ -28,6 +28,7 @@
     "theme": "Toggle Mode",
     "avatar": {
       "my_snippet": "My Snippets",
+      "my_favorite": "My Favorites",
       "sign_in": "Sign in",
       "sign_out": "Sign out"
     }

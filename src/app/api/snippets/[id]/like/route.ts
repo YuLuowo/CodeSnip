@@ -3,6 +3,8 @@ import Snippet from "@/models/Snippet";
 import { connectDB } from "@/lib/mongodb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import User from "@/models/User";
+import mongoose from "mongoose";
 
 export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
@@ -20,17 +22,25 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
             return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
         }
 
+        const user = await User.findById(userId);
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
         const alreadyLiked = snippet.likes.some(
             (likeId) => likeId.toString() === userId
         );
 
         if (alreadyLiked) {
             snippet.likes = snippet.likes.filter((likeId) => likeId.toString() !== userId);
+            user.likedSnippets = user.likedSnippets.filter((snippetId) => snippetId.toString() !== id);
         } else {
             snippet.likes.push(userId);
+            user.likedSnippets.push(snippet._id as mongoose.Types.ObjectId);
         }
 
         await snippet.save();
+        await user.save();
 
         return NextResponse.json({ success: true, likes: snippet.likes });
     } catch (err) {

@@ -22,6 +22,7 @@ import SnippetTags from "@/components/custom/snippet-tags";
 import LikeButton from "@/components/custom/like-button";
 import { useTranslations } from "use-intl";
 import { Badge } from "@/components/ui/badge";
+import SnippetCard from "@/components/custom/snippet-card";
 
 interface ISnippetClient {
     _id: string;
@@ -47,7 +48,7 @@ export function MySnippet() {
         tags: [] as string[],
     });
 
-    const [fetched, setFetched] = useState(false); // TODO: 記得刪掉
+    const [fetched, setFetched] = useState(false);
     useEffect(() => {
         const fetchSnippets = async () => {
             if (!session?.user?.id || fetched) return;
@@ -79,7 +80,6 @@ export function MySnippet() {
 
     const t = useTranslations("MySnippets");
     const tTags = useTranslations("SnippetTags");
-    const tStatus = useTranslations("SnippetStatus");
 
     const handleSearch = async (newFilters: typeof filters) => {
         setLoading(true);
@@ -133,7 +133,7 @@ export function MySnippet() {
                         </EmptyHeader>
                         <EmptyContent>
                             <Link href="/create">
-                                <Button className="hover:cursor-pointer">{t("empty_snip.create")}</Button>
+                                <Button size="sm" className="hover:cursor-pointer">{t("empty_snip.create")}</Button>
                             </Link>
                         </EmptyContent>
                     </Empty>
@@ -155,35 +155,7 @@ export function MySnippet() {
                 ) : (
                     filteredSnippets.map((snippet) => {
                         return (
-                            <div
-                                key={String(snippet._id)}
-                                className="flex justify-between items-center p-4 border rounded-sm bg-background hover:bg-accent/20 cursor-pointer"
-                            >
-                                <Link
-                                    href={`/snippets/${snippet._id}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex flex-col gap-2 pr-2 flex-1"
-                                >
-                                    <h3 className="text-lg font-semibold">
-                                        <div className="flex items-center gap-2">
-                                            {snippet.title}
-                                            <Badge variant="outline">
-                                                {snippet.isPublic ? tStatus("public") : tStatus("private")}
-                                            </Badge>
-                                        </div>
-                                    </h3>
-                                    <SnippetTags language={snippet.language} tags={snippet.tags} />
-                                </Link>
-
-                                <LikeButton
-                                    showFavoriteCount={false}
-                                    snippetId={String(snippet._id)}
-                                    initialLikes={snippet.likes}
-                                    userId={session?.user?.id}
-                                />
-                            </div>
-
+                            <SnippetCard key={String(snippet._id)} snippet={snippet} userId={session?.user?.id}></SnippetCard>
                         );
                     })
                 )}

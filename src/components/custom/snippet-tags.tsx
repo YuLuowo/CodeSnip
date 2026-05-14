@@ -16,7 +16,7 @@ export default function SnippetTags({ language, tags = [] }: SnippetTagsProps) {
 
 
     return (
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className="flex flex-wrap max-w-xl gap-2">
             {language && <Badge>{capitalizeFirstLetter(language)}</Badge>}
             {tags.map((tag) => {
                 const key = tagMap[tag] || tag;

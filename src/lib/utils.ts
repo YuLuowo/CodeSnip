@@ -12,7 +12,7 @@ export function capitalizeFirstLetter(inputString: string): string {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
 
-export function utcToLocalDate(utcDate: string) {
+export function utcToLocalDate(utcDate: string, time?: boolean) {
     const date = new Date(utcDate);
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -21,6 +21,7 @@ export function utcToLocalDate(utcDate: string) {
     const min = String(date.getMinutes()).padStart(2, "0");
     const s = String(date.getSeconds()).padStart(2, "0");
 
+    if (!time) return `${y}-${m}-${d}`;
     return `${y}-${m}-${d} ${h}:${min}:${s}`;
 }
 

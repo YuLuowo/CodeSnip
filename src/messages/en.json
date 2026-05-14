@@ -157,10 +157,18 @@
     "in": "in",
     "with_tags": "with tags"
   },
+  "FavoriteSnippet": {
+    "title": "My Favorites",
+    "empty_fav": {
+      "title": "No Favorites",
+      "desc": "You haven&apos;t added any snippets to your favorites yet. Get started by adding some to your favorites."
+    }
+  },
   "SnippetStatus": {
     "public": "Public",
     "private": "Private",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "updated": "Updated on"
   },
   "SnippetFilter": {
     "title": "Filters",

@@ -50,7 +50,7 @@ export default function UserMenu() {
                     <Code/>
                     <span>{t("my_snippet")}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/")}>
+                <DropdownMenuItem onClick={() => router.push("/favorites")}>
                     <Heart/>
                     <span>{t("my_favorite")}</span>
                 </DropdownMenuItem>

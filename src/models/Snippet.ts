@@ -23,7 +23,7 @@ const SnippetSchema = new Schema<ISnippet>({
     likes: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], default: [] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 const Snippet: Model<ISnippet> = mongoose.models.Snippet || mongoose.model<ISnippet>("Snippet", SnippetSchema);
 export default Snippet;

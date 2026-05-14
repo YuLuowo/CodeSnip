@@ -160,7 +160,8 @@
   "SnippetStatus": {
     "public": "公開",
     "private": "私人",
-    "favorite": "收藏"
+    "favorite": "收藏",
+    "updated": "最後更新於"
   },
   "SnippetFilter": {
     "title": "篩選",

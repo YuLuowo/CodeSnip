@@ -36,7 +36,7 @@ export async function GET(request: Request) {
         }
 
         const snippets = await Snippet.find(filter)
-            .select("title language tags author createdAt likes isPublic")
+            .select("title language tags author createdAt updatedAt likes isPublic")
             .populate("author", "name image")
             .sort({ createdAt: -1 });
 

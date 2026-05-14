@@ -92,7 +92,7 @@ export default function SnippetView({snippet}: SnippetProps) {
                         {t("author")}: {snippet.author.name}
                     </span>
                     <span className="text-xs text-foreground/50">
-                        {t("updated_at")}: {utcToLocalDate(snippet.updatedAt)}
+                        {t("updated_at")}: {utcToLocalDate(snippet.updatedAt, true)}
                     </span>
                 </div>
                 <div className="flex items-center gap-2">

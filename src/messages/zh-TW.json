@@ -157,6 +157,28 @@
     "in": "在",
     "with_tags": "包含標籤"
   },
+  "FavoriteSnippet": {
+    "title": "我的收藏",
+    "empty_fav": {
+      "title": "沒有收藏的片段",
+      "desc": "你沒有新增任何程式碼片段到你的收藏。 開始新增一些到你的收藏。",
+      "explore": "探索程式碼"
+    },
+    "not_found": "沒有找到任何片段",
+    "favorites": "收藏",
+    "s": "",
+    "found_for": "針對",
+    "clear": "清空篩選"
+  },
+  "FavoriteFilter": {
+    "search_placeholder": "搜尋片段...",
+    "search": "搜尋",
+    "sort": {
+      "title": "排序: ",
+      "latest": "最近更新",
+      "favorites": "最多收藏"
+    }
+  },
   "SnippetStatus": {
     "public": "公開",
     "private": "私人",

@@ -1,7 +1,7 @@
 "use client"
 
 import FavoriteFilter from "@/components/custom/favorite-filter";
-import { useEffect, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { IUser } from "@/models/User";
@@ -61,6 +61,9 @@ export default function FavoriteSnippet() {
         fetchUserFavorites();
     }, [session?.user.id]);
 
+    const t = useTranslations("FavoriteSnippet");
+    const tEmpty = useTranslations("FavoriteSnippet.empty_fav");
+
     const handleSearch = (title: string) => {
         setLoading(true);
         setSearchTerm(inputValue);
@@ -114,7 +117,7 @@ export default function FavoriteSnippet() {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">我的收藏</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("title")}</h1>
             <FavoriteFilter
                 inputValue={inputValue}
                 setInputValue={setInputValue}
@@ -127,15 +130,15 @@ export default function FavoriteSnippet() {
             {hasFilter && (
                 <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
                     <span>
-                        {filtered.length} favorite{filtered.length !== 1 ? "s" : ""}
-                        {searchTerm && ` found for "${searchTerm}"`}
+                        {filtered.length} {t("favorites")}{filtered.length !== 1 ? t("s") : ""}
+                        {searchTerm && ` ${t("found_for")} "${searchTerm}"`}
                     </span>
                     <span
                         onClick={handleClear}
                         className="cursor-pointer text-sm text-gray-500 hover:text-blue-400 font-semibold transition-colors flex items-center gap-1"
                     >
                         <X className="w-4 h-4" />
-                        Clear Filter
+                        {t("clear")}
                     </span>
                 </div>
             )}
@@ -152,19 +155,17 @@ export default function FavoriteSnippet() {
                             <EmptyMedia variant="icon">
                                 <Heart />
                             </EmptyMedia>
-                            <EmptyTitle>No Favorite Snippets</EmptyTitle>
-                            <EmptyDescription>
-                                You haven&apos;t liked any code snippets yet. Start exploring and find snippets you like.
-                            </EmptyDescription>
+                            <EmptyTitle>{tEmpty("title")}</EmptyTitle>
+                            <EmptyDescription>{tEmpty("desc")}</EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <Link href="/create">
-                                <Button size="sm" className="hover:cursor-pointer">Explore Snippet</Button>
+                            <Link href="/">
+                                <Button size="sm" className="hover:cursor-pointer">{tEmpty("explore")}</Button>
                             </Link>
                         </EmptyContent>
                     </Empty>
                 ) : filtered.length === 0 ? (
-                    <span className="text-muted-foreground">No snippets found.</span>
+                    <span className="text-muted-foreground">{t("not_found")}</span>
                 ) : (
                     filtered.map((snippet) => {
                         return (

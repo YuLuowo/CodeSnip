@@ -9,6 +9,7 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
+import { useTranslations } from "use-intl";
 
 interface FavoriteFilterProps {
     inputValue: string;
@@ -20,6 +21,9 @@ interface FavoriteFilterProps {
 }
 
 export default function FavoriteFilter({ inputValue, setInputValue, sort, setSort, onSearch, onSort }: FavoriteFilterProps) {
+    const t = useTranslations("FavoriteFilter");
+    const tSort = useTranslations("FavoriteFilter.sort");
+
     const handleSearch = () => {
         if (onSearch) onSearch(inputValue);
     };
@@ -33,7 +37,7 @@ export default function FavoriteFilter({ inputValue, setInputValue, sort, setSor
         <div className="flex flex-col md:flex-row items-center gap-4 my-4">
             <div className="w-full flex items-center justify-between md:w-auto gap-4">
                 <Input
-                    placeholder="Search snippets..."
+                    placeholder={t("search_placeholder")}
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className="w-full md:w-xs"
@@ -43,17 +47,17 @@ export default function FavoriteFilter({ inputValue, setInputValue, sort, setSor
                     className="cursor-pointer"
                     onClick={handleSearch}
                 >
-                    Search
+                    {t("search")}
                 </Button>
             </div>
 
             <Select value={sort} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-full md:w-[160px]">
-                    <div>排序: <SelectValue /></div>
+                <SelectTrigger className="w-full md:w-[200px]">
+                    <div>{tSort("title")}<SelectValue /></div>
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="latest">最新</SelectItem>
-                    <SelectItem value="favorites">最多收藏</SelectItem>
+                    <SelectItem value="latest">{tSort("latest")}</SelectItem>
+                    <SelectItem value="favorites">{tSort("favorites")}</SelectItem>
                 </SelectContent>
             </Select>
         </div>

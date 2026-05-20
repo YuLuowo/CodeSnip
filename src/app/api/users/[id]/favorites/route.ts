@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import User from "@/models/User";
-import Snippet from "@/models/Snippet";
+import "@/models/Snippet";
 import { connectDB } from "@/lib/mongodb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";

@@ -160,8 +160,23 @@
   "FavoriteSnippet": {
     "title": "My Favorites",
     "empty_fav": {
-      "title": "No Favorites",
-      "desc": "You haven&apos;t added any snippets to your favorites yet. Get started by adding some to your favorites."
+      "title": "No Favorite Snippets",
+      "desc": "You haven&apos;t added any snippets to your favorites yet. Get started by adding some to your favorites.",
+      "explore": "Explore Snippets"
+    },
+    "not_found": "No snippets found.",
+    "favorites": "favorite",
+    "s": "s",
+    "found_for": "found for",
+    "clear": "Clear Filter"
+  },
+  "FavoriteFilter": {
+    "search_placeholder": "Search snippets...",
+    "search": "Search",
+    "sort": {
+      "title": "Sort: ",
+      "latest": "Recently active",
+      "favorites": "Most Favorites"
     }
   },
   "SnippetStatus": {

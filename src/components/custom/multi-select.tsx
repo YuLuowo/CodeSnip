@@ -8,9 +8,10 @@ interface MultiSelectProps {
     value?: string[];
     onChange?: (selected: string[]) => void;
     defaultSelected?: string[];
+    grid?: string;
 }
 
-export default function MultiSelect({ value, onChange, defaultSelected = [] }: MultiSelectProps) {
+export default function MultiSelect({ value, onChange, defaultSelected = [], grid = "col" }: MultiSelectProps) {
     const t = useTranslations("SnippetTags.tags");
 
     const items = [
@@ -50,9 +51,13 @@ export default function MultiSelect({ value, onChange, defaultSelected = [] }: M
         }
     }, [selectedItems, onChange]);
 
+    const className = (grid === "col")
+        ? "w-full grid grid-cols-2 lg:grid-cols-4 items-start gap-4"
+        : "w-full grid grid-rows-2 lg:grid-rows-4 items-start gap-4";
+
     return (
         <div>
-            <div className="w-full grid grid-cols-2 lg:grid-cols-4 items-start gap-4">
+            <div className={className}>
                 {items.map((item) => (
                     <label
                         key={item.id}

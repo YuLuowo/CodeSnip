@@ -9,9 +9,9 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const scope = searchParams.get("scope");
-    const tag = searchParams.get("tag");
-    const language = searchParams.get("language");
-    const search = searchParams.get("search");
+    const tag = searchParams.getAll("tag");
+    const language = searchParams.getAll("language");
+    const search = searchParams.get("q");
     const sort = searchParams.get("sort");
 
     try {
@@ -35,10 +35,34 @@ export async function GET(request: Request) {
             }
         }
 
+        if (tag.length) {
+            filter.tags = { $in: tag };
+        }
+
+        if (language.length) {
+            filter.language = { $in: language };
+        }
+
+        if (search) {
+            filter.title = { $regex: search, $options: "i" };
+        }
+
         const snippets = await Snippet.find(filter)
             .select("title language tags author createdAt updatedAt likes isPublic")
             .populate("author", "name image")
-            .sort({ createdAt: -1 });
+            .sort({ updatedAt: -1 });
+
+        if (sort === "popular") {
+            snippets.sort(
+                (a, b) =>
+                    b.likes.length - a.likes.length
+            );
+        } else if (sort === "latest") {
+            snippets.sort(
+                (a, b) =>
+                    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+            );
+        }
 
         return NextResponse.json(snippets, { status: 200 });
     } catch (error) {

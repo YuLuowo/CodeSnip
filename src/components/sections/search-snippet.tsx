@@ -3,7 +3,7 @@ import Snippets from "@/components/custom/snippets";
 
 export default function SearchSnippet() {
     return (
-        <section className="flex justify-center items-center gap-8 w-full max-w-6xl p-4">
+        <section className="flex justify-center gap-8 w-full max-w-6xl p-4 pt-2">
             <SideFilter />
             <Snippets />
         </section>

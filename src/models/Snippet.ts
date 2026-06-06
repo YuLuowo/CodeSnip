@@ -9,6 +9,7 @@ export interface ISnippet extends Document {
     isPublic: boolean;
     author: Types.ObjectId | IUser;
     likes: Types.ObjectId[];
+    embedding: number[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -21,6 +22,7 @@ const SnippetSchema = new Schema<ISnippet>({
     isPublic: { type: Boolean, default: true },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     likes: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], default: [] },
+    embedding: { type: [Number], required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true });

@@ -11,7 +11,7 @@ import {
     Select,
     SelectContent,
     SelectGroup,
-    SelectItem,
+    SelectItem, SelectLabel,
     SelectSeparator,
     SelectTrigger,
     SelectValue,
@@ -20,11 +20,12 @@ import { toast } from "sonner";
 import CodeEditor from "@/components/editor/code-editor";
 import MultiSelect from "@/components/custom/multi-select";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "use-intl";
+import { languageMaps } from "@/configs/maps";
 
 interface Snippet {
     _id: string;
@@ -140,46 +141,23 @@ export default function EditSnippet({snippet}: EditSnippetProps) {
                                 <SelectValue placeholder={language}/>
                             </SelectTrigger>
                             <SelectContent className="max-h-100">
-                                <SelectGroup>
-                                    <SelectItem value="javascript">JavaScript</SelectItem>
-                                    <SelectItem value="typescript">TypeScript</SelectItem>
-                                    <SelectItem value="python">Python</SelectItem>
-                                    <SelectItem value="java">Java</SelectItem>
-                                    <SelectItem value="c">C</SelectItem>
-                                    <SelectItem value="cpp">C++</SelectItem>
-                                    <SelectItem value="csharp">C#</SelectItem>
-                                    <SelectItem value="go">Go</SelectItem>
-                                    <SelectItem value="php">PHP</SelectItem>
-                                    <SelectItem value="ruby">Ruby</SelectItem>
-                                    <SelectItem value="swift">Swift</SelectItem>
-                                    <SelectItem value="kotlin">Kotlin</SelectItem>
-                                    <SelectItem value="rust">Rust</SelectItem>
-                                    <SelectItem value="dart">Dart</SelectItem>
-                                    <SelectItem value="scala">Scala</SelectItem>
-                                    <SelectItem value="r">R</SelectItem>
-                                </SelectGroup>
+                                {Object.entries(languageMaps).map(([groupKey, languages], index) => (
+                                    <React.Fragment key={groupKey}>
+                                        {index > 0 && <SelectSeparator />}
 
-                                <SelectSeparator/>
+                                        <SelectGroup>
+                                            <SelectLabel>
+                                                {tLanguage(`select.${groupKey}`)}
+                                            </SelectLabel>
 
-                                <SelectGroup>
-                                    <SelectItem value="html">HTML</SelectItem>
-                                    <SelectItem value="css">CSS</SelectItem>
-                                    <SelectItem value="scss">SCSS / SASS</SelectItem>
-                                    <SelectItem value="json">JSON</SelectItem>
-                                    <SelectItem value="markdown">Markdown</SelectItem>
-                                </SelectGroup>
-
-                                <SelectSeparator/>
-
-                                <SelectGroup>
-                                    <SelectItem value="bash">Bash / Shell</SelectItem>
-                                    <SelectItem value="powershell">PowerShell</SelectItem>
-                                    <SelectItem value="sql">SQL</SelectItem>
-                                    <SelectItem value="yaml">YAML</SelectItem>
-                                    <SelectItem value="xml">XML</SelectItem>
-                                    <SelectItem value="dockerfile">Dockerfile</SelectItem>
-                                    <SelectItem value="graphql">GraphQL</SelectItem>
-                                </SelectGroup>
+                                            {Object.entries(languages).map(([value, label]) => (
+                                                <SelectItem key={value} value={value}>
+                                                    {label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </React.Fragment>
+                                ))}
                             </SelectContent>
                         </Select>
                     </Field>

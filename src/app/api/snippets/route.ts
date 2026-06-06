@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import Snippet, { ISnippet } from "@/models/Snippet";
 import { FilterQuery } from "mongoose";
+import { createEmbedding } from "@/lib/embedding";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -44,7 +45,37 @@ export async function GET(request: Request) {
         }
 
         if (search) {
-            filter.title = { $regex: search, $options: "i" };
+            const queryEmbedding = await createEmbedding(search);
+
+            const snippets = await Snippet.aggregate([
+                {
+                    $vectorSearch: {
+                        index: "snippet_embedding_index",
+                        path: "embedding",
+                        queryVector: queryEmbedding,
+                        numCandidates: 100,
+                        limit: 50,
+                        filter,
+                    },
+                },
+                {
+                    $project: {
+                        title: 1,
+                        language: 1,
+                        tags: 1,
+                        author: 1,
+                        createdAt: 1,
+                        updatedAt: 1,
+                        likes: 1,
+                        isPublic: 1,
+                        score: {
+                            $meta: "vectorSearchScore",
+                        },
+                    },
+                },
+            ]);
+
+            return NextResponse.json(snippets, { status: 200 });
         }
 
         const snippets = await Snippet.find(filter)
@@ -82,6 +113,17 @@ export async function POST(req: Request) {
 
         const { title, language, code, tags, isPublic } = await req.json();
 
+        const embeddingText = `
+            Title: ${title}
+            
+            Language: ${language}
+            
+            Tags: ${tags.join(", ")}
+            
+            Code: ${code.slice(0, 1000)}`;
+
+        const embedding: number[] = await createEmbedding(embeddingText);
+
         const newSnippet = await Snippet.create({
             title,
             language,
@@ -89,6 +131,7 @@ export async function POST(req: Request) {
             tags,
             isPublic,
             author: session.user.id,
+            embedding: embedding,
         });
 
         return NextResponse.json(newSnippet, { status: 201 });

@@ -63,7 +63,7 @@ export function MySnippet() {
                 const data: ISnippetClient[] = await res.json();
 
                 const mySnippets = data.filter(
-                    (snippet) => snippet.author?._id === session.user.id
+                    (snippet) => snippet.author?._id.toString() === session.user.id
                 );
 
                 setSnippets(mySnippets);

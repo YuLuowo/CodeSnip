@@ -12,15 +12,15 @@
       "title": "Explore",
       "trending": {
         "title": "Trending Snippets",
-        "desc": "ABC"
+        "desc": "Most popular code snippets"
       },
       "newest": {
         "title": "Newest Snippets",
-        "desc": "ABC"
+        "desc": "Recently shared code snippets"
       },
       "categories": {
         "title": "Categories",
-        "desc": "ABC"
+        "desc": "Browse snippets by category"
       }
     },
     "snippets": "Snippets",

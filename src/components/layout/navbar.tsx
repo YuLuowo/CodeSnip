@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Code, Menu } from "lucide-react"
+import { Code, Heart, LogOut, Menu } from "lucide-react"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -36,6 +36,7 @@ export function Navbar() {
     }
 
     const t = useTranslations("Navbar");
+    const tAvatar = useTranslations("Navbar.avatar");
     const tExplore = useTranslations("Navbar.explore");
     return (
         <nav className="w-full bg-background sticky top-0 z-50">
@@ -138,9 +139,9 @@ export function Navbar() {
                                         <span className="font-semibold">{tExplore("title")}</span>
                                     </div>
                                     <div className="flex flex-col space-y-2 pl-2 text-base">
-                                        <Link href="#" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
-                                        <Link href="#" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
-                                        <Link href="#" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
+                                        <Link href="/search?page=1&sort=popular" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
+                                        <Link href="/search?page=1&sort=latest" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
+                                        <Link href="/search?page=1" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
                                     </div>
                                 </div>
                                 <Link href={isSignedIn ? "/snippets" : "/login"} onClick={() => setOpen(false)}>
@@ -150,21 +151,40 @@ export function Navbar() {
                                     <span className="font-semibold">{t("docs")}</span>
                                 </Link>
                             </div>
-                            {session?.user?.image ? (
-                                <div className="flex flex-col space-y-4">
-                                    <img
-                                        src={session.user.image}
-                                        alt={session.user.name ?? "User"}
-                                        className="h-10 w-10 rounded-full object-cover border"
-                                    />
-                                    <Button variant="outline" onClick={logout}>
+                            {isSignedIn ? (
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={session.user.image}
+                                            alt={session.user.name ?? "User"}
+                                            className="h-8 w-8 rounded-full object-cover border"
+                                        />
+                                        <span className="font-semibold">{session.user.name}</span>
+                                    </div>
+                                    <Separator orientation="horizontal"/>
+                                    <div className="flex flex-col gap-4 pt-1 pb-4 font-semibold">
+                                        <Link href="/snippets" onClick={() => setOpen(false)}>
+                                            <span>{tAvatar("my_snippet")}</span>
+                                        </Link>
+                                        <Link href="/favorites" onClick={() => setOpen(false)}>
+                                            <span>{tAvatar("my_favorite")}</span>
+                                        </Link>
+                                    </div>
+
+                                    <Button variant="destructive" onClick={logout}>
                                         <span>{t("avatar.sign_out")}</span>
                                     </Button>
                                 </div>
                             ) : (
-                                <Link href="/login" passHref>
-                                    <Button variant="outline"><span>{t("avatar.sign_in")}</span></Button>
-                                </Link>
+                                <div className="flex flex-col">
+                                    <Separator orientation="horizontal"/>
+                                    <div className="flex flex-col gap-2 pt-4">
+                                        <Link href="/login" onClick={() => setOpen(false)} passHref>
+                                            <span className="font-semibold">{t("avatar.sign_in")}</span>
+                                        </Link>
+                                    </div>
+
+                                </div>
                             )}
                         </SheetContent>
                     </Sheet>

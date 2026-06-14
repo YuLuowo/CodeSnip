@@ -33,9 +33,11 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
 
         if (alreadyLiked) {
             snippet.likes = snippet.likes.filter((likeId) => likeId.toString() !== userId);
+            snippet.likesCount = snippet.likes.length;
             user.likedSnippets = user.likedSnippets.filter((snippetId) => snippetId.toString() !== id);
         } else {
             snippet.likes.push(userId);
+            snippet.likesCount = snippet.likes.length;
             user.likedSnippets.push(snippet._id as mongoose.Types.ObjectId);
         }
 

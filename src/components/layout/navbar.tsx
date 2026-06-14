@@ -59,7 +59,7 @@ export function Navbar() {
                                     <ul className="grid w-[300px] gap-4">
                                         <li>
                                             <NavigationMenuLink asChild>
-                                                <Link href="#">
+                                                <Link href="/search?page=1&sort=popular">
                                                     <div className="font-medium">{tExplore("trending.title")}</div>
                                                     <div className="text-muted-foreground">
                                                         {tExplore("trending.desc")}
@@ -67,7 +67,7 @@ export function Navbar() {
                                                 </Link>
                                             </NavigationMenuLink>
                                             <NavigationMenuLink asChild>
-                                                <Link href="#">
+                                                <Link href="/search?page=1&sort=latest">
                                                     <div className="font-medium">{tExplore("newest.title")}</div>
                                                     <div className="text-muted-foreground">
                                                         {tExplore("newest.desc")}
@@ -75,7 +75,7 @@ export function Navbar() {
                                                 </Link>
                                             </NavigationMenuLink>
                                             <NavigationMenuLink asChild>
-                                                <Link href="#">
+                                                <Link href="/search?page=1">
                                                     <div className="font-medium">{tExplore("categories.title")}</div>
                                                     <div className="text-muted-foreground">
                                                         {tExplore("categories.desc")}

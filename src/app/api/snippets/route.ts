@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import Snippet, { ISnippet } from "@/models/Snippet";
-import { FilterQuery } from "mongoose";
+import { FilterQuery, PipelineStage } from "mongoose";
 import { createEmbedding } from "@/lib/embedding";
+import { tagMap } from "@/lib/utils";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -14,6 +15,31 @@ export async function GET(request: Request) {
     const language = searchParams.getAll("language");
     const search = searchParams.get("q");
     const sort = searchParams.get("sort");
+
+    const rawPage = parseInt(
+        searchParams.get("page") ?? "1",
+        10
+    );
+
+    const page =
+        Number.isNaN(rawPage) || rawPage < 1
+            ? 1
+            : rawPage;
+
+    const rawLimit = parseInt(
+        searchParams.get("limit") ?? "10",
+        10
+    );
+
+    const limit =
+        Number.isNaN(rawLimit)
+            ? 10
+            : Math.min(
+                Math.max(rawLimit, 1),
+                10
+            );
+
+    const skip = (page - 1) * limit;
 
     try {
         await connectDB();
@@ -37,17 +63,21 @@ export async function GET(request: Request) {
         }
 
         if (tag.length) {
-            filter.tags = { $in: tag };
+            filter.tags = {
+                $in: tag.map(t => tagMap[t] ?? t)
+            };
         }
 
         if (language.length) {
             filter.language = { $in: language };
         }
 
+        const total = await Snippet.countDocuments(filter);
+
         if (search) {
             const queryEmbedding = await createEmbedding(search);
 
-            const snippets = await Snippet.aggregate([
+            const pipeline = [
                 {
                     $vectorSearch: {
                         index: "snippet_embedding_index",
@@ -59,43 +89,87 @@ export async function GET(request: Request) {
                     },
                 },
                 {
+                    $lookup: {
+                        from: "users",
+                        localField: "author",
+                        foreignField: "_id",
+                        as: "author",
+                    },
+                },
+                {
+                    $unwind: "$author",
+                },
+                {
                     $project: {
                         title: 1,
                         language: 1,
                         tags: 1,
-                        author: 1,
+                        author: {
+                            name: "$author.name",
+                            image: "$author.image",
+                        },
                         createdAt: 1,
                         updatedAt: 1,
                         likes: 1,
+                        likesCount: 1,
                         isPublic: 1,
                         score: {
                             $meta: "vectorSearchScore",
                         },
                     },
                 },
-            ]);
+            ] as unknown as PipelineStage[];
 
-            return NextResponse.json(snippets, { status: 200 });
+            if (sort === "popular") {
+                pipeline.push({
+                    $sort: {
+                        likesCount: -1,
+                    },
+                });
+            }
+
+            pipeline.push(
+                {
+                    $skip: skip,
+                },
+                {
+                    $limit: limit,
+                }
+            );
+
+            const snippets = await Snippet.aggregate(pipeline);
+
+            return NextResponse.json({
+                data: snippets,
+                pagination: {
+                    total,
+                    page,
+                    limit,
+                    totalPages: Math.ceil(total / limit),
+                },
+            });
         }
 
         const snippets = await Snippet.find(filter)
-            .select("title language tags author createdAt updatedAt likes isPublic")
+            .select("title language tags author createdAt updatedAt likes likesCount isPublic")
             .populate("author", "name image")
-            .sort({ updatedAt: -1 });
+            .sort(
+                sort === "popular"
+                    ? { likesCount: -1 }
+                    : { updatedAt: -1 }
+            )
+            .skip(skip)
+            .limit(limit);
 
-        if (sort === "popular") {
-            snippets.sort(
-                (a, b) =>
-                    b.likes.length - a.likes.length
-            );
-        } else if (sort === "latest") {
-            snippets.sort(
-                (a, b) =>
-                    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-            );
-        }
-
-        return NextResponse.json(snippets, { status: 200 });
+        return NextResponse.json({
+            data: snippets,
+            pagination: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        });
     } catch (error) {
         console.error("Error fetching snippets:", error);
         return NextResponse.json({ message: "Failed to fetch snippets" }, { status: 500 });
@@ -126,9 +200,9 @@ export async function POST(req: Request) {
 
         const newSnippet = await Snippet.create({
             title,
-            language,
+            language: language.toLowerCase(),
             code,
-            tags,
+            tags: tags.map((tag: string) => tagMap[tag] ?? tag),
             isPublic,
             author: session.user.id,
             embedding: embedding,

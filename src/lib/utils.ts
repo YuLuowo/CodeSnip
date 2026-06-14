@@ -31,7 +31,7 @@ export const tagMap: Record<string, string> = {
     "Data Structure": "data_structure",
     "UI Component": "ui_component",
     "Template": "template",
-    "LeetCode": "leetCode",
+    "LeetCode": "leetcode",
     "Project Template": "project_template",
     "Examples": "examples",
     "Learning Resources": "learning_resources",

@@ -4,7 +4,6 @@ import FavoriteFilter from "@/components/custom/favorite-filter";
 import {useEffect, useMemo, useState} from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { IUser } from "@/models/User";
 import SnippetCard from "@/components/custom/snippet-card";
 import { Heart, X } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
@@ -12,19 +11,8 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "use-intl";
-
-interface ISnippetClient {
-    _id: string;
-    title: string;
-    language: string;
-    code: string;
-    tags: string[];
-    isPublic: boolean;
-    author: IUser;
-    likes: string[];
-    createdAt: string;
-    updatedAt: string;
-}
+import { ISnippetClient } from "@/configs/types";
+import SnippetCardSkeleton from "@/components/custom/snippet-card-skeleton";
 
 export default function FavoriteSnippet() {
     const {data: session} = useSession();
@@ -146,8 +134,13 @@ export default function FavoriteSnippet() {
             <Separator />
             <div className="grid gap-4 mt-6">
                 {loading ? (
-                    <div className="flex items-center justify-center mt-4">
-                        <Spinner className="size-10"/>
+                    <div className="grid gap-4">
+                        {Array.from({ length: 10 }).map((_, index) => (
+                            <SnippetCardSkeleton
+                                key={index}
+                                likes
+                            />
+                        ))}
                     </div>
                 ) : snippets.length === 0 ? (
                     <Empty>

@@ -179,6 +179,20 @@
       "favorites": "最多收藏"
     }
   },
+  "SearchSnippet": {
+    "side_filter": {
+      "filter_by": "篩選",
+      "tags": "標籤"
+    },
+    "snippets": {
+      "placeholder": "搜尋...",
+      "search": "搜尋",
+      "clear": "清空篩選",
+      "not_found": "沒有找到任何片段",
+      "prev": "前一頁",
+      "next": "下一頁"
+    }
+  },
   "SnippetStatus": {
     "public": "公開",
     "private": "私人",
@@ -199,7 +213,7 @@
       "data_structure": "資料結構",
       "ui_component": "UI 元件",
       "template": "範本",
-      "leetCode": "LeetCode",
+      "leetcode": "LeetCode",
       "project_template": "專案範本",
       "examples": "範例",
       "learning_resources": "學習資源",

@@ -179,6 +179,20 @@
       "favorites": "Most Favorites"
     }
   },
+  "SearchSnippet": {
+    "side_filter": {
+      "filter_by": "Filter by",
+      "tags": "Tags"
+    },
+    "snippets": {
+      "placeholder": "Search...",
+      "search": "Search",
+      "clear": "Clear Filter",
+      "not_found": "No snippets found",
+      "prev": "Prev",
+      "next": "Next"
+    }
+  },
   "SnippetStatus": {
     "public": "Public",
     "private": "Private",
@@ -199,7 +213,7 @@
       "data_structure": "Data Structure",
       "ui_component": "UI Component",
       "template": "Template",
-      "leetCode": "LeetCode",
+      "leetcode": "LeetCode",
       "project_template": "Project Template",
       "examples": "Examples",
       "learning_resources": "Learning Resources",

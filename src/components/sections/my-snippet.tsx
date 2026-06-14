@@ -17,25 +17,10 @@ import {
     EmptyMedia,
     EmptyTitle,
 } from "@/components/ui/empty"
-import { IUser } from "@/models/User";
-import SnippetTags from "@/components/custom/snippet-tags";
-import LikeButton from "@/components/custom/like-button";
 import { useTranslations } from "use-intl";
-import { Badge } from "@/components/ui/badge";
 import SnippetCard from "@/components/custom/snippet-card";
-
-interface ISnippetClient {
-    _id: string;
-    title: string;
-    language: string;
-    code: string;
-    tags: string[];
-    isPublic: boolean;
-    author: IUser;
-    likes: string[];
-    createdAt: string;
-    updatedAt: string;
-}
+import { ISnippetClient } from "@/configs/types";
+import SnippetCardSkeleton from "@/components/custom/snippet-card-skeleton";
 
 export function MySnippet() {
     const {data: session} = useSession();
@@ -60,10 +45,10 @@ export function MySnippet() {
                 const res = await fetch("/api/snippets");
                 if (!res.ok) throw new Error("Failed to fetch snippets");
 
-                const data: ISnippetClient[] = await res.json();
+                const data = await res.json();
 
-                const mySnippets = data.filter(
-                    (snippet) => snippet.author?._id.toString() === session.user.id
+                const mySnippets = data.data.filter(
+                    (snippet: ISnippetClient) => snippet.author?._id.toString() === session.user.id
                 );
 
                 setSnippets(mySnippets);
@@ -117,8 +102,12 @@ export function MySnippet() {
             <Separator/>
             <div className="w-full max-w-5xl grid items-center my-4 gap-4">
                 {loading ? (
-                    <div className="flex items-center justify-center mt-4">
-                        <Spinner className="size-10"/>
+                    <div className="grid gap-4">
+                        {Array.from({ length: 10 }).map((_, index) => (
+                            <SnippetCardSkeleton
+                                key={index}
+                            />
+                        ))}
                     </div>
                 ) : snippets.length === 0 ? (
                     <Empty>

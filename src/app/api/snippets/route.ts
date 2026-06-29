@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import Snippet, { ISnippet } from "@/models/Snippet";
-import { FilterQuery, PipelineStage } from "mongoose";
+import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import { createEmbedding } from "@/lib/embedding";
 import { tagMap } from "@/lib/utils";
 
@@ -51,6 +51,8 @@ export async function GET(request: Request) {
 
         if (scope === "me") {
             filter.author = userId;
+        } else if (scope) {
+            filter.author = new mongoose.Types.ObjectId(scope);
         } else {
             if (userId) {
                 filter.$or = [

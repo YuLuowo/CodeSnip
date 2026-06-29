@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface IUser extends Document {
     name: string;
+    username: string;
     email: string;
     image?: string;
     likedSnippets: Types.ObjectId[];
@@ -10,6 +11,7 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     image: { type: String },
     likedSnippets: [{ type: Schema.Types.ObjectId, ref: "Snippet" }],

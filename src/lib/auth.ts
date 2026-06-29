@@ -3,11 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import {connectDB} from "@/lib/mongodb";
 import User from "@/models/User";
-import mongoose from "mongoose";
+import { generateUsername } from "@/lib/username";
 
 interface UserProfile {
     _id: string;
     name: string;
+    username: string;
     email: string;
     image: string | null;
 }
@@ -28,15 +29,33 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user }) {
             await connectDB();
 
-            const existingUser = await User.findOne({ email: user.email });
-            if (!existingUser) {
-                await User.create({
+            let dbUser = await User.findOne({
+                email: user.email,
+            });
+
+            if (!dbUser) {
+                const username = await generateUsername(
+                    user.name ?? "user"
+                );
+
+                dbUser = await User.create({
                     name: user.name,
+                    username,
                     email: user.email,
                     image: user.image,
                 });
             }
-            (user as UserProfile)._id = (existingUser!._id as mongoose.Types.ObjectId).toString();
+
+            if (!dbUser.username) {
+                dbUser.username = await generateUsername(
+                    dbUser.name ?? "user"
+                );
+
+                await dbUser.save();
+            }
+
+            (user as UserProfile)._id = dbUser._id.toString();
+            (user as UserProfile).username = dbUser.username;
             return true;
         },
         async jwt({ token, user }) {
@@ -45,6 +64,7 @@ export const authOptions: NextAuthOptions = {
 
                 token.id = userProfile._id;
                 token.name = userProfile.name;
+                token.username = userProfile.username;
                 token.email = userProfile.email;
                 token.image = userProfile.image;
             }
@@ -54,6 +74,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.name = token.name as string;
+                session.user.username = token.username as string;
                 session.user.email = token.email as string;
                 session.user.image = token.image as string;
             }

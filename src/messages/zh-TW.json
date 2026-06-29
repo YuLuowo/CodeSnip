@@ -27,8 +27,10 @@
     "docs": "文件",
     "theme": "切換主題",
     "avatar": {
+      "profile": "個人頁面",
       "my_snippet": "我的 Snippets",
       "my_favorite": "我的收藏",
+      "setting": "設定",
       "sign_in": "登入",
       "sign_out": "登出"
     }

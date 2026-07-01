@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
 import { Users } from "lucide-react";
+import { useTranslations } from "use-intl";
 
 interface FollowButtonProps {
     userId: string;
@@ -21,6 +21,7 @@ export default function FollowGroup({ userId, initialIsFollowing, initialFollowe
     const [loading, setLoading] = useState(false);
     const { data: session } = useSession();
     const router = useRouter();
+    const t = useTranslations("Profile");
 
     async function handleFollow() {
         if (!session) {
@@ -68,36 +69,17 @@ export default function FollowGroup({ userId, initialIsFollowing, initialFollowe
             <Button variant="outline" size="sm" className="cursor-pointer w-full" onClick={handleFollow} disabled={loading}>
                 {
                     loading
-                        ? "Loading..."
+                        ? t("follow_loading")
                         : following
-                            ? "Following"
-                            : "Follow"
+                            ? t("following_text")
+                            : t("follow_text")
                 }
             </Button>
             <div className="flex gap-2 items-center text-sm">
                 <Users size={16} />
-                <div>{followersCount}<span className="text-muted-foreground"> 位粉絲</span></div>
-                <div>{followingCount}<span className="text-muted-foreground"> 追蹤中</span></div>
+                <div>{followersCount}<span className="text-muted-foreground"> {t("follower")}</span></div>
+                <div>{followingCount}<span className="text-muted-foreground"> {t("following")}</span></div>
             </div>
-            {/*<Button variant="outline" size="sm" className="cursor-pointer w-full" onClick={handleFollow} disabled={loading}>*/}
-            {/*    {*/}
-            {/*        loading*/}
-            {/*            ? "Loading..."*/}
-            {/*            : following*/}
-            {/*                ? "Following"*/}
-            {/*                : "Follow"*/}
-            {/*    }*/}
-            {/*</Button>*/}
-            {/*<div className="flex justify-center items-center gap-8">*/}
-            {/*    <div className="flex flex-col items-center gap-1">*/}
-            {/*        <span className="text-xl font-semibold">{followersCount}</span>*/}
-            {/*        <span className="text-sm text-muted-foreground">粉絲</span>*/}
-            {/*    </div>*/}
-            {/*    <div className="flex flex-col items-center gap-1">*/}
-            {/*        <span className="text-xl font-semibold">{followingCount}</span>*/}
-            {/*        <span className="text-sm text-muted-foreground">追蹤中</span>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </div>
 
     );

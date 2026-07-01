@@ -8,8 +8,39 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { Search } from "lucide-react";
 import { useTranslations } from "use-intl";
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 interface UserSnippetProps {
     userId: string;
+}
+
+function UserSnippetSkeleton() {
+    return (
+        <section className="flex-[3] min-w-0 min-h-screen px-4">
+            <div className="flex justify-center items-center pb-4">
+                <Skeleton className="h-10 w-full" />
+            </div>
+
+            <div className="flex flex-col gap-4">
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex flex-col md:flex-row justify-between item-start md:items-center p-3 md:p-4 border rounded-sm">
+                        <div className="flex flex-col gap-2 flex-1">
+                            <Skeleton className="h-6 w-1/3" />
+                            <div className="flex gap-2">
+                                <Skeleton className="h-4 w-16" />
+                                <Skeleton className="h-4 w-16" />
+                                <Skeleton className="h-4 w-16" />
+                            </div>
+                            <Skeleton className="h-4 w-24" />
+                        </div>
+                        <div className="hidden md:block">
+                            <Skeleton className="h-8 w-8 rounded-md" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
 }
 
 export default function UserSnippet({ userId }: UserSnippetProps) {
@@ -40,7 +71,7 @@ export default function UserSnippet({ userId }: UserSnippetProps) {
     }, [userId]);
 
     if (loading || !snippets) {
-        return;
+        return <UserSnippetSkeleton />;
     }
 
     // Simple filter

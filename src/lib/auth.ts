@@ -56,9 +56,11 @@ export const authOptions: NextAuthOptions = {
 
             (user as UserProfile)._id = dbUser._id.toString();
             (user as UserProfile).username = dbUser.username;
+            (user as UserProfile).name = dbUser.name;
+            (user as UserProfile).image = dbUser.image ?? null;
             return true;
         },
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 const userProfile = user as UserProfile;
 
@@ -68,6 +70,11 @@ export const authOptions: NextAuthOptions = {
                 token.email = userProfile.email;
                 token.image = userProfile.image;
             }
+
+            if (trigger === "update" && session?.username) {
+                token.username = session.username;
+            }
+
             return token;
         },
         async session({ session, token }) {

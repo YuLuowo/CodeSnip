@@ -241,5 +241,41 @@
       "copied": "Copied",
       "pasted": "Pasted"
     }
+  },
+  "Profile": {
+    "search_placeholder": "Search snippets...",
+    "edit_profile": "Edit Profile",
+    "follow": "Follow",
+    "follower": "followers",
+    "following": "following",
+    "follow_loading": "Loading ...",
+    "follow_text": "Follow",
+    "following_text": "Following",
+    "none": "None"
+  },
+  "Settings": {
+    "account": "Account",
+    "profile": {
+      "title": "Profile",
+      "public_profile": "Public Profile",
+      "profile_desc": "This information will be displayed on your public profile page.",
+      "username": "Username",
+      "username_placeholder": "your_username",
+      "username_desc": "Your public handle — visible on all your snippets.",
+      "bio": "Bio",
+      "bio_placeholder": "A short intro — what you build, what you love.",
+      "links": "Links",
+      "links_desc": "Add your website and GitHub so others can find your work.",
+      "website": "Website",
+      "github": "GitHub",
+      "save": "Save Changes",
+      "save_loading": "Saving ...",
+      "save_success": "Profile saved successfully!",
+      "save_error": "Failed to save profile",
+      "existing_user": "Username already taken"
+    },
+    "notifications": {
+      "title": "Notifications"
+    }
   }
 }

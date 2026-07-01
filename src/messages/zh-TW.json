@@ -241,5 +241,41 @@
       "copied": "已複製",
       "pasted": "已貼上"
     }
+  },
+  "Profile": {
+    "search_placeholder": "搜尋程式碼片段...",
+    "edit_profile": "編輯個人資料",
+    "follow": "追蹤",
+    "follower": "位粉絲",
+    "following": "追蹤中",
+    "follow_loading": "載入中...",
+    "follow_text": "追蹤",
+    "following_text": "已追蹤",
+    "none": "無"
+  },
+  "Settings": {
+    "account": "帳號",
+    "profile": {
+      "title": "個人資料",
+      "public_profile": "公開個人資料",
+      "profile_desc": "此資訊將顯示在您的公開個人資料頁面上。",
+      "username": "使用者名稱",
+      "username_placeholder": "您的使用者名稱",
+      "username_desc": "您的公開名稱，將顯示在所有程式碼片段上。",
+      "bio": "個人簡介",
+      "bio_placeholder": "簡短介紹一下自己——你做什麼、你熱愛什麼。",
+      "links": "連結",
+      "links_desc": "新增您的網站與 GitHub，讓其他人找到您的作品。",
+      "website": "網站",
+      "github": "GitHub",
+      "save": "儲存變更",
+      "save_loading": "儲存中...",
+      "save_success": "個人資料儲存成功!",
+      "save_error": "個人資料儲存失敗",
+      "existing_user": "使用者名稱已被使用"
+    },
+    "notifications": {
+      "title": "通知"
+    }
   }
 }

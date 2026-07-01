@@ -242,6 +242,16 @@
       "pasted": "已貼上"
     }
   },
+  "AiDoc": {
+    "error": "請選擇文件種類",
+    "title": "AI 輔助文件",
+    "desc": "CLAUDE.md, AGENTS.md, SKILLS.md 等等",
+    "type_title": "文件種類",
+    "type_placeholder": "請選擇文件種類",
+    "select_normal": "標準模式",
+    "select_other": "其他",
+    "custom": "自訂"
+  },
   "Profile": {
     "search_placeholder": "搜尋程式碼片段...",
     "edit_profile": "編輯個人資料",

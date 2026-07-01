@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "use-intl";
 import { languageMaps } from "@/configs/maps";
 import React from "react";
+import { Switch } from "@/components/ui/switch";
 
 export default function CreateSnippet() {
     const [title, setTitle] = useState("");
@@ -33,9 +34,11 @@ export default function CreateSnippet() {
     const [code, setCode] = useState<string>("");
     const [tags, setTags] = useState<string[]>([]);
     const [isPublic, setIsPublic] = useState<boolean>(true);
+    const [isAiDoc, setIsAiDoc] = useState<boolean>(false);
+    const [aiDocType, setAiDocType] = useState<string>("");
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [errors, setErrors] = useState<{ title?: string; language?: string }>({});
+    const [errors, setErrors] = useState<{ title?: string; language?: string; aiDocType?: string }>({});
 
     const router = useRouter();
 
@@ -63,11 +66,13 @@ export default function CreateSnippet() {
     const tElement = useTranslations("CreateSnippet.elements");
     const tTags = useTranslations("SnippetTags");
     const tLanguage = useTranslations("SnippetLanguage");
+    const tAiDoc = useTranslations("AiDoc");
 
     const handleSubmit = async () => {
         const newErrors: typeof errors = {};
         if (!title.trim()) newErrors.title = tElement("snippet_title.error");
         if (!language) newErrors.language = tLanguage("error");
+        if (isAiDoc && !aiDocType) newErrors.aiDocType = tAiDoc("error");
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -91,6 +96,8 @@ export default function CreateSnippet() {
                     code,
                     tags,
                     isPublic,
+                    isAiDoc,
+                    aiDocType: isAiDoc ? aiDocType : "",
                 }),
             });
 
@@ -166,8 +173,50 @@ export default function CreateSnippet() {
                     <Field>
                         <FieldLabel>{tTags("title")}</FieldLabel>
                         <FieldDescription>{tTags("sub_title")}</FieldDescription>
-                        <MultiSelect onChange={(tags) => setTags(tags)}/>
+                        <MultiSelect value={tags} onChange={(tags) => setTags(tags)}/>
                     </Field>
+
+                    <Field>
+                        <div className="flex flex-row items-center justify-between bg-background px-4 py-3 border rounded my-2">
+                            <div className="flex flex-col gap-0.5">
+                                <FieldLabel htmlFor="is-ai-doc" className="cursor-pointer">
+                                    {tAiDoc("title")}
+                                </FieldLabel>
+                                <FieldDescription>
+                                    {tAiDoc("desc")}
+                                </FieldDescription>
+                            </div>
+                            <Switch
+                                id="is-ai-doc"
+                                checked={isAiDoc}
+                                onCheckedChange={(checked) => setIsAiDoc(checked)}
+                            />
+                        </div>
+                    </Field>
+
+                    {isAiDoc && (
+                        <Field className="max-w-xs mb-2">
+                            <FieldLabel>{tAiDoc("type_title")} *</FieldLabel>
+                            <Select onValueChange={(val) => setAiDocType(val)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder={tAiDoc("type_placeholder")} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>{tAiDoc("select_normal")}</SelectLabel>
+                                        <SelectItem value="CLAUDE.md">CLAUDE.md</SelectItem>
+                                        <SelectItem value="AGENTS.md">AGENTS.md</SelectItem>
+                                        <SelectItem value="SKILLS.md">SKILLS.md</SelectItem>
+                                    </SelectGroup>
+                                    <SelectSeparator />
+                                    <SelectGroup>
+                                        <SelectLabel>{tAiDoc("select_other")}</SelectLabel>
+                                        <SelectItem value="custom">{tAiDoc("custom")}</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    )}
 
                     <Field>
                         <FieldLabel>{tElement("visibility.title")} *</FieldLabel>

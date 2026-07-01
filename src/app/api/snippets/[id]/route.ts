@@ -3,6 +3,7 @@ import Snippet from "@/models/Snippet";
 import { connectDB } from "@/lib/mongodb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { createEmbedding } from "@/lib/embedding";
 
 export async function GET(_: Request, context: { params: Promise<{ id: string }> }) {
     try {
@@ -26,19 +27,31 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
         await connectDB();
         const session = await getServerSession(authOptions);
         const { id } = await context.params;
+
         if (!session?.user?.id) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
         const snippet = await Snippet.findById(id);
         if (!snippet) return NextResponse.json({ message: "Snippet not found" }, { status: 404 });
-
         if (snippet.author.toString() !== session.user.id) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 });
         }
 
-        const body = await request.json();
-        const updated = await Snippet.findByIdAndUpdate(id, body, { new: true });
+        const { title, code, tags, isPublic, isAiDoc, aiDocType } = await request.json();
+
+        const embeddingText = isAiDoc
+            ? `Title: ${title}\nType: ${aiDocType}\nTags: ${tags.join(", ")}\nContent: ${code.slice(0, 1500)}`
+            : `Title: ${title}\nLanguage: ${snippet.language}\nTags: ${tags.join(", ")}\nCode: ${code.slice(0, 1000)}`;
+
+        const embedding = await createEmbedding(embeddingText);
+
+        const updated = await Snippet.findByIdAndUpdate(
+            id,
+            { title, code, tags, isPublic, isAiDoc, aiDocType, embedding },
+            { new: true }
+        );
+
         return NextResponse.json(updated, { status: 200 });
     } catch (error) {
         console.error(error);

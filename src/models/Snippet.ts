@@ -11,6 +11,8 @@ export interface ISnippet extends Document {
     likes: Types.ObjectId[];
     likesCount: number;
     embedding: number[];
+    isAiDoc: boolean;
+    aiDocType: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -25,6 +27,8 @@ const SnippetSchema = new Schema<ISnippet>({
     likes: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], default: [] },
     likesCount: { type: Number, default: 0 },
     embedding: { type: [Number], required: true },
+    isAiDoc: { type: Boolean, default: false },
+    aiDocType: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true });

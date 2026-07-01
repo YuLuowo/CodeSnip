@@ -53,6 +53,7 @@ export async function GET(request: Request) {
             filter.author = userId;
         } else if (scope) {
             filter.author = new mongoose.Types.ObjectId(scope);
+            filter.isPublic = true;
         } else {
             if (userId) {
                 filter.$or = [
@@ -187,16 +188,19 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        const { title, language, code, tags, isPublic } = await req.json();
+        const { title, language, code, tags, isPublic, isAiDoc, aiDocType } = await req.json();
 
-        const embeddingText = `
-            Title: ${title}
-            
-            Language: ${language}
-            
-            Tags: ${tags.join(", ")}
-            
-            Code: ${code.slice(0, 1000)}`;
+        const embeddingText = isAiDoc
+            ? `
+                Title: ${title}
+                Type: ${aiDocType}
+                Tags: ${tags.join(", ")}
+                Content: ${code.slice(0, 1500)}`
+            : `
+                Title: ${title}
+                Language: ${language}
+                Tags: ${tags.join(", ")}
+                Code: ${code.slice(0, 1000)}`;
 
         const embedding: number[] = await createEmbedding(embeddingText);
 
@@ -208,6 +212,8 @@ export async function POST(req: Request) {
             isPublic,
             author: session.user.id,
             embedding: embedding,
+            isAiDoc,
+            aiDocType
         });
 
         return NextResponse.json(newSnippet, { status: 201 });

@@ -242,6 +242,16 @@
       "pasted": "Pasted"
     }
   },
+  "AiDoc": {
+    "error": "Please select a file type",
+    "title": "AI Document",
+    "desc": "CLAUDE.md, AGENTS.md, SKILLS.md, etc.",
+    "type_title": "File Type",
+    "type_placeholder": "Select a file type",
+    "select_normal": "Normal",
+    "select_other": "Other",
+    "custom": "Custom"
+  },
   "Profile": {
     "search_placeholder": "Search snippets...",
     "edit_profile": "Edit Profile",

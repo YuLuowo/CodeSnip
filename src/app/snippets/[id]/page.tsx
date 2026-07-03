@@ -21,7 +21,7 @@ export default async function SnippetPage({ params }: SnippetPageProps) {
         redirect("/snippets");
     }
 
-    const snippet = await Snippet.findById(id).populate("author", "name image");
+    const snippet = await Snippet.findById(id).select("-embedding").populate("author", "name username image");
     if (!snippet) {
         if (!session) redirect("/login");
         redirect("/snippets");

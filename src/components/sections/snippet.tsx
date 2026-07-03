@@ -27,6 +27,7 @@ import { Badge } from "@/components/ui/badge";
 interface Author {
     _id: string;
     name: string;
+    username: string;
     image?: string;
 }
 
@@ -89,7 +90,7 @@ export default function SnippetView({snippet}: SnippetProps) {
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0">
                 <div className="flex flex-col justify-center">
                     <span className="text-base text-foreground font-semibold">
-                        {t("author")}: {snippet.author.name}
+                        {t("author")}: <a className="hover:underline" href={`/users/${snippet.author.username}`}>{snippet.author.name}</a>
                     </span>
                     <span className="text-xs text-foreground/50">
                         {t("updated_at")}: {utcToLocalDate(snippet.updatedAt, true)}

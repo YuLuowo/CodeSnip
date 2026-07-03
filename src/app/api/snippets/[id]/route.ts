@@ -10,7 +10,9 @@ export async function GET(_: Request, context: { params: Promise<{ id: string }>
         await connectDB();
         const session = await getServerSession(authOptions);
         const { id } = await context.params;
-        const snippet = await Snippet.findById(id).populate("author", "name email");
+        const snippet = await Snippet.findById(id)
+            .select("-embedding")
+            .populate("author", "name username email");
         if (!snippet?.isPublic && snippet?.author.toString() !== session?.user?.id) {
             return NextResponse.json({ message: "Forbidden" }, { status: 403 });
         }

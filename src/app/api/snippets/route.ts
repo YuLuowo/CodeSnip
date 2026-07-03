@@ -52,8 +52,12 @@ export async function GET(request: Request) {
         if (scope === "me") {
             filter.author = userId;
         } else if (scope) {
-            filter.author = new mongoose.Types.ObjectId(scope);
-            filter.isPublic = true;
+            if (userId) {
+                filter.author = userId;
+            } else {
+                filter.author = new mongoose.Types.ObjectId(scope);
+                filter.isPublic = true;
+            }
         } else {
             if (userId) {
                 filter.$or = [

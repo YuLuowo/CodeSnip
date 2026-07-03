@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Follow from "@/models/Follow";
 import { getTranslations } from "next-intl/server";
+import { isUsernameAvailable } from "@/lib/username";
 
 export async function GET(_: Request, context: { params: Promise<{ id: string }> }) {
     try {
@@ -70,12 +71,14 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         const { bio, website, githubUrl, username } = await req.json();
 
         if (username) {
-            const existingUser = await User.findOne({
-                username,
-                _id: { $ne: id }
-            });
-            if (existingUser) {
-                return NextResponse.json({ error: t("existing_user") }, { status: 409 });
+            const currentUser = await User.findById(id).select("username");
+            const isChanging = currentUser?.username !== username;
+
+            if (isChanging) {
+                const available = await isUsernameAvailable(username);
+                if (!available) {
+                    return NextResponse.json({ error: t("existing_user") }, { status: 409 });
+                }
             }
         }
 

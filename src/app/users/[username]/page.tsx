@@ -3,6 +3,7 @@ import UserSnippet from "@/components/sections/user-snippet";
 import User from "@/models/User";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongodb";
+import { Separator } from "@/components/ui/separator";
 
 interface UserPageProps {
     params: { username: string };
@@ -25,8 +26,9 @@ export default async function UserPage({ params }: UserPageProps) {
 
     return (
         <main className="flex items-center justify-center">
-            <section className="flex justify-center gap-4 w-full max-w-6xl p-4">
+            <section className="flex flex-col md:flex-row justify-center gap-4 w-full max-w-6xl p-4">
                 <UserProfile userId={userId} />
+                <Separator className="block md:hidden my-4"/>
                 <UserSnippet userId={userId} />
             </section>
         </main>

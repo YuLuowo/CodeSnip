@@ -6,7 +6,7 @@ export default async function CategoriesPage() {
     const categories = await getPopularTags();
 
     return (
-        <main className="flex justify-center min-h-screen pt-12">
+        <main className="flex justify-center min-h-screen pt-4 md:pt-12">
             <Categories categories={categories} />
         </main>
     );

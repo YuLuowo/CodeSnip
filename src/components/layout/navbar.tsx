@@ -165,7 +165,7 @@ export function Navbar() {
                                     <div className="flex flex-col space-y-2 pl-2 text-base">
                                         <Link href="/search?page=1&sort=popular" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
                                         <Link href="/search?page=1&sort=latest" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
-                                        <Link href="/search?page=1" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
+                                        <Link href="/categories" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
                                     </div>
                                 </div>
                                 <Link href={isSignedIn ? "/snippets" : "/login"} onClick={() => setOpen(false)}>
@@ -187,11 +187,17 @@ export function Navbar() {
                                     </div>
                                     <Separator orientation="horizontal"/>
                                     <div className="flex flex-col gap-4 pt-1 pb-4 font-semibold">
+                                        <Link href={`/users/${session?.user?.username}`} onClick={() => setOpen(false)}>
+                                            <span>{tAvatar("profile")}</span>
+                                        </Link>
                                         <Link href="/snippets" onClick={() => setOpen(false)}>
                                             <span>{tAvatar("my_snippet")}</span>
                                         </Link>
                                         <Link href="/favorites" onClick={() => setOpen(false)}>
                                             <span>{tAvatar("my_favorite")}</span>
+                                        </Link>
+                                        <Link href="/settings" onClick={() => setOpen(false)}>
+                                            <span>{tAvatar("setting")}</span>
                                         </Link>
                                     </div>
 

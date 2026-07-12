@@ -20,7 +20,7 @@ interface UserProfileProps {
 
 function UserProfileSkeleton() {
     return (
-        <section className="flex-1 min-w-0 min-h-screen p-4">
+        <section className="flex-1 min-w-0 min-h-auto md:min-h-screen p-4">
             <div className="flex flex-col gap-4">
                 <div className="flex justify-center items-center">
                     <Skeleton className="w-full aspect-square rounded-full" />
@@ -90,7 +90,7 @@ export default function UserProfile({ userId }: UserProfileProps) {
     }
 
     return (
-        <section className="flex-1 min-w-0 min-h-screen p-4">
+        <section className="flex-1 min-w-0 min-h-auto md:min-h-screen p-4">
             <div className="flex flex-col gap-4">
                 <div className="flex justify-center items-center">
                     <Avatar className="w-full h-full">

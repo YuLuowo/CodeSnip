@@ -287,5 +287,11 @@
     "notifications": {
       "title": "通知"
     }
+  },
+  "Category": {
+    "title": "分類",
+    "desc": "依照開發技術分類，探索實用的程式碼片段。",
+    "snippets": "個片段",
+    "snippet": "個片段"
   }
 }

@@ -57,7 +57,7 @@ export function Navbar() {
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className="text-sm">{tExplore("title")}</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <ul className="grid w-[300px] gap-4">
+                                    <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                                         <li>
                                             <NavigationMenuLink asChild>
                                                 <Link href="/search?page=1&sort=popular">
@@ -67,6 +67,8 @@ export function Navbar() {
                                                     </div>
                                                 </Link>
                                             </NavigationMenuLink>
+                                        </li>
+                                        <li>
                                             <NavigationMenuLink asChild>
                                                 <Link href="/search?page=1&sort=latest">
                                                     <div className="font-medium">{tExplore("newest.title")}</div>
@@ -75,11 +77,33 @@ export function Navbar() {
                                                     </div>
                                                 </Link>
                                             </NavigationMenuLink>
+                                        </li>
+                                        <li>
                                             <NavigationMenuLink asChild>
-                                                <Link href="/search?page=1">
+                                                <Link href="/categories">
                                                     <div className="font-medium">{tExplore("categories.title")}</div>
                                                     <div className="text-muted-foreground">
                                                         {tExplore("categories.desc")}
+                                                    </div>
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </li>
+                                        <li>
+                                            <NavigationMenuLink asChild>
+                                                <Link href="#">
+                                                    <div className="font-medium">ABC</div>
+                                                    <div className="text-muted-foreground">
+                                                        AAA
+                                                    </div>
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </li>
+                                        <li>
+                                            <NavigationMenuLink asChild>
+                                                <Link href="#">
+                                                    <div className="font-medium">ABC</div>
+                                                    <div className="text-muted-foreground">
+                                                        BBB
                                                     </div>
                                                 </Link>
                                             </NavigationMenuLink>

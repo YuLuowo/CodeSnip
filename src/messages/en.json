@@ -287,5 +287,11 @@
     "notifications": {
       "title": "Notifications"
     }
+  },
+  "Category": {
+    "title": "Categories",
+    "desc": "Discover useful snippets organized by the technologies developers use every day.",
+    "snippets": "snippets",
+    "snippet": "snippet"
   }
 }

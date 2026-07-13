@@ -42,7 +42,7 @@ export function MySnippet() {
             setLoading(true);
 
             try {
-                const res = await fetch("/api/snippets");
+                const res = await fetch(`/api/snippets?scope=${session.user.id}`);
                 if (!res.ok) throw new Error("Failed to fetch snippets");
 
                 const data = await res.json();

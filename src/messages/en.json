@@ -21,6 +21,10 @@
       "categories": {
         "title": "Categories",
         "desc": "Browse snippets by category"
+      },
+      "ai_document": {
+        "title": "AI Document Snippets",
+        "desc": "Browse AI Document with retrieval assistant"
       }
     },
     "snippets": "Snippets",
@@ -293,5 +297,26 @@
     "desc": "Discover useful snippets organized by the technologies developers use every day.",
     "snippets": "snippets",
     "snippet": "snippet"
+  },
+  "AiDocPage": {
+    "title": "AI Document Search Assistant",
+    "desc": "Use the Search Assistant to quickly find AI Documents that match your needs.",
+    "search": {
+      "search_button": "Search",
+      "loading": "Loading, please wait...",
+      "not_found": "No matching AI Document found. Please try a different keyword."
+    },
+    "chat": {
+      "title": "AI Document Search Assistant",
+      "welcome": "Hello! I'm the AI Document Search Assistant. Enter the topic or keywords you'd like to search for, and I'll find the three most relevant snippets for you.",
+      "placeholder": "Enter a search keyword...",
+      "send": "Submit",
+      "found_results": "The following {count} relevant results were found:",
+      "no_results": "No related AI Document snippets were found. Please try a different keyword.",
+      "error": "An error occurred. Please try again later."
+    },
+    "card": {
+      "updated": "Last updated on"
+    }
   }
 }

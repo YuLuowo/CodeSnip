@@ -15,6 +15,7 @@ export async function GET(request: Request) {
     const language = searchParams.getAll("language");
     const search = searchParams.get("q");
     const sort = searchParams.get("sort");
+    const isAiDoc = searchParams.get("isAiDoc") === "true";
 
     const rawPage = parseInt(
         searchParams.get("page") ?? "1",
@@ -77,6 +78,10 @@ export async function GET(request: Request) {
 
         if (language.length) {
             filter.language = { $in: language };
+        }
+
+        if (isAiDoc) {
+            filter.isAiDoc = true;
         }
 
         const total = await Snippet.countDocuments(filter);

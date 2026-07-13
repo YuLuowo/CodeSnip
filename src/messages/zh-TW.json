@@ -21,6 +21,10 @@
       "categories": {
         "title": "分類",
         "desc": "依照分類瀏覽程式碼片段"
+      },
+      "ai_document": {
+        "title": "AI 文件 Snippets",
+        "desc": "使用檢索助理瀏覽 AI 文件"
       }
     },
     "snippets": "Snippets",
@@ -293,5 +297,26 @@
     "desc": "依照開發技術分類，探索實用的程式碼片段。",
     "snippets": "個片段",
     "snippet": "個片段"
+  },
+  "AiDocPage": {
+    "title": "AI Document 搜尋助理",
+    "desc": "透過搜尋助理，快速找到符合需求的 AI Document。",
+    "search": {
+      "search_button": "搜尋",
+      "loading": "載入中，請稍候...",
+      "not_found": "查無符合條件的 AI Document，請嘗試使用其他關鍵字。"
+    },
+    "chat": {
+      "title": "AI Document 搜尋助理",
+      "welcome": "您好，我是 AI Document 搜尋助理。請輸入您欲查詢的主題或關鍵字，我將為您搜尋最相關的三筆 Snippets。",
+      "placeholder": "請輸入查詢關鍵字...",
+      "send": "送出",
+      "found_results": "已為您搜尋出以下 {count} 筆相關結果：",
+      "no_results": "查無相關的 AI Document Snippets，請嘗試其他關鍵字。",
+      "error": "系統發生錯誤，請稍後再試。"
+    },
+    "card": {
+      "updated": "最後更新於"
+    }
   }
 }

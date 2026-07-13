@@ -90,20 +90,10 @@ export function Navbar() {
                                         </li>
                                         <li>
                                             <NavigationMenuLink asChild>
-                                                <Link href="#">
-                                                    <div className="font-medium">ABC</div>
+                                                <Link href="/ai-document">
+                                                    <div className="font-medium">{tExplore("ai_document.title")}</div>
                                                     <div className="text-muted-foreground">
-                                                        AAA
-                                                    </div>
-                                                </Link>
-                                            </NavigationMenuLink>
-                                        </li>
-                                        <li>
-                                            <NavigationMenuLink asChild>
-                                                <Link href="#">
-                                                    <div className="font-medium">ABC</div>
-                                                    <div className="text-muted-foreground">
-                                                        BBB
+                                                        {tExplore("ai_document.desc")}
                                                     </div>
                                                 </Link>
                                             </NavigationMenuLink>
@@ -166,6 +156,7 @@ export function Navbar() {
                                         <Link href="/search?page=1&sort=popular" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
                                         <Link href="/search?page=1&sort=latest" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
                                         <Link href="/categories" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
+                                        <Link href="/ai-document" onClick={() => setOpen(false)}>{tExplore("ai_document.title")}</Link>
                                     </div>
                                 </div>
                                 <Link href={isSignedIn ? "/snippets" : "/login"} onClick={() => setOpen(false)}>

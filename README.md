@@ -1,22 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app), organized as a [Turborepo](https://turbo.build/repo) monorepo managed with [pnpm](https://pnpm.io).
+
+## Project Structure
+
+```
+.
+├── apps/
+│   └── web/        # the Next.js application (this was the project root before)
+├── packages/
+│   └── db/         # shared MongoDB connection logic (connectDB) and Mongoose models
+├── turbo.json        # Turborepo task pipeline configuration
+└── pnpm-workspace.yaml
+```
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies from the repository root (pnpm is required, npm/yarn are not supported):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Then, run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other common commands (run from the repository root, executed via Turborepo):
+
+```bash
+pnpm build   # build all apps
+pnpm lint    # lint all apps
+pnpm start   # start the production server
+```
+
+You can start editing the page by modifying `apps/web/src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

@@ -288,7 +288,7 @@
       "save_loading": "儲存中...",
       "save_success": "個人資料儲存成功!",
       "save_error": "個人資料儲存失敗",
-      "existing_user": "使用者名稱已被使用"
+      "existing_user": "使用者名稱已被使用或無法使用"
     },
     "notifications": {
       "title": "通知"
@@ -315,7 +315,12 @@
       "send": "送出",
       "found_results": "已為您搜尋出以下 {count} 筆相關結果：",
       "no_results": "查無相關的 AI Document Snippets，請嘗試其他關鍵字。",
-      "error": "系統發生錯誤，請稍後再試。"
+      "error": "系統發生錯誤，請稍後再試。",
+      "quick_keywords": {
+        "improve_ui": "改善 UI",
+        "agent": "代理人",
+        "mcp": "MCP"
+      }
     },
     "card": {
       "updated": "最後更新於"

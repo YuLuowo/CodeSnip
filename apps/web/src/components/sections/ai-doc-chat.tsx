@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ISnippetClient } from "@/configs/types";
 import { useSession } from "next-auth/react";
@@ -16,6 +17,8 @@ type Message = {
     snippets?: ISnippetClient[];
 };
 
+
+
 export function AiDocChat() {
     const t = useTranslations("AiDocPage.chat");
     const [messages, setMessages] = useState<Message[]>([
@@ -26,16 +29,23 @@ export function AiDocChat() {
     const [isChatOpen, setIsChatOpen] = useState(false);
     const { data: session } = useSession();
 
-    const handleSend = async () => {
-        if (!input.trim()) return;
+    const QUICK_KEYWORDS = [
+        { key: "improve_ui", query: t("quick_keywords.improve_ui") },
+        { key: "agent", query: t("quick_keywords.agent") },
+        { key: "mcp", query: t("quick_keywords.mcp") },
+    ] as const;
 
-        const userMessage: Message = { sender: 'user', content: input };
+    const handleSend = async (overrideQuery?: string) => {
+        const query = (overrideQuery ?? input).trim();
+        if (!query) return;
+
+        const userMessage: Message = { sender: 'user', content: query };
         setMessages((prev) => [...prev, userMessage]);
         setInput("");
         setLoading(true);
 
         try {
-            const res = await fetch(`/api/snippets?isAiDoc=true&q=${encodeURIComponent(input)}`);
+            const res = await fetch(`/api/snippets?isAiDoc=true&q=${encodeURIComponent(query)}`);
             if (!res.ok) throw new Error("Failed to search");
             const data = await res.json();
 
@@ -54,6 +64,11 @@ export function AiDocChat() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleQuickKeywordClick = (keyword: string) => {
+        if (loading) return;
+        handleSend(keyword);
     };
 
     return (
@@ -86,9 +101,23 @@ export function AiDocChat() {
                         ))}
                         {loading && <div className="flex justify-start gap-2 sm:gap-3"><Bot className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-muted rounded-full shrink-0" /><Spinner /></div>}
                     </div>
-                    <div className="flex gap-2 pt-4 border-t">
-                        <Input maxLength={50} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t("placeholder")} />
-                        <Button onClick={handleSend} disabled={loading}>{t("send")}</Button>
+                    <div className="flex flex-col gap-4 pt-4 border-t">
+                        <div className="flex flex-wrap gap-2">
+                            {QUICK_KEYWORDS.map(({ key, query }) => (
+                                <Badge
+                                    key={key}
+                                    variant="secondary"
+                                    onClick={() => handleQuickKeywordClick(query)}
+                                    className={`cursor-pointer select-none hover:bg-secondary/70 ${loading ? "opacity-50 pointer-events-none" : ""}`}
+                                >
+                                    {t(`quick_keywords.${key}`)}
+                                </Badge>
+                            ))}
+                        </div>
+                        <div className="flex gap-2">
+                            <Input maxLength={50} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t("placeholder")} />
+                            <Button onClick={() => handleSend()} disabled={loading}>{t("send")}</Button>
+                        </div>
                     </div>
                 </div>
             )}

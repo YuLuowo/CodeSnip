@@ -288,7 +288,7 @@
       "save_loading": "Saving ...",
       "save_success": "Profile saved successfully!",
       "save_error": "Failed to save profile",
-      "existing_user": "Username already taken"
+      "existing_user": "Username already taken or unavailable"
     },
     "notifications": {
       "title": "Notifications"
@@ -315,7 +315,12 @@
       "send": "Submit",
       "found_results": "The following {count} relevant results were found:",
       "no_results": "No related AI Document snippets were found. Please try a different keyword.",
-      "error": "An error occurred. Please try again later."
+      "error": "An error occurred. Please try again later.",
+      "quick_keywords": {
+        "improve_ui": "Improve UI",
+        "agent": "Agent",
+        "mcp": "MCP"
+      }
     },
     "card": {
       "updated": "Last updated on"

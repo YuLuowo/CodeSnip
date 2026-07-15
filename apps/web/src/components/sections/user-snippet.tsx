@@ -1,12 +1,15 @@
 "use client"
 
-import { ISnippetClient } from "@/configs/types";
+import { ISnippetClient, SnippetsResponse } from "@/configs/types";
 import SnippetCard from "@/components/custom/snippet-card";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Search } from "lucide-react";
 import { useTranslations } from "use-intl";
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
+import { toast } from "sonner";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -46,33 +49,25 @@ function UserSnippetSkeleton() {
 export default function UserSnippet({ userId }: UserSnippetProps) {
     const { data: session } = useSession();
     const [search, setSearch] = useState("");
-    const [snippets, setSnippets] = useState<ISnippetClient[]>([]);
-    const [loading, setLoading] = useState(false);
 
     const t = useTranslations("SearchSnippet.snippets");
 
-    useEffect(() => {
-        const fetchUserSnippets = async () => {
-            try {
-                setLoading(true);
-                const res = await fetch(`/api/snippets?scope=${userId}`);
-                if (!res.ok) {
-                    throw new Error("Failed to fetch snippets");
-                }
-                const data = await res.json();
-                setSnippets(data.data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchUserSnippets();
-    }, [userId]);
+    const { data, isLoading, error } = useSWR<SnippetsResponse>(
+        userId ? `/api/snippets?scope=${userId}` : null,
+        fetcher
+    );
 
-    if (loading || !snippets) {
+    useEffect(() => {
+        if (error) {
+            toast.error(t("load_error"));
+        }
+    }, [error, t]);
+
+    if (isLoading || !data) {
         return <UserSnippetSkeleton />;
     }
+
+    const snippets: ISnippetClient[] = data.data;
 
     // Simple filter
     const filteredSnippets = snippets.filter((snippet) =>

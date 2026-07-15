@@ -195,6 +195,7 @@
       "search": "搜尋",
       "clear": "清空篩選",
       "not_found": "沒有找到任何片段",
+      "load_error": "載入片段失敗，請稍後再試。",
       "prev": "前一頁",
       "next": "下一頁"
     }
@@ -263,6 +264,7 @@
     "follower": "位粉絲",
     "following": "追蹤中",
     "follow_loading": "載入中...",
+    "load_error": "載入個人資料失敗，請稍後再試。",
     "follow_text": "追蹤",
     "following_text": "已追蹤",
     "none": "無"

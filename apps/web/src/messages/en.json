@@ -195,6 +195,7 @@
       "search": "Search",
       "clear": "Clear Filter",
       "not_found": "No snippets found",
+      "load_error": "Failed to load snippets, please try again later.",
       "prev": "Prev",
       "next": "Next"
     }
@@ -263,6 +264,7 @@
     "follower": "followers",
     "following": "following",
     "follow_loading": "Loading ...",
+    "load_error": "Failed to load profile, please try again later.",
     "follow_text": "Follow",
     "following_text": "Following",
     "none": "None"

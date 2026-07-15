@@ -6,9 +6,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import FollowGroup from "@/components/custom/follow-group";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Github, Globe, Users } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
+import { toast } from "sonner";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "use-intl";
@@ -60,32 +63,21 @@ function UserProfileSkeleton() {
 
 export default function UserProfile({ userId }: UserProfileProps) {
     const { data: session } = useSession();
-    const [profile, setProfile] = useState<UserProfileResponse>();
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const t = useTranslations("Profile");
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                setLoading(true);
-                const res = await fetch(`/api/users/${userId}/profile`);
-                if (!res.ok) {
-                    throw new Error("Failed to fetch settings");
-                }
-                const data: UserProfileResponse = await res.json();
-                setProfile(data);
-                console.log(data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchUserProfile();
-    }, [userId]);
+    const { data: profile, isLoading, error } = useSWR<UserProfileResponse>(
+        userId ? `/api/users/${userId}/profile` : null,
+        fetcher
+    );
 
-    if (loading || !profile) {
+    useEffect(() => {
+        if (error) {
+            toast.error(t("load_error"));
+        }
+    }, [error, t]);
+
+    if (isLoading || !profile) {
         return <UserProfileSkeleton />;
     }
 

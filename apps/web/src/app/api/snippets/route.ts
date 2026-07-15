@@ -52,10 +52,8 @@ export async function GET(request: Request) {
         if (scope === "me") {
             filter.author = userId;
         } else if (scope) {
-            if (userId) {
-                filter.author = userId;
-            } else {
-                filter.author = new mongoose.Types.ObjectId(scope);
+            filter.author = new mongoose.Types.ObjectId(scope);
+            if (userId !== scope) {
                 filter.isPublic = true;
             }
         } else {

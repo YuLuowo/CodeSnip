@@ -15,6 +15,8 @@ export async function GET(request: Request) {
     const search = searchParams.get("q");
     const sort = searchParams.get("sort");
     const isAiDoc = searchParams.get("isAiDoc") === "true";
+    const aiDocType = searchParams.get("aiDocType");
+    const allowedAiDocTypes = ["ai-document", "prompt-template"];
 
     const rawPage = parseInt(
         searchParams.get("page") ?? "1",
@@ -79,6 +81,10 @@ export async function GET(request: Request) {
 
         if (isAiDoc) {
             filter.isAiDoc = true;
+
+            if (aiDocType && allowedAiDocTypes.includes(aiDocType)) {
+                filter.aiDocType = aiDocType;
+            }
         }
 
         const total = await Snippet.countDocuments(filter);
@@ -111,6 +117,7 @@ export async function GET(request: Request) {
                 {
                     $project: {
                         title: 1,
+                        desc: 1,
                         language: 1,
                         tags: 1,
                         author: {
@@ -160,7 +167,7 @@ export async function GET(request: Request) {
         }
 
         const snippets = await Snippet.find(filter)
-            .select("title language tags author createdAt updatedAt likes likesCount isPublic")
+            .select("title desc language tags author createdAt updatedAt likes likesCount isPublic")
             .populate("author", "name image")
             .sort(
                 sort === "popular"
@@ -194,16 +201,18 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        const { title, language, code, tags, isPublic, isAiDoc, aiDocType } = await req.json();
+        const { title, desc, language, code, tags, isPublic, isAiDoc, aiDocType } = await req.json();
 
         const embeddingText = isAiDoc
             ? `
                 Title: ${title}
+                Description: ${desc}
                 Type: ${aiDocType}
                 Tags: ${tags.join(", ")}
                 Content: ${code.slice(0, 1500)}`
             : `
                 Title: ${title}
+                Description: ${desc}
                 Language: ${language}
                 Tags: ${tags.join(", ")}
                 Code: ${code.slice(0, 1000)}`;
@@ -212,6 +221,7 @@ export async function POST(req: Request) {
 
         const newSnippet = await Snippet.create({
             title,
+            desc,
             language: language.toLowerCase(),
             code,
             tags: tags.map((tag: string) => tagMap[tag] ?? tag),

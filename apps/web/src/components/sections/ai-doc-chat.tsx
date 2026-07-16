@@ -45,7 +45,7 @@ export function AiDocChat() {
         setLoading(true);
 
         try {
-            const res = await fetch(`/api/snippets?isAiDoc=true&q=${encodeURIComponent(query)}`);
+            const res = await fetch(`/api/snippets?isAiDoc=true&aiDocType=ai-document&q=${encodeURIComponent(query)}`);
             if (!res.ok) throw new Error("Failed to search");
             const data = await res.json();
 

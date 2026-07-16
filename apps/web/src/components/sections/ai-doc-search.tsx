@@ -24,8 +24,8 @@ export function AiDocSearch() {
         setLoading(true);
         try {
             const url = searchQuery
-                ? `/api/snippets?isAiDoc=true&q=${encodeURIComponent(searchQuery)}`
-                : `/api/snippets?isAiDoc=true`;
+                ? `/api/snippets?isAiDoc=true&aiDocType=ai-document&q=${encodeURIComponent(searchQuery)}`
+                : `/api/snippets?isAiDoc=true&aiDocType=ai-document`;
             const res = await fetch(url);
             if (!res.ok) throw new Error("Failed to fetch AiDocs");
             const data = await res.json();

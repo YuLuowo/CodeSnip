@@ -35,6 +35,7 @@ interface SnippetProps {
     snippet: {
         _id: string;
         title: string;
+        desc: string;
         language: string;
         code: string;
         tags: string[];
@@ -87,6 +88,9 @@ export default function SnippetView({snippet}: SnippetProps) {
                     </Badge>
                 </div>
             </h1>
+            {snippet.desc && (
+                <p className="text-sm text-foreground/70 mb-4">{snippet.desc}</p>
+            )}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0">
                 <div className="flex flex-col justify-center">
                     <span className="text-base text-foreground font-semibold">

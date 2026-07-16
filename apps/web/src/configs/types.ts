@@ -3,6 +3,7 @@ import { IUser } from "@codesnip/db";
 export interface ISnippetClient {
     _id: string;
     title: string;
+    desc: string;
     language: string;
     code: string;
     tags: string[];

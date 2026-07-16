@@ -3,6 +3,7 @@ import { IUser } from "./User";
 
 export interface ISnippet extends Document {
     title: string;
+    desc: string;
     language: string;
     code: string;
     tags: string[];
@@ -19,6 +20,7 @@ export interface ISnippet extends Document {
 
 const SnippetSchema = new Schema<ISnippet>({
     title: { type: String, required: true },
+    desc: { type: String, default: "" },
     language: { type: String, required: true },
     code: { type: String, required: true },
     tags: { type: [String], default: [] },

@@ -39,17 +39,17 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
             return NextResponse.json({ message: "Forbidden" }, { status: 403 });
         }
 
-        const { title, code, tags, isPublic, isAiDoc, aiDocType } = await request.json();
+        const { title, desc, code, tags, isPublic, isAiDoc, aiDocType } = await request.json();
 
         const embeddingText = isAiDoc
-            ? `Title: ${title}\nType: ${aiDocType}\nTags: ${tags.join(", ")}\nContent: ${code.slice(0, 1500)}`
-            : `Title: ${title}\nLanguage: ${snippet.language}\nTags: ${tags.join(", ")}\nCode: ${code.slice(0, 1000)}`;
+            ? `Title: ${title}\nDescription: ${desc}\nType: ${aiDocType}\nTags: ${tags.join(", ")}\nContent: ${code.slice(0, 1500)}`
+            : `Title: ${title}\nDescription: ${desc}\nLanguage: ${snippet.language}\nTags: ${tags.join(", ")}\nCode: ${code.slice(0, 1000)}`;
 
         const embedding = await createEmbedding(embeddingText);
 
         const updated = await Snippet.findByIdAndUpdate(
             id,
-            { title, code, tags, isPublic, isAiDoc, aiDocType, embedding },
+            { title, desc, code, tags, isPublic, isAiDoc, aiDocType, embedding },
             { new: true }
         );
 

@@ -7,6 +7,7 @@ import {
     FieldSet,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import {
     Select,
     SelectContent,
@@ -30,6 +31,7 @@ import { Switch } from "@/components/ui/switch";
 
 export default function CreateSnippet() {
     const [title, setTitle] = useState("");
+    const [desc, setDesc] = useState("");
     const [language, setLanguage] = useState<string>("");
     const [code, setCode] = useState<string>("");
     const [tags, setTags] = useState<string[]>([]);
@@ -85,13 +87,14 @@ export default function CreateSnippet() {
 
         setErrors({});
         setLoading(true);
-        console.log({title, language, code, tags, isPublic});
+        console.log({title, desc, language, code, tags, isPublic});
         try {
             const res = await fetch('/api/snippets', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     title,
+                    desc,
                     language,
                     code,
                     tags,
@@ -131,6 +134,12 @@ export default function CreateSnippet() {
                         {errors.title && (
                             <FieldDescription className="text-red-500">{errors.title}</FieldDescription>
                         )}
+                    </Field>
+                    <Field>
+                        <FieldLabel htmlFor="desc">{tElement("snippet_desc.title")}</FieldLabel>
+                        <Textarea id="desc" value={desc} maxLength={300}
+                                  placeholder={tElement("snippet_desc.placeholder")}
+                                  onChange={(e) => setDesc(e.target.value)}/>
                     </Field>
                     <Field className="max-w-xs">
                         <FieldLabel htmlFor="language">{tLanguage("title")} *</FieldLabel>
@@ -202,17 +211,8 @@ export default function CreateSnippet() {
                                     <SelectValue placeholder={tAiDoc("type_placeholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>{tAiDoc("select_normal")}</SelectLabel>
-                                        <SelectItem value="CLAUDE.md">CLAUDE.md</SelectItem>
-                                        <SelectItem value="AGENTS.md">AGENTS.md</SelectItem>
-                                        <SelectItem value="SKILLS.md">SKILLS.md</SelectItem>
-                                    </SelectGroup>
-                                    <SelectSeparator />
-                                    <SelectGroup>
-                                        <SelectLabel>{tAiDoc("select_other")}</SelectLabel>
-                                        <SelectItem value="custom">{tAiDoc("custom")}</SelectItem>
-                                    </SelectGroup>
+                                    <SelectItem value="ai-document">{tAiDoc("type_ai_document")}</SelectItem>
+                                    <SelectItem value="prompt-template">{tAiDoc("type_prompt_template")}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </Field>

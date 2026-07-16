@@ -78,6 +78,10 @@
         "title": "Snippet Title",
         "error": "Title is required"
       },
+      "snippet_desc": {
+        "title": "Description",
+        "placeholder": "Add a short description for this snippet (optional)"
+      },
       "code": "Code",
       "visibility": {
         "title": "Choose Visibility",
@@ -108,6 +112,10 @@
       "snippet_title": {
         "title": "Snippet Title",
         "error": "Title is required"
+      },
+      "snippet_desc": {
+        "title": "Description",
+        "placeholder": "Add a short description for this snippet (optional)"
       },
       "code": "Code",
       "visibility": {
@@ -248,14 +256,13 @@
     }
   },
   "AiDoc": {
-    "error": "Please select a file type",
-    "title": "AI Document",
-    "desc": "CLAUDE.md, AGENTS.md, SKILLS.md, etc.",
-    "type_title": "File Type",
-    "type_placeholder": "Select a file type",
-    "select_normal": "Normal",
-    "select_other": "Other",
-    "custom": "Custom"
+    "error": "Please select a type",
+    "title": "AI Content",
+    "desc": "Mark this snippet as AI Context or Prompt Template.",
+    "type_title": "Type",
+    "type_placeholder": "Select a type",
+    "type_ai_document": "AI Context",
+    "type_prompt_template": "Prompt Template"
   },
   "Profile": {
     "search_placeholder": "Search snippets...",

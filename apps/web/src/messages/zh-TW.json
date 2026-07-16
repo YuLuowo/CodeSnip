@@ -78,6 +78,10 @@
         "title": "片段標題",
         "error": "標題為必填"
       },
+      "snippet_desc": {
+        "title": "描述",
+        "placeholder": "為此片段新增簡短描述（選填）"
+      },
       "code": "程式碼",
       "visibility": {
         "title": "選擇可見性",
@@ -108,6 +112,10 @@
       "snippet_title": {
         "title": "片段標題",
         "error": "標題為必填"
+      },
+      "snippet_desc": {
+        "title": "描述",
+        "placeholder": "為此片段新增簡短描述（選填）"
       },
       "code": "程式碼",
       "visibility": {
@@ -248,14 +256,13 @@
     }
   },
   "AiDoc": {
-    "error": "請選擇文件種類",
-    "title": "AI 輔助文件",
-    "desc": "CLAUDE.md, AGENTS.md, SKILLS.md 等等",
-    "type_title": "文件種類",
-    "type_placeholder": "請選擇文件種類",
-    "select_normal": "標準模式",
-    "select_other": "其他",
-    "custom": "自訂"
+    "error": "請選擇種類",
+    "title": "AI 內容",
+    "desc": "將此片段標記為 AI Context 或 Prompt Template。",
+    "type_title": "種類",
+    "type_placeholder": "請選擇種類",
+    "type_ai_document": "AI Context",
+    "type_prompt_template": "Prompt Template"
   },
   "Profile": {
     "search_placeholder": "搜尋程式碼片段...",

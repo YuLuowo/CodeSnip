@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
     return (
         <html lang="en" suppressHydrationWarning>
-        <body>
+        <body className="mt-16">
             <NextIntlClientProvider messages={messages}>
                 <ThemeProvider
                     attribute="class"

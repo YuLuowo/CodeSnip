@@ -10,11 +10,11 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { ISnippetClient } from "@/configs/types";
 import { Spinner } from "@/components/ui/spinner";
-import SnippetCard from "@/components/custom/snippet-card";
+import SnippetCard from "@/components/custom/snippet/card";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "use-intl";
-import SnippetCardSkeleton from "@/components/custom/snippet-card-skeleton";
+import SnippetCardSkeleton from "@/components/custom/snippet/card-skeleton";
 
 export default function Snippets() {
     const {data: session} = useSession();

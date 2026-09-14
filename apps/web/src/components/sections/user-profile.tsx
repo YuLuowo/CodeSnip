@@ -5,7 +5,7 @@ import { UserProfileResponse } from "@/configs/types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import FollowGroup from "@/components/custom/follow-group";
+import FollowGroup from "@/components/custom/user/follow-group";
 import { useEffect } from "react";
 import { Github, Globe, Users } from "lucide-react";
 import { Separator } from "@/components/ui/separator";

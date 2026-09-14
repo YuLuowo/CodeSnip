@@ -1,7 +1,7 @@
 "use client"
 
 import { ISnippetClient, SnippetsResponse } from "@/configs/types";
-import SnippetCard from "@/components/custom/snippet-card";
+import SnippetCard from "@/components/custom/snippet/card";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";

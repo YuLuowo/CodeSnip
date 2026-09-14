@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import SnippetTags from "@/components/custom/snippet-tags";
-import LikeButton from "@/components/custom/like-button";
+import SnippetTags from "@/components/custom/snippet/tags";
+import LikeButton from "@/components/custom/common/like-button";
 import React from "react";
 import { useTranslations } from "use-intl";
 import { utcToLocalDate } from "@/lib/utils";

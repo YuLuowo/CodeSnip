@@ -1,7 +1,7 @@
 "use client";
 
-import { SearchBar } from "@/components/custom/search-bar";
-import MultiSelect from "@/components/custom/multi-select";
+import { SearchBar } from "@/components/custom/search/search-bar";
+import MultiSelect from "@/components/custom/common/multi-select";
 import {
     Field,
     FieldLabel,

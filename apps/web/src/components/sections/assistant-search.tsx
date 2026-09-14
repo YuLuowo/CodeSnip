@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SearchBar } from "@/components/custom/search-bar";
+import { SearchBar } from "@/components/custom/search/search-bar";
 import { Button } from "@/components/ui/button";
-import { AiDocSnippetPreviewCard } from "@/components/custom/ai-doc-snippet-preview-card";
+import { ResourceSnippetPreviewCard } from "@/components/custom/resource/preview-card";
 import { ISnippetClient } from "@/configs/types";
 import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "use-intl";
 
-export function AiDocSearch() {
+export function AssistantSearch() {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<ISnippetClient[]>([]);
     const [loading, setLoading] = useState(false);
     const { data: session } = useSession();
-    const t = useTranslations("AiDocPage.search");
+    const t = useTranslations("AssistantPage.search");
 
     useEffect(() => {
         handleSearch();
@@ -51,7 +51,7 @@ export function AiDocSearch() {
                     <div className="col-span-full flex justify-center p-10"><Spinner /></div>
                 ) : results.length > 0 ? (
                     results.map((snippet) => (
-                        <AiDocSnippetPreviewCard key={String(snippet._id)} snippet={snippet} />
+                        <ResourceSnippetPreviewCard key={String(snippet._id)} snippet={snippet} />
                     ))
                 ) : (
                     <p className="col-span-full text-sm sm:text-base">{t("not_found")}</p>

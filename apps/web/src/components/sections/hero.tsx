@@ -11,7 +11,7 @@ export async function Hero() {
                 {t("desc")}
             </span>
             <div className="flex items-center justify-center gap-2">
-                <Link href="/create">
+                <Link href="/snippets/create">
                     <Button variant="default" size="sm" className="hover:cursor-pointer">
                         {t("get_start")}
                     </Button>

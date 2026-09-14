@@ -35,5 +35,7 @@ const SnippetSchema = new Schema<ISnippet>({
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true });
 
+SnippetSchema.index({ author: 1, isPublic: 1, createdAt: -1 });
+
 const Snippet: Model<ISnippet> = mongoose.models.Snippet || mongoose.model<ISnippet>("Snippet", SnippetSchema);
 export default Snippet;

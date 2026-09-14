@@ -1,11 +1,11 @@
 "use client";
 
-import CodeBlock from "@/components/custom/code-block";
-import SnippetTags from "@/components/custom/snippet-tags";
-import LikeButton from "@/components/custom/like-button";
+import CodeBlock from "@/components/custom/common/code-block";
+import SnippetTags from "@/components/custom/snippet/tags";
+import LikeButton from "@/components/custom/common/like-button";
 import { useSession } from "next-auth/react";
 import { utcToLocalDate } from "@/lib/utils";
-import ShareButton from "@/components/custom/share-button";
+import ShareButton from "@/components/custom/common/share-button";
 import { Button } from "../ui/button";
 import { Pencil, Trash } from "lucide-react";
 import {
@@ -56,7 +56,7 @@ export default function SnippetView({snippet}: SnippetProps) {
     const tStatus = useTranslations("SnippetStatus");
 
     const jumpToEdit = (id: string) => {
-        router.push(`/edit/${id}`);
+        router.push(`/snippets/edit/${id}`);
     }
 
     const handleDelete = async () => {

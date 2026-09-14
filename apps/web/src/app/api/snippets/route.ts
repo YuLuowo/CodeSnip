@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { connectDB, Snippet, ISnippet } from "@codesnip/db";
+import { connectDB, Snippet, ISnippet, Follow } from "@codesnip/db";
 import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import { createEmbedding } from "@/lib/embedding";
 import { tagMap } from "@/lib/utils";
@@ -53,6 +53,14 @@ export async function GET(request: Request) {
 
         if (scope === "me") {
             filter.author = userId;
+        } else if (scope === "following") {
+            if (!userId) {
+                return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            }
+
+            const followingIds = await Follow.find({ follower: userId }).distinct("following");
+            filter.author = { $in: followingIds };
+            filter.isPublic = true;
         } else if (scope) {
             filter.author = new mongoose.Types.ObjectId(scope);
             if (userId !== scope) {

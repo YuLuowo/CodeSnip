@@ -5,9 +5,14 @@
     "get_start": "Get Started",
     "view": "View Snippets"
   },
+  "Dashboard": {
+    "welcome": "Welcome back, {name}",
+    "desc": "Here's an overview of your code snippets."
+  },
   "Navbar": {
     "title": "Share What You Build.",
     "home": "Home",
+    "dashboard": "Dashboard",
     "explore": {
       "title": "Explore",
       "trending": {
@@ -22,9 +27,9 @@
         "title": "Categories",
         "desc": "Browse snippets by category"
       },
-      "ai_document": {
-        "title": "AI Document Snippets",
-        "desc": "Browse AI Document with retrieval assistant"
+      "ai_resource_assistant": {
+        "title": "AI Resource Assistant",
+        "desc": "Find AI-related resource snippets with the search assistant"
       }
     },
     "snippets": "Snippets",
@@ -68,7 +73,14 @@
     "github": "Login with Github"
   },
   "SearchCommand": {
-    "title": "Search documentation"
+    "title": "Type",
+    "title2": "to search",
+    "placeholder": "Type a keyword...",
+    "my_snippets": "My Snippets",
+    "loading": "Loading...",
+    "empty": "No snippets found",
+    "jump_to": "Jump to",
+    "search_all": "Search all of CodeSnip"
   },
   "CreateSnippet": {
     "title": "Create a new snippet",
@@ -257,12 +269,13 @@
   },
   "AiDoc": {
     "error": "Please select a type",
-    "title": "AI Content",
+    "title": "AI Resource",
     "desc": "Mark this snippet as AI Context or Prompt Template.",
     "type_title": "Type",
     "type_placeholder": "Select a type",
     "type_ai_document": "AI Context",
-    "type_prompt_template": "Prompt Template"
+    "type_prompt_template": "Prompt Template",
+    "type_other": "Other"
   },
   "Profile": {
     "search_placeholder": "Search snippets...",
@@ -307,21 +320,21 @@
     "snippets": "snippets",
     "snippet": "snippet"
   },
-  "AiDocPage": {
-    "title": "AI Document Search Assistant",
-    "desc": "Use the Search Assistant to quickly find AI Documents that match your needs.",
+  "AssistantPage": {
+    "title": "AI Resource Assistant",
+    "desc": "Use the AI Resource Assistant to quickly find AI-related resource snippets that match your needs.",
     "search": {
       "search_button": "Search",
       "loading": "Loading, please wait...",
-      "not_found": "No matching AI Document found. Please try a different keyword."
+      "not_found": "No matching resource snippet found. Please try a different keyword."
     },
     "chat": {
-      "title": "AI Document Search Assistant",
-      "welcome": "Hello! I'm the AI Document Search Assistant. Enter the topic or keywords you'd like to search for, and I'll find the three most relevant snippets for you.",
+      "title": "AI Resource Assistant",
+      "welcome": "Hello! I'm the AI Resource Assistant. Enter the topic or keywords you'd like to search for, and I'll find the three most relevant snippets for you.",
       "placeholder": "Enter a search keyword...",
       "send": "Submit",
       "found_results": "The following {count} relevant results were found:",
-      "no_results": "No related AI Document snippets were found. Please try a different keyword.",
+      "no_results": "No related resource snippets were found. Please try a different keyword.",
       "error": "An error occurred. Please try again later.",
       "quick_keywords": {
         "improve_ui": "Improve UI",

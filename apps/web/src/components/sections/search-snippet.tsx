@@ -1,5 +1,5 @@
-import SideFilter from "@/components/custom/side-filter";
-import Snippets from "@/components/custom/snippets";
+import SideFilter from "@/components/custom/filter/side-filter";
+import Snippets from "@/components/custom/snippet/list";
 
 export default function SearchSnippet() {
     return (

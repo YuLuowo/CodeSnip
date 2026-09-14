@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select"
 import { toast } from "sonner";
 import CodeEditor from "@/components/editor/code-editor";
-import MultiSelect from "@/components/custom/multi-select";
+import MultiSelect from "@/components/custom/common/multi-select";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
@@ -228,6 +228,7 @@ export default function EditSnippet({snippet}: EditSnippetProps) {
                                 <SelectContent>
                                     <SelectItem value="ai-document">{tAiDoc("type_ai_document")}</SelectItem>
                                     <SelectItem value="prompt-template">{tAiDoc("type_prompt_template")}</SelectItem>
+                                    <SelectItem value="other">{tAiDoc("type_other")}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </Field>

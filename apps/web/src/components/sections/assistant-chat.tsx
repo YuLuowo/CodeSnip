@@ -1,0 +1,134 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { ISnippetClient } from "@/configs/types";
+import { useSession } from "next-auth/react";
+import { Spinner } from "@/components/ui/spinner";
+import { Code, User } from "lucide-react";
+import { useTranslations, useLocale } from "use-intl";
+import { MarkdownContent } from "@/components/custom/common/markdown-content";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import * as React from "react";
+
+type Message = {
+    sender: 'user' | 'ai';
+    content: string;
+    snippets?: ISnippetClient[];
+};
+
+export function AssistantChat() {
+    const t = useTranslations("AssistantPage.chat");
+    const locale = useLocale();
+    const [messages, setMessages] = useState<Message[]>([
+        { sender: 'ai', content: t("welcome") }
+    ]);
+    const [input, setInput] = useState("");
+    const [loading, setLoading] = useState(false);
+    const { data: session } = useSession();
+
+    const QUICK_KEYWORDS = [
+        { key: "improve_ui", query: t("quick_keywords.improve_ui") },
+        { key: "agent", query: t("quick_keywords.agent") },
+        { key: "mcp", query: t("quick_keywords.mcp") },
+    ] as const;
+
+    const handleSend = async (overrideQuery?: string) => {
+        const query = (overrideQuery ?? input).trim();
+        if (!query) return;
+
+        const userMessage: Message = { sender: 'user', content: query };
+        setMessages((prev) => [...prev, userMessage]);
+        setInput("");
+        setLoading(true);
+
+        try {
+            const res = await fetch("/api/assistant", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query, locale }),
+            });
+            if (!res.ok) throw new Error("Failed to search");
+            const data = await res.json();
+
+            const snippets: ISnippetClient[] = data.data ?? [];
+            const aiResponse: Message = {
+                sender: 'ai',
+                content: snippets.length > 0
+                    ? (data.message?.trim() || t("found_results", { count: snippets.length }))
+                    : t("no_results"),
+                snippets: snippets
+            };
+            setMessages((prev) => [...prev, aiResponse]);
+        } catch (err) {
+            console.error(err);
+            setMessages((prev) => [...prev, { sender: 'ai', content: t("error") }]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleQuickKeywordClick = (keyword: string) => {
+        if (loading) return;
+        handleSend(keyword);
+    };
+
+    return (
+        <div className="flex flex-col gap-4 border rounded-lg p-3 sm:p-4">
+            <div className="font-medium">{t("title")}</div>
+
+            <div className="flex flex-col gap-4 h-[70vh] sm:h-[600px]">
+                <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+                    {messages.map((msg, i) => (
+                        <div key={i} className={`flex gap-2 sm:gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                            {msg.sender === 'ai' && <Code className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-muted rounded-full shrink-0" />}
+                            <div className={`p-3 rounded-lg max-w-[85%] sm:max-w-[80%] text-sm sm:text-base ${msg.sender === 'user' ? 'bg-primary text-primary-foreground whitespace-pre-wrap' : 'bg-muted'}`}>
+                                {msg.sender === 'ai' ? <MarkdownContent content={msg.content} /> : msg.content}
+                                {msg.snippets && msg.snippets.length > 0 && (
+                                    <div className="mt-3 flex flex-col gap-1">
+                                        {msg.snippets.map((s) => (
+                                            <Link key={String(s._id)} href={`/snippets/${s._id}`} target="_blank" className="text-blue-500 hover:underline block truncate">
+                                                • {s.title}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            {msg.sender === 'user' &&
+                                (!session ?
+                                    <User className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-primary text-primary-foreground rounded-full shrink-0" /> :
+                                    <Avatar className="w-8 h-8">
+                                        <AvatarImage src={session?.user?.image} alt={session?.user?.name} />
+                                        <AvatarFallback>U</AvatarFallback>
+                                    </Avatar>
+                                )
+                            }
+                        </div>
+                    ))}
+                    {loading && <div className="flex justify-start gap-2 sm:gap-3"><Code className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-muted rounded-full shrink-0" /><Spinner /></div>}
+                </div>
+                <div className="flex flex-col gap-4 pt-4 border-t">
+                    <div className="flex flex-wrap gap-2">
+                        {QUICK_KEYWORDS.map(({ key, query }) => (
+                            <Badge
+                                key={key}
+                                variant="secondary"
+                                onClick={() => handleQuickKeywordClick(query)}
+                                className={`cursor-pointer select-none hover:bg-secondary/70 ${loading ? "opacity-50 pointer-events-none" : ""}`}
+                            >
+                                {t(`quick_keywords.${key}`)}
+                            </Badge>
+                        ))}
+                    </div>
+                    <div className="flex gap-2">
+                        <Input maxLength={50} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t("placeholder")} />
+                        <Button onClick={() => handleSend()} disabled={loading}>{t("send")}</Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

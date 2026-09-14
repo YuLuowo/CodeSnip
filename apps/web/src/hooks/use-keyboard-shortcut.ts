@@ -29,6 +29,7 @@ export function useKeyboardShortcut(
             if (options?.shift && !e.shiftKey) return;
             if (options?.alt && !e.altKey) return;
 
+            e.preventDefault();
             handler();
         }
 

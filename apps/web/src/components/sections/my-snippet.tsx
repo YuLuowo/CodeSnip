@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import SnippetFilter from "@/components/custom/snippet-filter";
+import SnippetFilter from "@/components/custom/snippet/filter";
 import { useSession } from "next-auth/react";
 import { Spinner } from "@/components/ui/spinner";
 import { capitalizeFirstLetter, tagMap } from "@/lib/utils";
@@ -18,9 +18,9 @@ import {
     EmptyTitle,
 } from "@/components/ui/empty"
 import { useTranslations } from "use-intl";
-import SnippetCard from "@/components/custom/snippet-card";
+import SnippetCard from "@/components/custom/snippet/card";
 import { ISnippetClient } from "@/configs/types";
-import SnippetCardSkeleton from "@/components/custom/snippet-card-skeleton";
+import SnippetCardSkeleton from "@/components/custom/snippet/card-skeleton";
 
 export function MySnippet() {
     const {data: session} = useSession();
@@ -92,7 +92,7 @@ export function MySnippet() {
             <SnippetFilter onSearch={handleSearch}/>
             <div className="flex justify-between mt-6 mb-3">
                 <h3 className="text-2xl font-semibold">{t("title")}</h3>
-                <Link href="/create">
+                <Link href="/snippets/create">
                     <Button variant="outline" className="cursor-pointer">
                         <Plus/>
                         {t("create")}
@@ -121,7 +121,7 @@ export function MySnippet() {
                             </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <Link href="/create">
+                            <Link href="/snippets/create">
                                 <Button size="sm" className="hover:cursor-pointer">{t("empty_snip.create")}</Button>
                             </Link>
                         </EmptyContent>

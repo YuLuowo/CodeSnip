@@ -8,12 +8,12 @@ import { BookOpen, Clock, Heart } from "lucide-react";
 import { utcToLocalDate } from "@/lib/utils";
 import { useTranslations } from "use-intl";
 
-interface AiDocSnippetPreviewCardProps {
+interface ResourceSnippetPreviewCardProps {
     snippet: ISnippetClient;
 }
 
-export function AiDocSnippetPreviewCard({ snippet }: AiDocSnippetPreviewCardProps) {
-    const t = useTranslations("AiDocPage.card");
+export function ResourceSnippetPreviewCard({ snippet }: ResourceSnippetPreviewCardProps) {
+    const t = useTranslations("AssistantPage.card");
     const tTags = useTranslations("SnippetTags.tags");
 
     return (

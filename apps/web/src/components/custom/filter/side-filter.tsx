@@ -1,6 +1,6 @@
 "use client"
 
-import MultiSelect from "@/components/custom/multi-select";
+import MultiSelect from "@/components/custom/common/multi-select";
 import { Field, FieldDescription, FieldGroup, FieldSeparator, FieldSet } from "@/components/ui/field";
 import { languageMaps } from "@/configs/maps";
 import { Checkbox } from "@/components/ui/checkbox";

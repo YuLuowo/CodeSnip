@@ -1,9 +1,8 @@
-import {AiDocSearch} from "@/components/sections/ai-doc-search";
-import {AiDocChat} from "@/components/sections/ai-doc-chat";
+import {AssistantChat} from "@/components/sections/assistant-chat";
 import {getTranslations} from "next-intl/server";
 
-export default async function AiDocsPage() {
-    const t = await getTranslations("AiDocPage");
+export default async function AssistantPage() {
+    const t = await getTranslations("AssistantPage");
 
     return (
         <main className="relative flex min-h-[calc(100svh-4.5rem)] flex-col items-center gap-6">
@@ -11,11 +10,7 @@ export default async function AiDocsPage() {
                 <div className="flex flex-col gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold">{t("title")}</h1>
                     <p className="text-sm sm:text-base text-muted-foreground">{t("desc")}</p>
-                    <AiDocChat />
-                </div>
-
-                <div className="flex flex-col gap-4">
-                    <AiDocSearch />
+                    <AssistantChat />
                 </div>
             </div>
         </main>

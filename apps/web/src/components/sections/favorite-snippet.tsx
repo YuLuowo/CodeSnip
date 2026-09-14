@@ -1,10 +1,10 @@
 "use client"
 
-import FavoriteFilter from "@/components/custom/favorite-filter";
+import FavoriteFilter from "@/components/custom/filter/favorite-filter";
 import {useEffect, useMemo, useState} from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import SnippetCard from "@/components/custom/snippet-card";
+import SnippetCard from "@/components/custom/snippet/card";
 import { Heart, X } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "use-intl";
 import { ISnippetClient } from "@/configs/types";
-import SnippetCardSkeleton from "@/components/custom/snippet-card-skeleton";
+import SnippetCardSkeleton from "@/components/custom/snippet/card-skeleton";
 
 export default function FavoriteSnippet() {
     const {data: session} = useSession();

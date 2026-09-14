@@ -3,7 +3,9 @@ packages:
   - "packages/*"
 
 allowBuilds:
+  '@google/genai': true
   '@parcel/watcher': true
   '@swc/core': true
+  protobufjs: true
   sharp: true
   unrs-resolver: true

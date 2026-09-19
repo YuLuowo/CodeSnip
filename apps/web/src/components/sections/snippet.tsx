@@ -80,7 +80,7 @@ export default function SnippetView({snippet}: SnippetProps) {
 
     return (
         <section className="w-full max-w-6xl mt-8 px-4">
-            <div className="flex items-center justify-between gap-4 mb-3">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-3">
                 <h1 className="text-2xl font-bold flex items-center gap-2">
                     {snippet.title}
                     <Badge variant="outline">

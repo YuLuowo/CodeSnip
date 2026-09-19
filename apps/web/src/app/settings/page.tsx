@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ProfileSetting from "@/components/sections/profile-setting";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -9,7 +10,9 @@ export default async function SettingsPage() {
 
     return (
         <main className="flex items-center justify-center">
-            <ProfileSetting />
+            <Suspense fallback={null}>
+                <ProfileSetting />
+            </Suspense>
         </main>
     );
 }

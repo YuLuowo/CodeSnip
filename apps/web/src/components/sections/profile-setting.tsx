@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { User, Globe, Github, Bell, AlertCircle, Loader2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { User, Globe, Github, Bell, Link2, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +12,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
     Sidebar,
     SidebarContent,
@@ -30,13 +44,29 @@ import {
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { useTranslations } from "use-intl";
 
+type Tab = "profile" | "notifications" | "connections";
+
+interface DiscordStatus {
+    connected: boolean;
+    discordId?: string;
+    discordUsername?: string;
+    discordAvatar?: string | null;
+    discordLinkedAt?: string;
+}
+
 export default function SettingsPage() {
     const { data: session } = useSession();
     const userId = session?.user?.id ?? "";
     const t = useTranslations("Settings");
     const tProfile = useTranslations("Settings.profile");
-    const [tab, setTab] = useState<Tab>("profile");
-    
+    const tConnections = useTranslations("Settings.connections");
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const [tab, setTab] = useState<Tab>(
+        (searchParams.get("tab") as Tab) || "profile"
+    );
+
     const {
         userInfo,
         profile,
@@ -48,13 +78,69 @@ export default function SettingsPage() {
         save,
     } = useUserProfile(userId);
 
+    const [discordStatus, setDiscordStatus] = useState<DiscordStatus | null>(null);
+    const [loadingDiscord, setLoadingDiscord] = useState(true);
+    const [disconnecting, setDisconnecting] = useState(false);
+
+    const fetchDiscordStatus = async () => {
+        try {
+            setLoadingDiscord(true);
+            const res = await fetch("/api/settings/discord");
+            const data = await res.json();
+            setDiscordStatus(data);
+        } catch {
+            setDiscordStatus({ connected: false });
+        } finally {
+            setLoadingDiscord(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!userId) return;
+        fetchDiscordStatus();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId]);
+
+    useEffect(() => {
+        const discordResult = searchParams.get("discord");
+        if (!discordResult) return;
+
+        if (discordResult === "success") {
+            toast.success(tConnections("toast.success"));
+            fetchDiscordStatus();
+        } else if (discordResult === "already_linked") {
+            toast.error(tConnections("toast.already_linked"));
+        } else if (discordResult === "error") {
+            toast.error(tConnections("toast.error"));
+        }
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("discord");
+        router.replace(`/settings?${params.toString()}`);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams]);
+
+    const handleDisconnectDiscord = async () => {
+        try {
+            setDisconnecting(true);
+            const res = await fetch("/api/settings/discord", { method: "DELETE" });
+            if (!res.ok) throw new Error("Failed");
+            setDiscordStatus({ connected: false });
+            toast.success(tConnections("toast.disconnect_success"));
+        } catch {
+            toast.error(tConnections("toast.disconnect_error"));
+        } finally {
+            setDisconnecting(false);
+        }
+    };
+
     const initials = userInfo.name
         ? userInfo.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
         : "?";
 
-    type Tab = "profile" | "notifications";
     const NAV: { id: Tab; label: string; icon: React.ReactNode }[] = [
         { id: "profile",       label: t("profile.title"),       icon: <User size={16} /> },
+        { id: "connections",   label: tConnections("title"),    icon: <Link2 size={16} /> },
         { id: "notifications", label: t("notifications.title"), icon: <Bell size={16} /> },
     ];
 
@@ -202,6 +288,90 @@ export default function SettingsPage() {
                                 </Button>
                             </div>
                         </>
+                    )}
+
+                    {tab === "connections" && (
+                        <Card className="bg-background rounded-sm">
+                            <CardHeader>
+                                <CardTitle>{tConnections("discord_title")}</CardTitle>
+                                <CardDescription>
+                                    {tConnections("discord_desc")}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {loadingDiscord ? (
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    </div>
+                                ) : discordStatus?.connected ? (
+                                    <div className="flex items-center justify-between gap-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="relative">
+                                                <Avatar className="h-10 w-10">
+                                                    <AvatarImage src={discordStatus.discordAvatar ?? undefined} />
+                                                    <AvatarFallback>
+                                                        {discordStatus.discordUsername?.slice(0, 2).toUpperCase() ?? "DC"}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <CheckCircle2 className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-background text-green-500" />
+                                            </div>
+                                            <div className="flex flex-col gap-0.5">
+                                                <div className="flex items-center gap-2">
+                                                    <p className="text-sm font-medium">{discordStatus.discordUsername}</p>
+                                                    <Badge className="bg-green-500/15 text-green-600 dark:text-green-400 hover:bg-green-500/15">
+                                                        <CheckCircle2 className="mr-1 h-3 w-3" />
+                                                        {tConnections("connected")}
+                                                    </Badge>
+                                                </div>
+                                                {discordStatus.discordLinkedAt && (
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {tConnections("connected_since")} {new Date(discordStatus.discordLinkedAt).toLocaleDateString()}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="outline" size="sm" className="hover:cursor-pointer">
+                                                    {tConnections("disconnect")}
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        {tConnections("disconnect_dialog.title")}
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        {tConnections("disconnect_dialog.sub_title")}
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>
+                                                        {tConnections("disconnect_dialog.cancel")}
+                                                    </AlertDialogCancel>
+                                                    <AlertDialogAction
+                                                        onClick={handleDisconnectDiscord}
+                                                        disabled={disconnecting}
+                                                    >
+                                                        {disconnecting
+                                                            ? tConnections("disconnect_dialog.disconnecting")
+                                                            : tConnections("disconnect_dialog.continue")}
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </div>
+                                ) : (
+                                    <Button
+                                        className="hover:cursor-pointer"
+                                        onClick={() => (window.location.href = "/api/auth/discord/connect")}
+                                    >
+                                        <Link2 className="mr-1 h-4 w-4" />
+                                        {tConnections("connect")}
+                                    </Button>
+                                )}
+                            </CardContent>
+                        </Card>
                     )}
 
                     {tab === "notifications" && (

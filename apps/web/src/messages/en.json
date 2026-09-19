@@ -394,6 +394,29 @@
     },
     "notifications": {
       "title": "Notifications"
+    },
+    "connections": {
+      "title": "Connections",
+      "discord_title": "Discord",
+      "discord_desc": "Connect your Discord account to use the CodeSnip bot and receive notifications.",
+      "connect": "Connect Discord",
+      "connected": "Connected",
+      "disconnect": "Disconnect",
+      "connected_since": "Connected since",
+      "disconnect_dialog": {
+        "title": "Disconnect Discord?",
+        "sub_title": "You will no longer be able to use the Discord bot with your account until you reconnect.",
+        "cancel": "Cancel",
+        "continue": "Disconnect",
+        "disconnecting": "Disconnecting..."
+      },
+      "toast": {
+        "success": "Discord account connected successfully!",
+        "error": "Failed to connect Discord account, please try again.",
+        "already_linked": "This Discord account is already linked to another user.",
+        "disconnect_success": "Discord account disconnected.",
+        "disconnect_error": "Failed to disconnect Discord account."
+      }
     }
   },
   "Category": {

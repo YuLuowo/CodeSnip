@@ -394,6 +394,29 @@
     },
     "notifications": {
       "title": "通知"
+    },
+    "connections": {
+      "title": "帳號連接",
+      "discord_title": "Discord",
+      "discord_desc": "連接您的 Discord 帳號，即可使用 CodeSnip 機器人並接收通知。",
+      "connect": "連接 Discord",
+      "connected": "已連接",
+      "disconnect": "取消連接",
+      "connected_since": "連接於",
+      "disconnect_dialog": {
+        "title": "確定要取消連接 Discord 嗎？",
+        "sub_title": "取消連接後，您將無法使用 Discord 機器人操作您的帳號，直到重新連接為止。",
+        "cancel": "取消",
+        "continue": "取消連接",
+        "disconnecting": "取消連接中..."
+      },
+      "toast": {
+        "success": "Discord 帳號連接成功！",
+        "error": "連接 Discord 帳號失敗，請再試一次。",
+        "already_linked": "此 Discord 帳號已被其他使用者連接。",
+        "disconnect_success": "已取消連接 Discord 帳號。",
+        "disconnect_error": "取消連接 Discord 帳號失敗。"
+      }
     }
   },
   "Category": {

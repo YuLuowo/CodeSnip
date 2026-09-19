@@ -6,6 +6,10 @@ export interface IUser extends Document {
     email: string;
     image?: string;
     likedSnippets: Types.ObjectId[];
+    discordId?: string;
+    discordUsername?: string;
+    discordAvatar?: string;
+    discordLinkedAt?: Date;
     createdAt: Date;
 }
 
@@ -15,6 +19,10 @@ const UserSchema = new Schema<IUser>({
     email: { type: String, required: true, unique: true },
     image: { type: String },
     likedSnippets: [{ type: Schema.Types.ObjectId, ref: "Snippet" }],
+    discordId: { type: String, unique: true, sparse: true },
+    discordUsername: { type: String },
+    discordAvatar: { type: String },
+    discordLinkedAt: { type: Date },
     createdAt: { type: Date, default: Date.now },
 });
 

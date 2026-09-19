@@ -1,17 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { connectDB, User } from "@codesnip/db";
 import { verifyBotRequest } from "@/lib/bot-auth";
 
-interface RouteParams {
-    params: { discordId: string };
-}
-
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: Request, context: { params: Promise<{ discordId: string }> }) {
     if (!verifyBotRequest(req)) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { discordId } = await params;
+    const { discordId } = await context.params;
 
     try {
         await connectDB();

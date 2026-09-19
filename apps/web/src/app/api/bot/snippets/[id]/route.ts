@@ -1,18 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { connectDB, Snippet, User } from "@codesnip/db";
 import { Types } from "mongoose";
 import { verifyBotRequest } from "@/lib/bot-auth";
 
-interface RouteParams {
-    params: { id: string };
-}
-
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
     if (!verifyBotRequest(req)) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await params;
+    const { id } = await context.params;
 
     if (!Types.ObjectId.isValid(id)) {
         return NextResponse.json({ message: "Invalid snippet id" }, { status: 400 });

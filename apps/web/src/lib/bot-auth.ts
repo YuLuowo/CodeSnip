@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server";
-
-export function verifyBotRequest(req: NextRequest): boolean {
+export function verifyBotRequest(req: Request): boolean {
     const auth = req.headers.get("authorization");
     const secret = process.env.BOT_API_SECRET;
 

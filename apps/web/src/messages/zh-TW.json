@@ -155,6 +155,11 @@
   },
   "SnippetView": {
     "author": "作者",
+    "about": "關於",
+    "no_desc": "尚未提供描述",
+    "language": "語言",
+    "tags": "標籤",
+    "created_at": "建立時間",
     "updated_at": "更新時間",
     "edit": "編輯",
     "delete": "刪除",
@@ -169,7 +174,35 @@
     "url_copied": "URL 已複製到剪貼簿！",
     "url_copied_failed": "複製 URL 失敗",
     "copy": "複製",
-    "copied": "已複製！"
+    "copied": "已複製！",
+    "tabs": {
+      "code": "程式碼",
+      "comments": "留言"
+    }
+  },
+  "Comment": {
+    "placeholder": "寫下留言...",
+    "reply_placeholder": "寫下回覆...",
+    "submit": "留言",
+    "submitting": "發布中...",
+    "reply": "回覆",
+    "reply_submit": "回覆",
+    "cancel": "取消",
+    "delete": "刪除",
+    "load_more": "載入更多",
+    "loading": "載入中...",
+    "login_prompt": "請先",
+    "login_link": "登入",
+    "login_suffix": "後再留言。",
+    "empty": "目前還沒有留言，來搶頭香吧！",
+    "delete_dialog": {
+      "title": "確定要刪除這則留言嗎？",
+      "sub_title": "此操作無法復原，將永久刪除此留言與其回覆。",
+      "cancel": "取消",
+      "continue": "繼續",
+      "deleting": "刪除中...",
+      "error": "刪除留言失敗"
+    }
   },
   "Dashboard": {
     "welcome": "歡迎回來",

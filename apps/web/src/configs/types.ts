@@ -36,6 +36,34 @@ export interface FollowingResponse {
     following: FollowingUser[];
 }
 
+export interface CommentAuthor {
+    _id: string;
+    name: string;
+    username: string;
+    image?: string;
+}
+
+export interface ICommentClient {
+    _id: string;
+    snippet: string;
+    author: CommentAuthor;
+    content: string;
+    parentComment: string | null;
+    replies?: ICommentClient[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface CommentsResponse {
+    comments: ICommentClient[];
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    };
+}
+
 export interface UserProfileResponse {
     user: {
         _id: string;

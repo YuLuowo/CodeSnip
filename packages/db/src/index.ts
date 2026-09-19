@@ -11,3 +11,6 @@ export type { IFollow } from "./models/Follow";
 
 export { default as UserProfile } from "./models/UserProfile";
 export type { IUserProfile } from "./models/UserProfile";
+
+export { default as Comment } from "./models/Comment";
+export type { IComment } from "./models/Comment";

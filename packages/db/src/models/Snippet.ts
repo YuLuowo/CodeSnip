@@ -11,6 +11,7 @@ export interface ISnippet extends Document {
     author: Types.ObjectId | IUser;
     likes: Types.ObjectId[];
     likesCount: number;
+    commentsCount: number;
     embedding: number[];
     isAiDoc: boolean;
     aiDocType: string;
@@ -28,6 +29,7 @@ const SnippetSchema = new Schema<ISnippet>({
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     likes: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], default: [] },
     likesCount: { type: Number, default: 0 },
+    commentsCount: { type: Number, default: 0 },
     embedding: { type: [Number], required: true },
     isAiDoc: { type: Boolean, default: false },
     aiDocType: { type: String, default: "" },

@@ -58,7 +58,8 @@ export default function LikeButton({
     return (
         <Button
             variant="outline"
-            className=""
+            size="sm"
+            className="cursor-pointer"
             onClick={(e) => {
                 e.stopPropagation();
                 toggleLike();

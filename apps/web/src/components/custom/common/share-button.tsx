@@ -25,7 +25,7 @@ export default function ShareButton() {
     };
 
     return (
-        <Button variant="outline" size="icon" onClick={handleShare}>
+        <Button variant="outline" size="icon-sm" className="cursor-pointer" onClick={handleShare}>
             {shared ? <Check/> : <Share2/>}
         </Button>
     );

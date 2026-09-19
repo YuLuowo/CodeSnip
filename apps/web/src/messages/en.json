@@ -155,6 +155,11 @@
   },
   "SnippetView": {
     "author": "Author",
+    "about": "About",
+    "no_desc": "No description provided",
+    "language": "Language",
+    "tags": "Tags",
+    "created_at": "Created At",
     "updated_at": "Updated At",
     "edit": "Edit",
     "delete": "Delete",
@@ -169,7 +174,35 @@
     "url_copied": "URL copied to clipboard!",
     "url_copied_failed": "Failed to copy URL",
     "copy": "Copy",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "tabs": {
+      "code": "Code",
+      "comments": "Comments"
+    }
+  },
+  "Comment": {
+    "placeholder": "Write a comment...",
+    "reply_placeholder": "Write a reply...",
+    "submit": "Comment",
+    "submitting": "Posting...",
+    "reply": "Reply",
+    "reply_submit": "Reply",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "load_more": "Load more",
+    "loading": "Loading...",
+    "login_prompt": "Please",
+    "login_link": "log in",
+    "login_suffix": "to leave a comment.",
+    "empty": "No comments yet. Be the first to comment!",
+    "delete_dialog": {
+      "title": "Are you sure you want to delete this comment?",
+      "sub_title": "This action cannot be undone. This will permanently delete the comment and its replies.",
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "deleting": "Deleting...",
+      "error": "Failed to delete comment"
+    }
   },
   "Dashboard": {
     "welcome": "Welcome back",

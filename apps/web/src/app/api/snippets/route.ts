@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     const sort = searchParams.get("sort");
     const isAiDoc = searchParams.get("isAiDoc") === "true";
     const aiDocType = searchParams.get("aiDocType");
-    const allowedAiDocTypes = ["ai-document", "prompt-template"];
+    const allowedAiDocTypes = ["ai-context", "prompt-template", "other"];
 
     const rawPage = parseInt(
         searchParams.get("page") ?? "1",
@@ -130,6 +130,7 @@ export async function GET(request: Request) {
                         tags: 1,
                         author: {
                             name: "$author.name",
+                            username: "$author.username",
                             image: "$author.image",
                         },
                         createdAt: 1,
@@ -176,7 +177,7 @@ export async function GET(request: Request) {
 
         const snippets = await Snippet.find(filter)
             .select("title desc language tags author createdAt updatedAt likes likesCount isPublic")
-            .populate("author", "name image")
+            .populate("author", "name username image")
             .sort(
                 sort === "popular"
                     ? { likesCount: -1 }

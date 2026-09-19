@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "use-intl";
-import { FolderCode, Heart, ChevronRight } from "lucide-react";
+import { FolderCode, Heart, Sparkles, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function DashboardQuickLinks() {
@@ -21,6 +21,12 @@ export function DashboardQuickLinks() {
             title: t("favorites.title"),
             desc: t("favorites.desc"),
         },
+        {
+            href: "/assistant",
+            icon: Sparkles,
+            title: t("assistant.title"),
+            desc: t("assistant.desc"),
+        },
     ];
 
     return (
@@ -29,7 +35,7 @@ export function DashboardQuickLinks() {
                 {t("title")}
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {links.map(({ href, icon: Icon, title, desc }) => (
                     <Link href={href} key={href}>
                         <Card className="p-0 gap-0 transition-colors cursor-pointer">

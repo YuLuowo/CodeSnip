@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
         const filter: FilterQuery<ISnippet> = {
             isAiDoc: true,
-            aiDocType: "ai-document",
+            aiDocType: "ai-context",
         };
 
         if (userId) {

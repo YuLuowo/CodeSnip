@@ -23,6 +23,10 @@
         "title": "分類",
         "desc": "依照分類瀏覽程式碼片段"
       },
+      "ai_resources": {
+        "title": "AI 資源",
+        "desc": "瀏覽 AI Context、Prompt Template 與其他 AI 相關的片段"
+      },
       "ai_resource_assistant": {
         "title": "AI 資源助理",
         "desc": "使用搜尋助理尋找 AI 相關資源片段"
@@ -196,6 +200,10 @@
       "favorites": {
         "title": "我的收藏",
         "desc": "你收藏起來的程式碼片段"
+      },
+      "assistant": {
+        "title": "AI 資源助理",
+        "desc": "用搜尋助理找出跟 AI 相關的片段資源"
       }
     },
     "my_snippets_mini": {
@@ -314,7 +322,7 @@
     "desc": "將此片段標記為 AI Context 或 Prompt Template。",
     "type_title": "種類",
     "type_placeholder": "請選擇種類",
-    "type_ai_document": "AI Context",
+    "type_ai_context": "AI Context",
     "type_prompt_template": "Prompt Template",
     "type_other": "其它"
   },
@@ -385,6 +393,41 @@
     },
     "card": {
       "updated": "最後更新於"
+    }
+  },
+  "AiResources": {
+    "title": "AI 資源",
+    "desc": "依 AI 資源類型瀏覽社群分享的程式碼片段。",
+    "empty": "這個類型目前還沒有資源。",
+    "empty_desc": "成為第一個分享的人，或是問問 AI 資源助理。",
+    "empty_create": "建立片段",
+    "ask_assistant": "詢問 AI 助理",
+    "search_placeholder": "搜尋 AI 資源...",
+    "search_results_for": "「{query}」的搜尋結果",
+    "clear_filter": "清除篩選",
+    "sort": {
+      "latest": "最新",
+      "popular": "熱門"
+    },
+    "prev": "前一頁",
+    "next": "下一頁",
+    "types": {
+      "all": {
+        "title": "全部",
+        "desc": "所有 AI 相關資源"
+      },
+      "ai-context": {
+        "title": "AI Context",
+        "desc": "可重複使用的 AI 情境或參考資料"
+      },
+      "prompt-template": {
+        "title": "Prompt Template",
+        "desc": "可重複使用的 AI 提示詞模板"
+      },
+      "other": {
+        "title": "其他",
+        "desc": "其他 AI 相關資源"
+      }
     }
   }
 }

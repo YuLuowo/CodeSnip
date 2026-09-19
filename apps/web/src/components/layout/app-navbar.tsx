@@ -57,6 +57,58 @@ export function AppNavbar() {
                                     <Link href={isSignedIn ? "/snippets" : "/login"} className="text text-foreground">{t("snippets")}</Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger><span className="text text-foreground">{tExplore("title")}</span></NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <div className="flex w-[500px]">
+                                        <ul className="flex-1 space-y-2 p-2">
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <Link href="/search?page=1&sort=popular" className="flex flex-col gap-0.5 rounded-md p-2 hover:bg-accent">
+                                                        <span className="text-sm font-medium">{tExplore("trending.title")}</span>
+                                                        <span className="text-xs text-muted-foreground">{tExplore("trending.desc")}</span>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <Link href="/search?page=1&sort=latest" className="flex flex-col gap-0.5 rounded-md p-2 hover:bg-accent">
+                                                        <span className="text-sm font-medium">{tExplore("newest.title")}</span>
+                                                        <span className="text-xs text-muted-foreground">{tExplore("newest.desc")}</span>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <Link href="/categories" className="flex flex-col gap-0.5 rounded-md p-2 hover:bg-accent">
+                                                        <span className="text-sm font-medium">{tExplore("categories.title")}</span>
+                                                        <span className="text-xs text-muted-foreground">{tExplore("categories.desc")}</span>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                        </ul>
+                                        <div className="mx-4 border-l border-border" />
+                                        <ul className="flex-1 space-y-2 p-2">
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <Link href="/ai-resources" className="flex flex-col gap-0.5 rounded-md p-2 hover:bg-accent">
+                                                        <span className="text-sm font-medium">{tExplore("ai_resources.title")}</span>
+                                                        <span className="text-xs text-muted-foreground">{tExplore("ai_resources.desc")}</span>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <Link href="/assistant" className="flex flex-col gap-0.5 rounded-md p-2 hover:bg-accent">
+                                                        <span className="text-sm font-medium">{tExplore("ai_resource_assistant.title")}</span>
+                                                        <span className="text-xs text-muted-foreground">{tExplore("ai_resource_assistant.desc")}</span>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="flex h-5 items-center justify-between gap-2">
@@ -106,6 +158,7 @@ export function AppNavbar() {
                                         <Link href="/search?page=1&sort=popular" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
                                         <Link href="/search?page=1&sort=latest" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
                                         <Link href="/categories" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
+                                        <Link href="/ai-resources" onClick={() => setOpen(false)}>{tExplore("ai_resources.title")}</Link>
                                         <Link href="/assistant" onClick={() => setOpen(false)}>{tExplore("ai_resource_assistant.title")}</Link>
                                     </div>
                                 </div>

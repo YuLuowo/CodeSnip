@@ -23,6 +23,10 @@
         "title": "Categories",
         "desc": "Browse snippets by category"
       },
+      "ai_resources": {
+        "title": "AI Resources",
+        "desc": "Browse AI Context, Prompt Template, and other AI-related snippets"
+      },
       "ai_resource_assistant": {
         "title": "AI Resource Assistant",
         "desc": "Find AI-related resource snippets with the search assistant"
@@ -196,6 +200,10 @@
       "favorites": {
         "title": "My Favorites",
         "desc": "Snippets you've saved for later"
+      },
+      "assistant": {
+        "title": "AI Resource Assistant",
+        "desc": "Find AI-related resource snippets with the search assistant"
       }
     },
     "my_snippets_mini": {
@@ -314,7 +322,7 @@
     "desc": "Mark this snippet as AI Context or Prompt Template.",
     "type_title": "Type",
     "type_placeholder": "Select a type",
-    "type_ai_document": "AI Context",
+    "type_ai_context": "AI Context",
     "type_prompt_template": "Prompt Template",
     "type_other": "Other"
   },
@@ -385,6 +393,41 @@
     },
     "card": {
       "updated": "Last updated on"
+    }
+  },
+  "AiResources": {
+    "title": "AI Resources",
+    "desc": "Browse code snippets shared by the community, organized by AI resource type.",
+    "empty": "No resources found for this type yet.",
+    "empty_desc": "Be the first to share one, or ask the AI Resource Assistant for help.",
+    "empty_create": "Create a snippet",
+    "ask_assistant": "Ask AI Assistant",
+    "search_placeholder": "Search AI resources...",
+    "search_results_for": "Search results for \"{query}\"",
+    "clear_filter": "Clear Filter",
+    "sort": {
+      "latest": "Latest",
+      "popular": "Popular"
+    },
+    "prev": "Prev",
+    "next": "Next",
+    "types": {
+      "all": {
+        "title": "All",
+        "desc": "All AI-related resources"
+      },
+      "ai-context": {
+        "title": "AI Context",
+        "desc": "Reusable context or reference material for AI tools"
+      },
+      "prompt-template": {
+        "title": "Prompt Template",
+        "desc": "Reusable prompt templates for AI models"
+      },
+      "other": {
+        "title": "Other",
+        "desc": "Other AI-related resources"
+      }
     }
   }
 }

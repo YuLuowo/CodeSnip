@@ -83,6 +83,16 @@ export function PublicNavbar() {
                                         <ul className="flex-1 space-y-2">
                                             <li>
                                                 <NavigationMenuLink asChild>
+                                                    <Link href="/ai-resources">
+                                                        <div className="font-medium">{tExplore("ai_resources.title")}</div>
+                                                        <div className="text-muted-foreground">
+                                                            {tExplore("ai_resources.desc")}
+                                                        </div>
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                            <li>
+                                                <NavigationMenuLink asChild>
                                                     <Link href="/assistant">
                                                         <div className="font-medium">{tExplore("ai_resource_assistant.title")}</div>
                                                         <div className="text-muted-foreground">
@@ -139,6 +149,7 @@ export function PublicNavbar() {
                                         <Link href="/search?page=1&sort=popular" onClick={() => setOpen(false)}>{tExplore("trending.title")}</Link>
                                         <Link href="/search?page=1&sort=latest" onClick={() => setOpen(false)}>{tExplore("newest.title")}</Link>
                                         <Link href="/categories" onClick={() => setOpen(false)}>{tExplore("categories.title")}</Link>
+                                        <Link href="/ai-resources" onClick={() => setOpen(false)}>{tExplore("ai_resources.title")}</Link>
                                         <Link href="/assistant" onClick={() => setOpen(false)}>{tExplore("ai_resource_assistant.title")}</Link>
                                     </div>
                                 </div>

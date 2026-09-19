@@ -226,7 +226,7 @@ export default function EditSnippet({snippet}: EditSnippetProps) {
                                     <SelectValue placeholder={tAiDoc("type_placeholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="ai-document">{tAiDoc("type_ai_document")}</SelectItem>
+                                    <SelectItem value="ai-context">{tAiDoc("type_ai_context")}</SelectItem>
                                     <SelectItem value="prompt-template">{tAiDoc("type_prompt_template")}</SelectItem>
                                     <SelectItem value="other">{tAiDoc("type_other")}</SelectItem>
                                 </SelectContent>

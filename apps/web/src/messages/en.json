@@ -5,10 +5,6 @@
     "get_start": "Get Started",
     "view": "View Snippets"
   },
-  "Dashboard": {
-    "welcome": "Welcome back, {name}",
-    "desc": "Here's an overview of your code snippets."
-  },
   "Navbar": {
     "title": "Share What You Build.",
     "home": "Home",
@@ -34,6 +30,7 @@
     },
     "snippets": "Snippets",
     "docs": "Docs",
+    "create_snippet": "Create New Snippet",
     "theme": "Toggle Mode",
     "avatar": {
       "profile": "Profile",
@@ -169,6 +166,50 @@
     "url_copied_failed": "Failed to copy URL",
     "copy": "Copy",
     "copied": "Copied!"
+  },
+  "Dashboard": {
+    "welcome": "Welcome back",
+    "create": "New Snippet",
+    "feed": {
+      "title": "Following Feed",
+      "uploaded": "uploaded",
+      "uploaded_on": "on",
+      "prev": "Prev",
+      "next": "Next",
+      "empty_no_following": {
+        "title": "You're not following anyone yet",
+        "desc": "Follow other users to see their public snippets here.",
+        "action": "Discover Snippets"
+      },
+      "empty_no_snippets": {
+        "title": "No new snippets",
+        "desc": "The people you follow haven't posted anything yet.",
+        "action": "Discover Snippets"
+      }
+    },
+    "quick_links": {
+      "title": "Quick Access",
+      "my_snippets": {
+        "title": "My Snippets",
+        "desc": "Manage the snippets you've created"
+      },
+      "favorites": {
+        "title": "My Favorites",
+        "desc": "Snippets you've saved for later"
+      }
+    },
+    "my_snippets_mini": {
+      "title": "My Snippets",
+      "empty": "You haven't created any snippets yet",
+      "show_more": "Show more",
+      "show_less": "Show less"
+    },
+    "stats": {
+      "title": "Overview",
+      "snippets_count": "Snippets",
+      "following": "Following",
+      "no_following": "Not following anyone yet"
+    }
   },
   "MySnippets": {
     "title": "My Snippets",

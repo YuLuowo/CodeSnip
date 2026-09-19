@@ -63,7 +63,7 @@ export function AppNavbar() {
                         <SearchCommand/>
                         <Separator orientation="vertical"/>
                         <Link href="/snippets/create" passHref>
-                            <Button variant="outline" size="sm" className="text-sm h-8 cursor-pointer"><Plus className="w-4 h-4"/> Create New Snippet</Button>
+                            <Button variant="outline" size="sm" className="text-sm h-8 cursor-pointer"><Plus className="w-4 h-4"/> {t("create_snippet")}</Button>
                         </Link>
                         <Separator orientation="vertical"/>
                         <ThemeToggle/>

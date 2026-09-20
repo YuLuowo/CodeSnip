@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { connectDB, Snippet, ISnippet, Follow } from "@codesnip/db";
 import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import { createEmbedding } from "@/lib/embedding";
-import { tagMap } from "@/lib/utils";
+import { tagKeys } from "@/configs/maps";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -79,7 +79,7 @@ export async function GET(request: Request) {
 
         if (tag.length) {
             filter.tags = {
-                $in: tag.map(t => tagMap[t] ?? t)
+                $in: tag
             };
         }
 
@@ -233,7 +233,7 @@ export async function POST(req: Request) {
             desc,
             language: language.toLowerCase(),
             code,
-            tags: tags.map((tag: string) => tagMap[tag] ?? tag),
+            tags: tags.filter((tag: string) => tagKeys.includes(tag as (typeof tagKeys)[number])),
             isPublic,
             author: session.user.id,
             embedding: embedding,

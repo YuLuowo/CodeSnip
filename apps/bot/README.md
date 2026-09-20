@@ -6,6 +6,8 @@ CodeSnip's Discord Bot, letting users query the code snippets they've published 
 
 - `/my-snippets`: View a list of your most recently published snippets (requires connecting your Discord account on the website's `/settings` page first).
 - `/snippet <id>`: View the details of a snippet by its id (title, description, language, tags, code, likes/comments count).
+- `/search <keyword>`: Search public snippets by keyword. This command does not require connecting a Discord account and only returns public snippets, even if a matching private snippet belongs to the requester.
+- `/profile [username]`: View a CodeSnip profile. Without `username`, shows your own profile (requires connecting your Discord account first). With `username`, shows anyone's public profile without requiring a linked account. Includes bio, website/GitHub links, snippets/followers/following counts, top 3 languages (with a text-based progress bar), top 5 tags, a featured (most liked) snippet, and the account's joined date.
 
 All queries go through the `/api/bot/*` endpoints provided by `apps/web`, using `BOT_API_SECRET` for service-to-service authentication instead of a regular user session login.
 

@@ -104,4 +104,53 @@ export async function getSnippetById(
     }
 }
 
+export async function searchPublicSnippets(
+    query: string,
+    limit = 5
+): Promise<SnippetListResponse> {
+    return botFetch<SnippetListResponse>(
+        `/api/bot/search?q=${encodeURIComponent(query)}&limit=${limit}`
+    );
+}
+
+export interface BotProfile {
+    user: {
+        name: string;
+        username: string;
+        image: string | null;
+    };
+    profile: {
+        bio: string;
+        website: string;
+        githubUrl: string;
+    };
+    stats: {
+        followersCount: number;
+        followingCount: number;
+        snippetsCount: number;
+    };
+    topLanguages: { language: string; count: number; percentage: number }[];
+    topTags: string[];
+    featuredSnippet: { _id: string; title: string; likesCount: number } | null;
+    joinedAt: string;
+}
+
+export async function getProfile(params: {
+    discordId?: string;
+    username?: string;
+}): Promise<BotProfile | null> {
+    const query = params.username
+        ? `username=${encodeURIComponent(params.username)}`
+        : `discordId=${encodeURIComponent(params.discordId!)}`;
+
+    try {
+        return await botFetch<BotProfile>(`/api/bot/profile?${query}`);
+    } catch (error) {
+        if (error instanceof ApiError && error.status === 404) {
+            return null;
+        }
+        throw error;
+    }
+}
+
 export { ApiError };

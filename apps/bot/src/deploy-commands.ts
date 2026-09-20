@@ -10,7 +10,8 @@ async function deploy() {
     try {
         console.log(`Registering ${body.length} slash command(s)...`);
 
-        await rest.put(Routes.applicationCommands(env.DISCORD_CLIENT_ID), { body });
+        await rest.put(Routes.applicationCommands(env.DISCORD_CLIENT_ID), { body: [] });
+        await rest.put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID), { body });
 
         console.log("Slash commands registered successfully.");
     } catch (error) {

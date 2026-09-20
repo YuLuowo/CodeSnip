@@ -2,6 +2,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { useTranslations } from "use-intl";
+import { tagKeys } from "@/configs/maps";
 
 interface MultiSelectProps {
     value?: string[];
@@ -12,18 +13,7 @@ interface MultiSelectProps {
 export default function MultiSelect({ value = [], onChange, grid = "col" }: MultiSelectProps) {
     const t = useTranslations("SnippetTags.tags");
 
-    const items = [
-        { id: "algorithm", label: t("algorithm") },
-        { id: "data_structure", label: t("data_structure") },
-        { id: "ui_component", label: t("ui_component") },
-        { id: "template", label: t("template") },
-        { id: "leetcode", label: t("leetcode") },
-        { id: "project_template", label: t("project_template") },
-        { id: "examples", label: t("examples") },
-        { id: "learning_resources", label: t("learning_resources") },
-        { id: "frontend", label: t("frontend") },
-        { id: "backend", label: t("backend") },
-    ] as const;
+    const items = tagKeys.map((id) => ({ id, label: t(id) }));
 
     const handleToggle = (id: string) => {
         const updated = value.includes(id)

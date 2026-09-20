@@ -34,3 +34,29 @@ export const languageMaps = {
         graphql: "GraphQL",
     },
 } as const;
+
+export function getLanguageLabel(language: string): string {
+    if (!language) return "";
+
+    for (const group of Object.values(languageMaps)) {
+        const label = (group as Record<string, string>)[language];
+        if (label) return label;
+    }
+
+    return language;
+}
+
+export const tagKeys = [
+    "algorithm",
+    "data_structure",
+    "ui_component",
+    "template",
+    "leetcode",
+    "project_template",
+    "examples",
+    "learning_resources",
+    "frontend",
+    "backend",
+] as const;
+
+export type TagKey = (typeof tagKeys)[number];

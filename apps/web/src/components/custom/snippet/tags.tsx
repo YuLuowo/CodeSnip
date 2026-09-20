@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "use-intl";
-import { capitalizeFirstLetter, tagMap } from "@/lib/utils";
+import { getLanguageLabel } from "@/configs/maps";
 
 interface SnippetTagsProps {
     language: string;
@@ -17,15 +17,12 @@ export default function SnippetTags({ language, tags = [] }: SnippetTagsProps) {
 
     return (
         <div className="flex flex-wrap max-w-xl gap-2">
-            {language && <Badge>{capitalizeFirstLetter(language)}</Badge>}
-            {tags.map((tag) => {
-                const key = tagMap[tag] || tag;
-                return (
-                    <Badge variant="secondary" key={tag}>
-                        {t(`tags.${key}`)}
-                    </Badge>
-                );
-            })}
+            {language && <Badge>{getLanguageLabel(language)}</Badge>}
+            {tags.map((tag) => (
+                <Badge variant="secondary" key={tag}>
+                    {t(`tags.${tag}`)}
+                </Badge>
+            ))}
         </div>
     );
 }

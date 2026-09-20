@@ -5,7 +5,8 @@ import { useTranslations } from "use-intl";
 import { Heart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { capitalizeFirstLetter, utcToLocalDate } from "@/lib/utils";
+import { utcToLocalDate } from "@/lib/utils";
+import { getLanguageLabel } from "@/configs/maps";
 import { ISnippetClient } from "@/configs/types";
 
 interface FeedItemProps {
@@ -59,7 +60,7 @@ export default function FeedItem({ snippet, isLast }: FeedItemProps) {
                 <div className="flex flex-wrap items-center gap-2 mt-1.5">
                     {snippet.language && (
                         <Badge variant="secondary" className="text-xs">
-                            {capitalizeFirstLetter(snippet.language)}
+                            {getLanguageLabel(snippet.language)}
                         </Badge>
                     )}
 

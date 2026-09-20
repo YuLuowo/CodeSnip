@@ -4,7 +4,8 @@ import CodeBlock from "@/components/custom/common/code-block";
 import SnippetTags from "@/components/custom/snippet/tags";
 import LikeButton from "@/components/custom/common/like-button";
 import { useSession } from "next-auth/react";
-import { capitalizeFirstLetter, utcToLocalDate } from "@/lib/utils";
+import { utcToLocalDate } from "@/lib/utils";
+import { getLanguageLabel } from "@/configs/maps";
 import ShareButton from "@/components/custom/common/share-button";
 import { Button } from "../ui/button";
 import { Heart, MessageSquare, Pencil, Trash } from "lucide-react";
@@ -186,7 +187,7 @@ export default function SnippetView({snippet}: SnippetProps) {
                         <div className="flex flex-col gap-2">
                             <span className="text-xs text-muted-foreground">{t("language")}</span>
                             <Badge variant="secondary" className="w-fit">
-                                {capitalizeFirstLetter(snippet.language)}
+                                {getLanguageLabel(snippet.language)}
                             </Badge>
                         </div>
 

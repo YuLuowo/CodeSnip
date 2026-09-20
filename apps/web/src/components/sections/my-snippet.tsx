@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SnippetFilter from "@/components/custom/snippet/filter";
 import { useSession } from "next-auth/react";
 import { Spinner } from "@/components/ui/spinner";
-import { capitalizeFirstLetter, tagMap } from "@/lib/utils";
+import { getLanguageLabel } from "@/configs/maps";
 import { FolderCode, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -130,13 +130,10 @@ export function MySnippet() {
                     <p className="text-muted-foreground">
                         {t("no_snip")}
                         {filters.title && ` ${t("for")} "${filters.title}"`}
-                        {filters.language && ` ${t("in")} ${capitalizeFirstLetter(filters.language)}`}
+                        {filters.language && ` ${t("in")} ${getLanguageLabel(filters.language)}`}
                         {filters.tags.length > 0 &&
                             ` ${t("with_tags")} ${filters.tags
-                                .map((tag) => {
-                                    const key = tagMap[tag] || tag;
-                                    return tTags(`tags.${key}`);
-                                })
+                                .map((tag) => tTags(`tags.${tag}`))
                                 .join(", ")}`
                         }
                         .

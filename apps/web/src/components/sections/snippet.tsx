@@ -151,7 +151,7 @@ export default function SnippetView({snippet}: SnippetProps) {
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="code" className="mt-4">
-                            <CodeBlock code={snippet.code} language={snippet.language}/>
+                            <CodeBlock code={snippet.code} language={snippet.language} fileName={snippet.title} className="min-h-[500px]"/>
                         </TabsContent>
                         <TabsContent value="comments" className="mt-4">
                             <CommentSection snippetId={snippet._id} snippetAuthorId={snippet.author._id}/>

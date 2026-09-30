@@ -31,9 +31,9 @@ const Footer = async ({
         {
             title: tProduct("title"),
             links: [
-                { text: tProduct("explore"), url: "#" },
-                { text: tProduct("create"), url: "#" },
-                { text: tProduct("my_snippet"), url: "#" },
+                { text: tProduct("explore"), url: "/search?page=1&sort=popular" },
+                { text: tProduct("create"), url: "/snippets/create" },
+                { text: tProduct("my_snippet"), url: "/snippets" },
                 { text: tProduct("docs"), url: "#" },
             ],
         },
@@ -56,7 +56,7 @@ const Footer = async ({
     copyright ??= `© ${new Date().getFullYear()} ImagineYuLuo. ${t("copyright")}`;
 
     return (
-        <section className="flex flex-col items-center p-8">
+        <section className="flex flex-col items-center p-8 border-t">
             <div className="container">
                 <footer>
                     <div className="grid grid-cols-2 gap-8 lg:grid-cols-5">

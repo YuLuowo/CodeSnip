@@ -1,9 +1,94 @@
 {
   "Home": {
+    "badge": "Open source · Built for developers",
     "title": "Share What You Build.",
     "desc": "A modern code snippet manager that helps developers save time, stay organized, and collaborate effortlessly.",
     "get_start": "Get Started",
     "view": "View Snippets"
+  },
+  "ProblemSolution": {
+    "badge": "Why CodeSnip",
+    "title": "Stop losing track of your code",
+    "desc": "Scattered snippets across chats, notes, and files make it hard to find what you wrote before. CodeSnip brings it all together.",
+    "before": "Before",
+    "after": "With CodeSnip",
+    "problems": [
+      "Snippets scattered across Slack, Notion, and local files",
+      "Hard to search and impossible to remember",
+      "Sharing code means copy-pasting into chat"
+    ],
+    "solutions": [
+      "One place to store and organize every snippet",
+      "Tag and full-text search to find anything instantly",
+      "Share a single link, or search directly from Discord"
+    ]
+  },
+  "Features": {
+    "badge": "Features",
+    "title": "Everything you need to manage code",
+    "desc": "From syntax highlighting to sharing, CodeSnip keeps your snippets organized and ready whenever you need them.",
+    "cta": "Learn more",
+    "items": [
+      {
+        "title": "Smart Organization",
+        "desc": "Group snippets by language, tag, or project and find exactly what you need in seconds."
+      },
+      {
+        "title": "Beautiful Syntax Highlighting",
+        "desc": "Dozens of languages rendered with clean, readable formatting — every snippet looks as good as it works."
+      },
+      {
+        "title": "Public Profiles",
+        "desc": "Showcase your work with a public profile others can follow, browse, and discover your best snippets."
+      },
+      {
+        "title": "Powerful Search",
+        "desc": "Full-text and tag search help you find any snippet in seconds, no matter how long ago you saved it."
+      },
+      {
+        "title": "Discord Integration",
+        "desc": "Search and share snippets directly from Discord without ever leaving the chat."
+      },
+      {
+        "title": "AI Assistant",
+        "desc": "Ask in plain language and let the AI assistant find and explain the right snippet for you."
+      }
+    ]
+  },
+  "Examples": {
+    "badge": "Examples",
+    "title": "See it in action",
+    "desc": "A quick look at how your snippets are rendered with clean, readable syntax highlighting."
+  },
+  "BotSpotlight": {
+    "badge": "Discord Integration",
+    "title": "Search your snippets without leaving Discord",
+    "desc": "Use the CodeSnip bot to search, share, and preview snippets directly inside your Discord server.",
+    "cta": "Add to Discord"
+  },
+  "HowItWorks": {
+    "badge": "How it works",
+    "title": "Get started in three steps",
+    "desc": "No complicated setup. Save your first snippet in under a minute.",
+    "steps": [
+      {
+        "title": "Paste or write code",
+        "desc": "Create a new snippet with any language you like."
+      },
+      {
+        "title": "Add tags & language",
+        "desc": "Organize snippets so you can find them again instantly."
+      },
+      {
+        "title": "Share or search via Bot",
+        "desc": "Send a link, or look it up straight from Discord."
+      }
+    ]
+  },
+  "FinalCta": {
+    "title": "Ready to organize your code?",
+    "desc": "Join CodeSnip today and never lose a snippet again.",
+    "cta": "Get Started"
   },
   "Navbar": {
     "title": "Share What You Build.",

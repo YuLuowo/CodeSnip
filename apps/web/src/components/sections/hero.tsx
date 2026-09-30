@@ -1,37 +1,58 @@
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { HeroBackGround } from "@/components/sections/hero-background";
 
 export async function Hero() {
     const t = await getTranslations("Home");
-    return (
-        <section className="flex flex-col items-center justify-center gap-4 px-6 md:px-20 py-8 md:py-16">
-            <h1 className="text-3xl md:text-5xl font-bold">{t("title")}</h1>
-            <span className="text-sm md:text-xl max-w-2xl text-center mb-2">
-                {t("desc")}
-            </span>
-            <div className="flex items-center justify-center gap-2">
-                <Link href="/snippets/create">
-                    <Button variant="default" size="sm" className="hover:cursor-pointer">
-                        {t("get_start")}
-                    </Button>
-                </Link>
-                <Button variant="ghost" size="sm" className="hover:cursor-pointer">
-                    {t("view")}
-                </Button>
-            </div>
 
-            <div className="mt-18 max-w-6xl w-full">
-                <div className="relative animate-rotate-border transition-all duration-500 ease-out transform-3d rounded-lg md:rounded-xl bg-conic/[from_var(--border-angle)] from-transparent dark:from-black via-pink-400 dark:via-white to-blue-300 dark:to-black from-80% via-90% to-100% p-0.5 md:p-1">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 dark:from-blue-300 to-purple-400 dark:to-purple-300 rounded md:rounded-lg blur md:blur-lg opacity-75"></div>
-                    <div className="absolute inset-0 z-10 bg-transparent"></div>
-                    <img
-                        src="/images/snippet-preview.png"
-                        alt="Snippet manager preview"
-                        className="relative rounded-lg md:rounded-xl shadow-lg"
-                    />
+    return (
+        <section className="relative flex min-h-screen w-full items-center overflow-hidden px-10 md:px-20">
+            <HeroBackGround />
+            <div className="relative z-20 grid w-full max-w-7xl mx-auto grid-cols-1 items-center gap-8 py-12 md:grid-cols-2 md:gap-10 md:py-0">
+                <div className="flex flex-col items-start gap-4 text-left">
+                    <Badge variant="outline" className="rounded-full px-3 py-1 text-muted-foreground">
+                        {t("badge")}
+                    </Badge>
+
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight">{t("title")}</h1>
+                    <span className="text-sm md:text-base max-w-xl text-muted-foreground">
+                        {t("desc")}
+                    </span>
+                    <div className="flex items-center gap-2 mt-2">
+                        <Link href="/snippets/create">
+                            <Button variant="default" size="sm" className="hover:cursor-pointer">
+                                {t("get_start")}
+                            </Button>
+                        </Link>
+                        <Link href="/snippets">
+                            <Button variant="ghost" size="sm" className="hover:cursor-pointer">
+                                {t("view")}
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+
+                <div className="w-full">
+                    <div className="relative rounded-lg md:rounded-xl border bg-card p-1.5 md:p-2 shadow-2xl ">
+                        <img
+                            src="/images/light/showcase.png"
+                            alt="Snippet manager preview"
+                            draggable={false}
+                            className="relative w-full rounded-md md:rounded-lg select-none dark:hidden"
+                        />
+
+                        <img
+                            src="/images/dark/showcase.png"
+                            alt="Snippet manager preview"
+                            draggable={false}
+                            className="relative hidden w-full rounded-md md:rounded-lg select-none dark:block"
+                        />
+                    </div>
                 </div>
             </div>
+
         </section>
     )
 }

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Code, Menu } from "lucide-react"
+import { Code, Menu, Slash, SlashIcon } from "lucide-react"
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -28,90 +28,94 @@ export function PublicNavbar() {
     const t = useTranslations("Navbar");
     const tExplore = useTranslations("Navbar.explore");
     return (
-        <header className="fixed top-4 inset-x-0 z-50 mx-3 md:mx-auto max-w-5xl px-4 border-0 border-accent/80 rounded-xl bg-accent/30 shadow-xs backdrop-blur backdrop-saturate-100 transition-colors">
-            <div className="container flex justify-between items-center h-full px-4 py-4">
-                <div className="hidden md:flex justify-between items-center gap-4 w-full">
-                    <div>
-                        <Link href="/" className="text-lg font-semibold">
-                            CodeSnip
-                        </Link>
+        <header className="fixed top-4 inset-x-0 z-50 mx-3 md:mx-auto max-w-7xl px-4 border border-foreground/4.5 rounded-xl bg-background/45 shadow-xs backdrop-blur-xl backdrop-saturate-100 transition-colors">
+            <div className="container flex justify-between items-center h-full px-3 py-3 select-none">
+                <div className="hidden md:flex w-full items-center justify-between gap-4">
+                    <div className="flex items-center gap-8">
+                        <div className="flex items-center flex-row gap-2 text-accent-foreground">
+                            <Code className="h-5 w-5" />
+                            <Link href="/" className="text-base font-semibold">
+                                CodeSnip
+                            </Link>
+                        </div>
+                        <NavigationMenu viewport={false}>
+                            <NavigationMenuList>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                        <Link href="/" className="text-sm">{t("home")}</Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger className="text-sm">{tExplore("title")}</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <div className="flex w-[500px]">
+                                            <ul className="flex-1 space-y-2">
+                                                <li>
+                                                    <NavigationMenuLink asChild>
+                                                        <Link href="/search?page=1&sort=popular">
+                                                            <div className="font-medium">{tExplore("trending.title")}</div>
+                                                            <div className="text-muted-foreground">
+                                                                {tExplore("trending.desc")}
+                                                            </div>
+                                                        </Link>
+                                                    </NavigationMenuLink>
+                                                </li>
+                                                <li>
+                                                    <NavigationMenuLink asChild>
+                                                        <Link href="/search?page=1&sort=latest">
+                                                            <div className="font-medium">{tExplore("newest.title")}</div>
+                                                            <div className="text-muted-foreground">
+                                                                {tExplore("newest.desc")}
+                                                            </div>
+                                                        </Link>
+                                                    </NavigationMenuLink>
+                                                </li>
+                                                <li>
+                                                    <NavigationMenuLink asChild>
+                                                        <Link href="/categories">
+                                                            <div className="font-medium">{tExplore("categories.title")}</div>
+                                                            <div className="text-muted-foreground">
+                                                                {tExplore("categories.desc")}
+                                                            </div>
+                                                        </Link>
+                                                    </NavigationMenuLink>
+                                                </li>
+                                            </ul>
+                                            <div className="mx-4 border-l border-border" />
+                                            <ul className="flex-1 space-y-2">
+                                                <li>
+                                                    <NavigationMenuLink asChild>
+                                                        <Link href="/ai-resources">
+                                                            <div className="font-medium">{tExplore("ai_resources.title")}</div>
+                                                            <div className="text-muted-foreground">
+                                                                {tExplore("ai_resources.desc")}
+                                                            </div>
+                                                        </Link>
+                                                    </NavigationMenuLink>
+                                                </li>
+                                                <li>
+                                                    <NavigationMenuLink asChild>
+                                                        <Link href="/assistant">
+                                                            <div className="font-medium">{tExplore("ai_resource_assistant.title")}</div>
+                                                            <div className="text-muted-foreground">
+                                                                {tExplore("ai_resource_assistant.desc")}
+                                                            </div>
+                                                        </Link>
+                                                    </NavigationMenuLink>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                        <Link href="/" className="text-sm">{t("docs")}</Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
                     </div>
-                    <NavigationMenu viewport={false}>
-                        <NavigationMenuList>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                    <Link href="/" className="text-sm">{t("home")}</Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuTrigger className="text-sm">{tExplore("title")}</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    <div className="flex w-[500px]">
-                                        <ul className="flex-1 space-y-2">
-                                            <li>
-                                                <NavigationMenuLink asChild>
-                                                    <Link href="/search?page=1&sort=popular">
-                                                        <div className="font-medium">{tExplore("trending.title")}</div>
-                                                        <div className="text-muted-foreground">
-                                                            {tExplore("trending.desc")}
-                                                        </div>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            </li>
-                                            <li>
-                                                <NavigationMenuLink asChild>
-                                                    <Link href="/search?page=1&sort=latest">
-                                                        <div className="font-medium">{tExplore("newest.title")}</div>
-                                                        <div className="text-muted-foreground">
-                                                            {tExplore("newest.desc")}
-                                                        </div>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            </li>
-                                            <li>
-                                                <NavigationMenuLink asChild>
-                                                    <Link href="/categories">
-                                                        <div className="font-medium">{tExplore("categories.title")}</div>
-                                                        <div className="text-muted-foreground">
-                                                            {tExplore("categories.desc")}
-                                                        </div>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            </li>
-                                        </ul>
-                                        <div className="mx-4 border-l border-border" />
-                                        <ul className="flex-1 space-y-2">
-                                            <li>
-                                                <NavigationMenuLink asChild>
-                                                    <Link href="/ai-resources">
-                                                        <div className="font-medium">{tExplore("ai_resources.title")}</div>
-                                                        <div className="text-muted-foreground">
-                                                            {tExplore("ai_resources.desc")}
-                                                        </div>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            </li>
-                                            <li>
-                                                <NavigationMenuLink asChild>
-                                                    <Link href="/assistant">
-                                                        <div className="font-medium">{tExplore("ai_resource_assistant.title")}</div>
-                                                        <div className="text-muted-foreground">
-                                                            {tExplore("ai_resource_assistant.desc")}
-                                                        </div>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                    <Link href="/" className="text-sm">{t("docs")}</Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+
                     <div className="flex h-5 items-center justify-between gap-4">
                         <ThemeToggle/>
                         <Separator orientation="vertical"/>

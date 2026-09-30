@@ -8,7 +8,7 @@ export function Navbar() {
     const { data: session, status } = useSession();
 
     if (status === "loading") {
-        return <nav className="w-full bg-background sticky top-0 z-50 h-[65px]" />;
+        return <nav className="w-full bg-background sticky top-0 z-50" />;
     }
 
     return session?.user ? <AppNavbar/> : <PublicNavbar/>;

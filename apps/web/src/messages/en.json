@@ -520,16 +520,34 @@
     },
     "chat": {
       "title": "AI Resource Assistant",
-      "welcome": "Hello! I'm the AI Resource Assistant. Enter the topic or keywords you'd like to search for, and I'll find the three most relevant snippets for you.",
+      "welcome": "Hello! I'm your AI Resource Assistant. Enter a topic or keyword you'd like to explore, and I'll search for and recommend relevant Snippets.",
       "placeholder": "Enter a search keyword...",
       "send": "Submit",
       "found_results": "The following {count} relevant results were found:",
       "no_results": "No related resource snippets were found. Please try a different keyword.",
       "error": "An error occurred. Please try again later.",
+      "login_required": "Please sign in to use the AI Resource Assistant.",
       "quick_keywords": {
         "improve_ui": "Improve UI",
         "agent": "Agent",
         "mcp": "MCP"
+      },
+      "reset_keywords": "Reset suggestions",
+      "thinking": {
+        "default": "Thinking…",
+        "embedding": "Understanding your question",
+        "searching": "Searching for relevant snippets",
+        "generating": "Generating recommendation reasons"
+      }
+    },
+    "preview": {
+      "empty": "Enter your needs on the right, and the recommended snippets will appear here.",
+      "view_full": "View full snippet"
+    },
+    "workspace": {
+      "tabs": {
+        "chat": "Chat",
+        "result": "Results"
       }
     },
     "card": {

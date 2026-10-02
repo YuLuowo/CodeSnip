@@ -520,16 +520,34 @@
     },
     "chat": {
       "title": "AI 資源助理",
-      "welcome": "您好，我是 AI 資源助理。請輸入您欲查詢的主題或關鍵字，我將為您搜尋最相關的三筆 Snippets。",
+      "welcome": "您好，我是 AI 資源助理。請輸入您欲查詢的主題或關鍵字，我將為您搜尋並推薦相關的 Snippets。",
       "placeholder": "請輸入查詢關鍵字...",
       "send": "送出",
       "found_results": "已為您搜尋出以下 {count} 筆相關結果：",
       "no_results": "查無相關的資源片段，請嘗試其他關鍵字。",
       "error": "系統發生錯誤，請稍後再試。",
+      "login_required": "請先登入才能使用 AI 資源助理。",
       "quick_keywords": {
         "improve_ui": "改善 UI",
         "agent": "代理人",
         "mcp": "MCP"
+      },
+      "reset_keywords": "重設推薦關鍵字",
+      "thinking": {
+        "default": "思考中…",
+        "embedding": "正在理解你的問題",
+        "searching": "正在搜尋相關片段",
+        "generating": "正在生成推薦理由"
+      }
+    },
+    "preview": {
+      "empty": "在右側輸入你的需求，推薦的程式碼片段會顯示在這裡。",
+      "view_full": "查看完整片段"
+    },
+    "workspace": {
+      "tabs": {
+        "chat": "聊天",
+        "result": "結果"
       }
     },
     "card": {

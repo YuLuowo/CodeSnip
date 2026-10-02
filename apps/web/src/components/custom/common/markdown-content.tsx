@@ -79,7 +79,7 @@ export function MarkdownContent({ content }: { content: string }) {
     const { resolvedTheme } = useTheme();
 
     return (
-        <div className="text-sm sm:text-base">
+        <div className="text-sm">
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{

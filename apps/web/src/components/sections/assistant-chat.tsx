@@ -4,23 +4,45 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { ISnippetClient } from "@/configs/types";
 import { useSession } from "next-auth/react";
-import { Spinner } from "@/components/ui/spinner";
-import { Code, User } from "lucide-react";
 import { useTranslations, useLocale } from "use-intl";
-import { MarkdownContent } from "@/components/custom/common/markdown-content";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ThoughtLine from "@/components/ui/thought-line";
 import * as React from "react";
+import { SnippetReason } from "@/components/sections/assistant-preview-panel";
+import { TypingAnimation } from "@/components/ui/typing-animation";
 
 type Message = {
     sender: 'user' | 'ai';
     content: string;
-    snippets?: ISnippetClient[];
 };
 
-export function AssistantChat() {
+type Stage = "embedding" | "searching" | "generating";
+
+type DoneEvent = {
+    stage: "done";
+    message: string;
+    suggestions?: string[];
+    reasons?: SnippetReason[];
+    data: ISnippetClient[];
+};
+
+type ErrorEvent = {
+    stage: "error";
+    message?: string;
+};
+
+type StageEvent = {
+    stage: Stage;
+};
+
+type SSEEvent = DoneEvent | ErrorEvent | StageEvent;
+
+interface AssistantChatProps {
+    onResult: (snippets: ISnippetClient[], reasons: SnippetReason[]) => void;
+}
+
+export function AssistantChat({ onResult }: AssistantChatProps) {
     const t = useTranslations("AssistantPage.chat");
     const locale = useLocale();
     const [messages, setMessages] = useState<Message[]>([
@@ -28,13 +50,23 @@ export function AssistantChat() {
     ]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [currentStage, setCurrentStage] = useState<Stage | null>(null);
+    const [completedStages, setCompletedStages] = useState<Stage[]>([]);
     const { data: session } = useSession();
 
-    const QUICK_KEYWORDS = [
-        { key: "improve_ui", query: t("quick_keywords.improve_ui") },
-        { key: "agent", query: t("quick_keywords.agent") },
-        { key: "mcp", query: t("quick_keywords.mcp") },
-    ] as const;
+    const STAGE_LABELS: Record<Stage, string> = {
+        embedding: t("thinking.embedding"),
+        searching: t("thinking.searching"),
+        generating: t("thinking.generating"),
+    };
+
+    const DEFAULT_QUICK_KEYWORDS = [
+        t("quick_keywords.improve_ui"),
+        t("quick_keywords.agent"),
+        t("quick_keywords.mcp"),
+    ];
+    const [quickKeywords, setQuickKeywords] = useState<string[]>(DEFAULT_QUICK_KEYWORDS);
+    const [hasDynamicKeywords, setHasDynamicKeywords] = useState(false);
 
     const handleSend = async (overrideQuery?: string) => {
         const query = (overrideQuery ?? input).trim();
@@ -44,6 +76,8 @@ export function AssistantChat() {
         setMessages((prev) => [...prev, userMessage]);
         setInput("");
         setLoading(true);
+        setCompletedStages([]);
+        setCurrentStage("embedding");
 
         try {
             const res = await fetch("/api/assistant", {
@@ -51,23 +85,75 @@ export function AssistantChat() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query, locale }),
             });
-            if (!res.ok) throw new Error("Failed to search");
-            const data = await res.json();
 
-            const snippets: ISnippetClient[] = data.data ?? [];
+            if (res.status === 401) {
+                setMessages((prev) => [...prev, { sender: 'ai', content: t("login_required") }]);
+                return;
+            }
+            if (!res.ok || !res.body) throw new Error("Failed to search");
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = "";
+            let doneEvent: DoneEvent | null = null;
+            let serverError: string | null = null;
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                const parts = buffer.split("\n\n");
+                buffer = parts.pop() ?? "";
+                for (const part of parts) {
+                    const line = part.trim();
+                    if (!line.startsWith("data:")) continue;
+                    const json = line.slice(5).trim();
+                    let event: SSEEvent | null = null;
+                    try {
+                        event = JSON.parse(json) as SSEEvent;
+                    } catch {
+                        continue; // ignore malformed chunk
+                    }
+                    if (!event) continue;
+                    if (event.stage === "done") {
+                        doneEvent = event;
+                    } else if (event.stage === "error") {
+                        serverError = event.message || "Failed to search";
+                    } else if (event.stage === "embedding" || event.stage === "searching" || event.stage === "generating") {
+                        const stage = event.stage;
+                        setCurrentStage((prevStage) => {
+                            if (prevStage) setCompletedStages((prev) => [...prev, prevStage]);
+                            return stage;
+                        });
+                    }
+                }
+            }
+
+            if (serverError) throw new Error(serverError);
+
+            const snippets: ISnippetClient[] = doneEvent?.data ?? [];
+            const reasons: SnippetReason[] = doneEvent?.reasons ?? [];
+            const suggestions: string[] = doneEvent?.suggestions ?? [];
             const aiResponse: Message = {
                 sender: 'ai',
                 content: snippets.length > 0
-                    ? (data.message?.trim() || t("found_results", { count: snippets.length }))
+                    ? (doneEvent?.message?.trim() || t("found_results", { count: snippets.length }))
                     : t("no_results"),
-                snippets: snippets
             };
             setMessages((prev) => [...prev, aiResponse]);
+            if (suggestions.length > 0) {
+                setQuickKeywords(suggestions.slice(0, 3));
+                setHasDynamicKeywords(true);
+            }
+            onResult(snippets, reasons);
         } catch (err) {
             console.error(err);
             setMessages((prev) => [...prev, { sender: 'ai', content: t("error") }]);
         } finally {
             setLoading(false);
+            setCurrentStage(null);
+            setCompletedStages([]);
         }
     };
 
@@ -76,52 +162,70 @@ export function AssistantChat() {
         handleSend(keyword);
     };
 
-    return (
-        <div className="flex flex-col gap-4 border rounded-lg p-3 sm:p-4">
-            <div className="font-medium">{t("title")}</div>
+    const handleResetQuickKeywords = () => {
+        setQuickKeywords(DEFAULT_QUICK_KEYWORDS);
+        setHasDynamicKeywords(false);
+    };
 
-            <div className="flex flex-col gap-4 h-[70vh] sm:h-[600px]">
-                <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+    return (
+        <div className="flex h-full flex-col gap-4 border rounded-sm p-3 sm:p-4">
+            <div className="font-semibold">{t("title")}</div>
+
+            <div className="flex flex-1 flex-col gap-4 min-h-0">
+                <div className="flex-1 overflow-y-auto space-y-2">
                     {messages.map((msg, i) => (
                         <div key={i} className={`flex gap-2 sm:gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            {msg.sender === 'ai' && <Code className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-muted rounded-full shrink-0" />}
-                            <div className={`p-3 rounded-lg max-w-[85%] sm:max-w-[80%] text-sm sm:text-base ${msg.sender === 'user' ? 'bg-primary text-primary-foreground whitespace-pre-wrap' : 'bg-muted'}`}>
-                                {msg.sender === 'ai' ? <MarkdownContent content={msg.content} /> : msg.content}
-                                {msg.snippets && msg.snippets.length > 0 && (
-                                    <div className="mt-3 flex flex-col gap-1">
-                                        {msg.snippets.map((s) => (
-                                            <Link key={String(s._id)} href={`/snippets/${s._id}`} target="_blank" className="text-blue-500 hover:underline block truncate">
-                                                • {s.title}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )}
+                            <div className={`px-3 py-2 rounded-sm max-w-[85%] sm:max-w-[80%] text-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground whitespace-pre-wrap' : 'bg-muted'}`}>
+                                {msg.sender === 'ai' ?
+                                    <TypingAnimation
+                                        typeSpeed={30}
+                                        pauseDelay={1200}
+                                        showCursor
+                                        blinkCursor
+                                        cursorStyle="line"
+                                        className="text-sm text-foreground"
+                                    >
+                                        {msg.content}
+                                    </TypingAnimation>
+                                    : msg.content}
                             </div>
-                            {msg.sender === 'user' &&
-                                (!session ?
-                                    <User className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-primary text-primary-foreground rounded-full shrink-0" /> :
-                                    <Avatar className="w-8 h-8">
-                                        <AvatarImage src={session?.user?.image} alt={session?.user?.name} />
-                                        <AvatarFallback>U</AvatarFallback>
-                                    </Avatar>
-                                )
-                            }
                         </div>
                     ))}
-                    {loading && <div className="flex justify-start gap-2 sm:gap-3"><Code className="w-7 h-7 sm:w-8 sm:h-8 p-1.5 bg-muted rounded-full shrink-0" /><Spinner /></div>}
+                    {loading && (
+                        <div className="flex justify-start gap-2 sm:gap-3">
+                            <div className="px-6 py-2 rounded-sm bg-muted">
+                                <ThoughtLine
+                                    label={currentStage ? STAGE_LABELS[currentStage] : t("thinking.default")}
+                                    steps={completedStages.map((s) => STAGE_LABELS[s])}
+                                    working
+                                    collapsible={false}
+                                    showTimer={false}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <div className="flex flex-col gap-4 pt-4 border-t">
-                    <div className="flex flex-wrap gap-2">
-                        {QUICK_KEYWORDS.map(({ key, query }) => (
+                    <div className="flex flex-wrap items-center gap-2">
+                        {quickKeywords.map((keyword, idx) => (
                             <Badge
-                                key={key}
+                                key={`${idx}-${keyword}`}
                                 variant="secondary"
-                                onClick={() => handleQuickKeywordClick(query)}
+                                onClick={() => handleQuickKeywordClick(keyword)}
                                 className={`cursor-pointer select-none hover:bg-secondary/70 ${loading ? "opacity-50 pointer-events-none" : ""}`}
                             >
-                                {t(`quick_keywords.${key}`)}
+                                {keyword}
                             </Badge>
                         ))}
+                        {hasDynamicKeywords && (
+                            <Badge
+                                variant="outline"
+                                onClick={handleResetQuickKeywords}
+                                className={`cursor-pointer select-none hover:bg-muted ${loading ? "opacity-50 pointer-events-none" : ""}`}
+                            >
+                                {t("reset_keywords")}
+                            </Badge>
+                        )}
                     </div>
                     <div className="flex gap-2">
                         <Input maxLength={50} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t("placeholder")} />

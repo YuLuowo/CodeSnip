@@ -10,12 +10,13 @@ function getClient() {
     return client;
 }
 
-export async function generateAssistantReply(prompt: string) {
+export async function generateAssistantReply(prompt: string, options?: { json?: boolean }) {
     const ai = getClient();
 
     const response = await ai.models.generateContent({
         model: "gemini-3.5-flash-lite",
         contents: prompt,
+        ...(options?.json ? { config: { responseMimeType: "application/json" } } : {}),
     });
 
     return response.text?.trim() ?? "";

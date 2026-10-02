@@ -40,7 +40,7 @@ export function AppNavbar() {
     const tExplore = useTranslations("Navbar.explore");
     return (
         <nav className="w-full bg-accent/50 shadow-xs backdrop-blur backdrop-saturate-100 fixed top-0 z-50 border-b">
-            <div className="container mx-auto flex items-center justify-between py-4">
+            <div className="container mx-auto flex items-center justify-between p-4">
                 <div className="w-full hidden md:flex items-center justify-between gap-6">
                     <NavigationMenu viewport={false}>
                         <NavigationMenuList>
@@ -164,9 +164,6 @@ export function AppNavbar() {
                                 </div>
                                 <Link href={isSignedIn ? "/snippets" : "/login"} onClick={() => setOpen(false)}>
                                     <span className="font-semibold">{t("snippets")}</span>
-                                </Link>
-                                <Link href="/" onClick={() => setOpen(false)}>
-                                    <span className="font-semibold">{t("docs")}</span>
                                 </Link>
                             </div>
                             {isSignedIn ? (
